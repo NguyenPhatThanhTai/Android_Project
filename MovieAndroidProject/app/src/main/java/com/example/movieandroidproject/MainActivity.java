@@ -38,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNAV = findViewById(R.id.bottom_nav);
         bottomNAV.setOnNavigationItemSelectedListener(navLis);
+        bottomNAV.getMenu().findItem(R.id.nav_home).setChecked(true);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new trang_chu()).commit();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navLis = new BottomNavigationView.OnNavigationItemSelectedListener(){
