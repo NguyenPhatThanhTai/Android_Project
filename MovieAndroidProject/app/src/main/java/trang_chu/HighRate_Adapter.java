@@ -1,6 +1,11 @@
 package trang_chu;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.util.Log;
+import android.util.LogPrinter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +21,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.movieandroidproject.R;
 import com.example.movieandroidproject.detail_movie;
 
+import java.io.InputStream;
 import java.util.List;
 
 public class HighRate_Adapter extends RecyclerView.Adapter<HighRate_Adapter.HighRateViewHolder> {
 
     private List<HighRate> mHighRate;
+    private View view;
     Context context;
 
     public HighRate_Adapter(List<HighRate> mHighRate, Context context) {
@@ -32,7 +39,7 @@ public class HighRate_Adapter extends RecyclerView.Adapter<HighRate_Adapter.High
     @Override
     public HighRateViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.items_highrate, parent, false);
-
+        this.view = view;
         return new HighRateViewHolder(view);
     }
 
@@ -43,16 +50,19 @@ public class HighRate_Adapter extends RecyclerView.Adapter<HighRate_Adapter.High
             return;
         }
         else {
-            holder.HighRate_Image.setImageResource(highRate.getImageId());
-            holder.HighRate_Tittle.setText(highRate.getTittle());
+            //set Tên cho danh sách
+            holder.HighRate_Tittle.setText(highRate.getTen());
+            //set ảnh
+            new HighRate_Adapter.DownloadImageTask(view.findViewById(R.id.HighRate_Image))
+                    .execute(highRate.getAnhBia());
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(context, highRate.getTittle(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(context, highRate.getTen(), Toast.LENGTH_SHORT).show();
 
                     //Truyền dữ liệu qua để set trang detail
-                    Fragment selectedFragment = new detail_movie(R.drawable.your_name_detail, highRate.getTittle(), "Tình Cảm", "1h 55p", "Test");
+                    Fragment selectedFragment = new detail_movie(highRate.getAnhBia(), highRate.getTen(), highRate.getTheLoai(), highRate.getThoiLuong(), highRate.getMoTa());
                     ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             selectedFragment).commit();
                 }
@@ -69,14 +79,37 @@ public class HighRate_Adapter extends RecyclerView.Adapter<HighRate_Adapter.High
     }
 
     public class HighRateViewHolder extends RecyclerView.ViewHolder{
-        private ImageView HighRate_Image;
         private TextView HighRate_Tittle;
 
         public HighRateViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            HighRate_Image = itemView.findViewById(R.id.HighRate_Image);
             HighRate_Tittle = itemView.findViewById(R.id.HighRate_Tittle);
+        }
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Lỗi ", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
         }
     }
 }

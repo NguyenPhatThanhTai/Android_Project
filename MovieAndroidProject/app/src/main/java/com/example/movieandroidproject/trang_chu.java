@@ -69,11 +69,11 @@ public class trang_chu extends Fragment {
 
     private List<HighRate> getListHighRate(){
         List<HighRate> list = new ArrayList<>();
-        list.add(new HighRate(R.drawable.pt_your_name, "Tên cậu là gì"));
-        list.add(new HighRate(R.drawable.pt_your_name, "Tên cậu là gì"));
-        list.add(new HighRate(R.drawable.pt_your_name, "Tên cậu là gì"));
-        list.add(new HighRate(R.drawable.pt_your_name, "Tên cậu là gì"));
-        list.add(new HighRate(R.drawable.pt_your_name, "Tên cậu là gì"));
+        list.add(new HighRate("https://cdn.myanimelist.net/images/anime/1843/115815.jpg", "Phim gì đó 1", "Tình cảm", "1h 35p", "Không có mô tả"));
+        list.add(new HighRate("https://cdn.myanimelist.net/images/anime/1706/115694.jpg", "Phim gì đó 2", "Học đường", "1h 35p", "Không có mô tả"));
+        list.add(new HighRate("https://cdn.myanimelist.net/images/anime/1453/116276.jpg", "Phim gì đó 3", "Phép thuật", "1h 35p", "Không có mô tả"));
+        list.add(new HighRate("https://cdn.myanimelist.net/images/anime/1471/115593.jpg", "Phim gì đó 4", "Hài hước", "1h 35p", "Không có mô tả"));
+        list.add(new HighRate("https://cdn.myanimelist.net/images/anime/1145/115565.jpg", "Phim gì đó 5", "Võ thuật", "1h 35p", "Không có mô tả"));
 
         return list;
     }

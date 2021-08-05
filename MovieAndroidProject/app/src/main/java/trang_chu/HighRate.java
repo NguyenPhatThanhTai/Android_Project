@@ -1,27 +1,57 @@
 package trang_chu;
 
 public class HighRate {
-    private int imageId;
-    private String tittle;
+    private String AnhBia;
+    private String Ten;
+    private String TheLoai;
+    private String ThoiLuong;
+    private String MoTa;
 
-    public HighRate(int imageId, String tittle) {
-        this.imageId = imageId;
-        this.tittle = tittle;
+    public HighRate(String anhBia, String ten, String theLoai, String thoiLuong, String moTa) {
+        AnhBia = anhBia;
+        Ten = ten;
+        TheLoai = theLoai;
+        ThoiLuong = thoiLuong;
+        MoTa = moTa;
     }
 
-    public int getImageId() {
-        return imageId;
+    public String getAnhBia() {
+        return AnhBia;
     }
 
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
+    public void setAnhBia(String anhBia) {
+        AnhBia = anhBia;
     }
 
-    public String getTittle() {
-        return tittle;
+    public String getTen() {
+        return Ten;
     }
 
-    public void setTittle(String tittle) {
-        this.tittle = tittle;
+    public void setTen(String ten) {
+        Ten = ten;
+    }
+
+    public String getTheLoai() {
+        return TheLoai;
+    }
+
+    public void setTheLoai(String theLoai) {
+        TheLoai = theLoai;
+    }
+
+    public String getThoiLuong() {
+        return ThoiLuong;
+    }
+
+    public void setThoiLuong(String thoiLuong) {
+        ThoiLuong = thoiLuong;
+    }
+
+    public String getMoTa() {
+        return MoTa;
+    }
+
+    public void setMoTa(String moTa) {
+        MoTa = moTa;
     }
 }
