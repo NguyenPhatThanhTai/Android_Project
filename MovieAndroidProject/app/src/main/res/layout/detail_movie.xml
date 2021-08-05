@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/img_detail"
+                android:layout_width="match_parent"
+                android:layout_height="519dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/your_name_detail" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="false"
+                android:layout_marginTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="390dp"
+                        android:layout_height="57dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/name_detail"
+                            android:layout_width="261dp"
+                            android:layout_height="wrap_content"
+                            android:text="Your Name"
+                            android:textColor="#FFFFFF"
+                            android:textSize="40sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/category_detail"
+                            android:layout_width="125dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:text="Anime"
+                            android:textColor="#7C7777"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/time_detail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="1h 30p"
+                            android:textColor="#7C7777"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="226dp"
+                        android:layout_height="35dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView10"
+                            android:layout_width="44dp"
+                            android:layout_height="wrap_content"
+                            android:text="5.0"
+                            android:textColor="#FFEB3B"
+                            android:textSize="20sp" />
+
+                        <ImageView
+                            android:id="@+id/imageView5"
+                            android:layout_width="201dp"
+                            android:layout_height="25dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/star" />
+
+                        <ImageView
+                            android:id="@+id/imageView11"
+                            android:layout_width="201dp"
+                            android:layout_height="25dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/star" />
+
+                        <ImageView
+                            android:id="@+id/imageView13"
+                            android:layout_width="201dp"
+                            android:layout_height="25dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/star" />
+
+                        <ImageView
+                            android:id="@+id/imageView14"
+                            android:layout_width="201dp"
+                            android:layout_height="25dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/star" />
+
+                        <ImageView
+                            android:id="@+id/imageView15"
+                            android:layout_width="201dp"
+                            android:layout_height="25dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@drawable/star" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/descrip_detail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text='- Your Name – Tên cậu là gì?, rút ngắn thành "Your Name", là một bộ phim điện ảnh hoạt hình Nhật Bản thuộc thể loại tình cảm lãng mạn, kỳ ảo, chính kịch do Shinkai Makoto đạo diễn, được chuyển thể thành tiểu thuyết cùng tên của ông. Phim do hãng CoMix Wave Films sản xuất và Toho phát hành.'
+                        android:textColor="#8C8181"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="238dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            app:cardBackgroundColor="@android:color/transparent"
+                            app:cardCornerRadius="30sp">
+
+                            <Button
+                                android:id="@+id/back_detail"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:backgroundTint="#AEAAA0A0"
+                                android:text="Quay Lại" />
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            app:cardBackgroundColor="@android:color/transparent"
+                            app:cardCornerRadius="30sp">
+
+                            <Button
+                                android:id="@+id/playnow_detail"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:backgroundTint="#377483"
+                                android:text="Xem Ngay" />
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </FrameLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
