@@ -28,7 +28,6 @@ public class test extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstancesState) {
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
