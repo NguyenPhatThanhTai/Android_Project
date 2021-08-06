@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import API.APIControllers;
 import trang_chu.*;
 
 public class trang_chu extends Fragment {
@@ -26,12 +27,16 @@ public class trang_chu extends Fragment {
     private List<Photo> mListPhoto;
     private Timer mTimer;
 
+    private Thread thread;
+    private RecyclerView RCHR;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.trang_chu, container, false);
         viewPager = view.findViewById(R.id.viewpager);
         RecyclerView recyclerViewHighRate = view.findViewById(R.id.rcv_HighRate);
+        RCHR = recyclerViewHighRate;
         RecyclerView recyclerViewRecomment = view.findViewById(R.id.rcv_Recomment);
 
         //Chỉnh linear cho nó cuộn được sang 2 bên
@@ -45,14 +50,28 @@ public class trang_chu extends Fragment {
         photo_adapter = new Photo_Adapter(this.getActivity(), mListPhoto);
         viewPager.setAdapter(photo_adapter);
 
+        //goi api dữ liệu highrate phim
+
+        thread = new Thread(this::threadGetMovie);
+        thread.start();
+
+//        APIControllers apiControllers = new APIControllers();
+//        listHR = apiControllers.getApiMovie();
+//        HighRate_Adapter highRate_adapter = new HighRate_Adapter(listHR, (MainActivity) this.getActivity());
+//
+//        this.getActivity().runOnUiThread(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                recyclerViewHighRate.setAdapter(highRate_adapter);
+//            }
+//        });
+
         //set dữ liệu
-        HighRate_Adapter highRate_adapter = new HighRate_Adapter(getListHighRate(), (MainActivity) this.getActivity());
-        recyclerViewHighRate.setAdapter(highRate_adapter);
         RecommentForYou_Adapter recommentForYou_adapter = new RecommentForYou_Adapter(getListRecommentForYou(), (MainActivity) this.getActivity());
         recyclerViewRecomment.setAdapter(recommentForYou_adapter);
 
         autoSlideImages();
-
         return view;
     }
 
@@ -63,17 +82,6 @@ public class trang_chu extends Fragment {
         list.add(new Photo(R.drawable.silentvoice));
         list.add(new Photo(R.drawable.wwy));
         list.add(new Photo(R.drawable.demon_slayer));
-
-        return list;
-    }
-
-    private List<HighRate> getListHighRate(){
-        List<HighRate> list = new ArrayList<>();
-        list.add(new HighRate("https://cdn.myanimelist.net/images/anime/1843/115815.jpg", "Phim gì đó 1", "Tình cảm", "1h 35p", "Không có mô tả"));
-        list.add(new HighRate("https://cdn.myanimelist.net/images/anime/1706/115694.jpg", "Phim gì đó 2", "Học đường", "1h 35p", "Không có mô tả"));
-        list.add(new HighRate("https://cdn.myanimelist.net/images/anime/1453/116276.jpg", "Phim gì đó 3", "Phép thuật", "1h 35p", "Không có mô tả"));
-        list.add(new HighRate("https://cdn.myanimelist.net/images/anime/1471/115593.jpg", "Phim gì đó 4", "Hài hước", "1h 35p", "Không có mô tả"));
-        list.add(new HighRate("https://cdn.myanimelist.net/images/anime/1145/115565.jpg", "Phim gì đó 5", "Võ thuật", "1h 35p", "Không có mô tả"));
 
         return list;
     }
@@ -129,5 +137,18 @@ public class trang_chu extends Fragment {
             mTimer.cancel();
             mTimer = null;
         }
+    }
+
+    private void threadGetMovie(){
+        APIControllers apiControllers = new APIControllers();
+        HighRate_Adapter highRate_adapter = new HighRate_Adapter(apiControllers.getApiMovie(), (MainActivity) this.getActivity());
+
+        this.getActivity().runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                RCHR.setAdapter(highRate_adapter);
+            }
+        });
     }
 }

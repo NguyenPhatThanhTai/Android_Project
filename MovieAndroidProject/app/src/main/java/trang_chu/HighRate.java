@@ -1,57 +1,87 @@
 package trang_chu;
 
 public class HighRate {
-    private String AnhBia;
-    private String Ten;
-    private String TheLoai;
-    private String ThoiLuong;
-    private String MoTa;
+    private String MovieId;
+    private String Name;
+    private String Views;
+    private String Episodes;
+    private String Years;
+    private String Description;
+    private String Thumbnails;
+    private String Fee;
 
-    public HighRate(String anhBia, String ten, String theLoai, String thoiLuong, String moTa) {
-        AnhBia = anhBia;
-        Ten = ten;
-        TheLoai = theLoai;
-        ThoiLuong = thoiLuong;
-        MoTa = moTa;
+    public HighRate(String movieId, String name, String views, String episodes, String years, String description, String thumbnails, String fee) {
+        MovieId = movieId;
+        Name = name;
+        Views = views;
+        Episodes = episodes;
+        Years = years;
+        Description = description;
+        Thumbnails = thumbnails;
+        Fee = fee;
     }
 
-    public String getAnhBia() {
-        return AnhBia;
+    public String getMovieId() {
+        return MovieId;
     }
 
-    public void setAnhBia(String anhBia) {
-        AnhBia = anhBia;
+    public void setMovieId(String movieId) {
+        MovieId = movieId;
     }
 
-    public String getTen() {
-        return Ten;
+    public String getName() {
+        return Name;
     }
 
-    public void setTen(String ten) {
-        Ten = ten;
+    public void setName(String name) {
+        Name = name;
     }
 
-    public String getTheLoai() {
-        return TheLoai;
+    public String getViews() {
+        return Views;
     }
 
-    public void setTheLoai(String theLoai) {
-        TheLoai = theLoai;
+    public void setViews(String views) {
+        Views = views;
     }
 
-    public String getThoiLuong() {
-        return ThoiLuong;
+    public String getEpisodes() {
+        return Episodes;
     }
 
-    public void setThoiLuong(String thoiLuong) {
-        ThoiLuong = thoiLuong;
+    public void setEpisodes(String episodes) {
+        Episodes = episodes;
     }
 
-    public String getMoTa() {
-        return MoTa;
+    public String getYears() {
+        return Years;
     }
 
-    public void setMoTa(String moTa) {
-        MoTa = moTa;
+    public void setYears(String years) {
+        Years = years;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    public String getThumbnails() {
+        return Thumbnails;
+    }
+
+    public void setThumbnails(String thumbnails) {
+        Thumbnails = thumbnails;
+    }
+
+    public String getFee() {
+        return Fee;
+    }
+
+    public void setFee(String fee) {
+        Fee = fee;
     }
 }

@@ -21,12 +21,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
+import API.APIControllers;
 import Category.Category;
 import Category.CategoryAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView rcvCategory;
+    Thread thread;
 
     public MainActivity() {
     }

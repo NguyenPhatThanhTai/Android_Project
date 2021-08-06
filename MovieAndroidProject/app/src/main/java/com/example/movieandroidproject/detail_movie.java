@@ -23,16 +23,25 @@ import java.io.InputStream;
 
 public class detail_movie extends Fragment {
 
-    private String img_detail;
-    private String name, category, time, descrip;
+    private String MovieId;
+    private String Name;
+    private String Views;
+    private String Episodes;
+    private String Years;
+    private String Description;
+    private String Thumbnails;
+    private String Fee;
     private Context context;
 
-    public detail_movie(String img_detail, String name_detail, String category_detail, String time_detail, String descrip_detail, Context context){
-        this.img_detail = img_detail;
-        this.name = name_detail;
-        this.category = category_detail;
-        this.time = time_detail;
-        this.descrip = descrip_detail;
+    public detail_movie(String movieId, String name, String views, String episodes, String years, String description, String thumbnails, String fee, Context context) {
+        MovieId = movieId;
+        Name = name;
+        Views = views;
+        Episodes = episodes;
+        Years = years;
+        Description = description;
+        Thumbnails = thumbnails;
+        Fee = fee;
         this.context = context;
     }
 
@@ -45,16 +54,16 @@ public class detail_movie extends Fragment {
 //        img_detail.setImageResource(this.img_detail);
 
         new DownloadImageTask(view.findViewById(R.id.img_detail))
-                .execute(img_detail);
+                .execute(Thumbnails);
 
         TextView name_detail = view.findViewById(R.id.name_detail);
-        name_detail.setText(name);
+        name_detail.setText(Name);
         TextView category_detail = view.findViewById(R.id.category_detail);
-        category_detail.setText(category);
+        category_detail.setText("Anime");
         TextView time_detail = view.findViewById(R.id.time_detail);
-        time_detail.setText(time);
+        time_detail.setText(Episodes);
         TextView descrip_detail = view.findViewById(R.id.descrip_detail);
-        descrip_detail.setText(descrip);
+        descrip_detail.setText(Description);
 
         Button back_detail = view.findViewById(R.id.back_detail);
         Button playnow_detail = view.findViewById(R.id.playnow_detail);
@@ -64,7 +73,7 @@ public class detail_movie extends Fragment {
             public void onClick(View view) {
                 //Gọi trang xem phim
 
-                Fragment selectedFragment = new play_movie();
+                Fragment selectedFragment = new play_movie(MovieId, Name);
                 ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         selectedFragment).commit();
             }

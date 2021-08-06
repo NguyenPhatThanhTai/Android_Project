@@ -51,10 +51,10 @@ public class HighRate_Adapter extends RecyclerView.Adapter<HighRate_Adapter.High
         }
         else {
             //set Tên cho danh sách
-            holder.HighRate_Tittle.setText(highRate.getTen());
+            holder.HighRate_Tittle.setText(highRate.getName());
             //set ảnh
             new HighRate_Adapter.DownloadImageTask(view.findViewById(R.id.HighRate_Image))
-                    .execute(highRate.getAnhBia());
+                    .execute(highRate.getThumbnails());
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -62,7 +62,7 @@ public class HighRate_Adapter extends RecyclerView.Adapter<HighRate_Adapter.High
 //                    Toast.makeText(context, highRate.getTen(), Toast.LENGTH_SHORT).show();
 
                     //Truyền dữ liệu qua để set trang detail
-                    Fragment selectedFragment = new detail_movie(highRate.getAnhBia(), highRate.getTen(), highRate.getTheLoai(), highRate.getThoiLuong(), highRate.getMoTa(), context);
+                    Fragment selectedFragment = new detail_movie(highRate.getMovieId(), highRate.getName(), highRate.getViews(), highRate.getEpisodes(), highRate.getYears(), highRate.getDescription(),highRate.getThumbnails(), highRate.getFee(), context);
                     ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             selectedFragment).commit();
                 }
