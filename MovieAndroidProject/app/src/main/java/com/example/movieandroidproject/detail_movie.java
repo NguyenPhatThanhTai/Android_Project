@@ -20,28 +20,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import java.io.InputStream;
+import trang_chu.*;
 
-public class detail_movie extends Fragment {
+public class detail_movie extends Fragment implements IOnBackPressed {
 
-    private String MovieId;
-    private String Name;
-    private String Views;
-    private String Episodes;
-    private String Years;
-    private String Description;
-    private String Thumbnails;
-    private String Fee;
+    private HighRate highRate;
     private Context context;
 
-    public detail_movie(String movieId, String name, String views, String episodes, String years, String description, String thumbnails, String fee, Context context) {
-        MovieId = movieId;
-        Name = name;
-        Views = views;
-        Episodes = episodes;
-        Years = years;
-        Description = description;
-        Thumbnails = thumbnails;
-        Fee = fee;
+    public detail_movie(HighRate highRate, Context context) {
+        this.highRate = highRate;
         this.context = context;
     }
 
@@ -54,16 +41,16 @@ public class detail_movie extends Fragment {
 //        img_detail.setImageResource(this.img_detail);
 
         new DownloadImageTask(view.findViewById(R.id.img_detail))
-                .execute(Thumbnails);
+                .execute(highRate.getThumbnails());
 
         TextView name_detail = view.findViewById(R.id.name_detail);
-        name_detail.setText(Name);
+        name_detail.setText(highRate.getName());
         TextView category_detail = view.findViewById(R.id.category_detail);
         category_detail.setText("Anime");
         TextView time_detail = view.findViewById(R.id.time_detail);
-        time_detail.setText(Episodes);
+        time_detail.setText(highRate.getEpisodes());
         TextView descrip_detail = view.findViewById(R.id.descrip_detail);
-        descrip_detail.setText(Description);
+        descrip_detail.setText(highRate.getDescription());
 
         Button back_detail = view.findViewById(R.id.back_detail);
         Button playnow_detail = view.findViewById(R.id.playnow_detail);
@@ -73,7 +60,7 @@ public class detail_movie extends Fragment {
             public void onClick(View view) {
                 //Gọi trang xem phim
 
-                Fragment selectedFragment = new play_movie(MovieId, Name);
+                Fragment selectedFragment = new play_movie(highRate, "");
                 ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         selectedFragment).commit();
             }
@@ -105,5 +92,14 @@ public class detail_movie extends Fragment {
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
         }
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        Fragment selectedFragment = new trang_chu();
+        ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                selectedFragment).commit();
+
+        return true;
     }
 }

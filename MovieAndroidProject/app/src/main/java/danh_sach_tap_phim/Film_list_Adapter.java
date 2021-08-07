@@ -5,11 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.movieandroidproject.R;
+import com.example.movieandroidproject.detail_movie;
+import com.example.movieandroidproject.play_movie;
 
 import java.util.List;
 
@@ -20,10 +25,12 @@ public class Film_list_Adapter extends RecyclerView.Adapter<Film_list_Adapter.Fi
     private List<Film_List> list;
     private Context context;
     private View view;
+    private HighRate highRate;
 
-    public Film_list_Adapter(List<Film_List> list, Context context) {
+    public Film_list_Adapter(List<Film_List> list, Context context, HighRate highRate) {
         this.list = list;
         this.context = context;
+        this.highRate = highRate;
     }
 
     @NonNull
@@ -43,6 +50,16 @@ public class Film_list_Adapter extends RecyclerView.Adapter<Film_list_Adapter.Fi
         }
         else {
             holder.ep_name.setText("-" + filmList.getFilm_Name() + ": Tập " + filmList.getEp());
+
+            holder.ep_name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Fragment selectedFragment = new play_movie(highRate, filmList.getUrl());
+                    ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            selectedFragment).commit();
+                }
+            });
         }
     }
 

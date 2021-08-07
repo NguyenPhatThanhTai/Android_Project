@@ -62,7 +62,9 @@ public class HighRate_Adapter extends RecyclerView.Adapter<HighRate_Adapter.High
 //                    Toast.makeText(context, highRate.getTen(), Toast.LENGTH_SHORT).show();
 
                     //Truyền dữ liệu qua để set trang detail
-                    Fragment selectedFragment = new detail_movie(highRate.getMovieId(), highRate.getName(), highRate.getViews(), highRate.getEpisodes(), highRate.getYears(), highRate.getDescription(),highRate.getThumbnails(), highRate.getFee(), context);
+                    HighRate hi = new HighRate(highRate.getMovieId(), highRate.getName(), highRate.getViews(), highRate.getEpisodes(), highRate.getYears(), highRate.getDescription(),highRate.getThumbnails(), highRate.getFee());
+
+                    Fragment selectedFragment = new detail_movie(hi, context);
                     ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             selectedFragment).commit();
                 }

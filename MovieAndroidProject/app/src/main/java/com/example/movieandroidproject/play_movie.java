@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
@@ -33,20 +34,20 @@ import java.util.List;
 import API.APIControllers;
 import danh_sach_tap_phim.Film_List;
 import danh_sach_tap_phim.Film_list_Adapter;
+import trang_chu.*;
 
-public class play_movie extends Fragment {
+public class play_movie extends Fragment implements IOnBackPressed {
     VideoView movie_play;
-    private String idFilm;
-    private String url;
+    private HighRate highRate;
+    private String url = "";
     private Thread thread;
     private Context context;
-    private String MovieName;
 
     private RecyclerView rcv;
 
-    public play_movie(String idFilm, String Movie_name){
-        this.idFilm = idFilm;
-        this.MovieName = Movie_name;
+    public play_movie(HighRate highRate, String url) {
+        this.highRate = highRate;
+        this.url = url;
     }
 
     @Override
@@ -104,15 +105,15 @@ public class play_movie extends Fragment {
 
     private void getUrlFilm(){
         APIControllers apiControllers = new APIControllers();
-        url = apiControllers.getUrlById(idFilm);
+        if(url.equals("")){
+            url = apiControllers.getUrlById(highRate.getMovieId());
+        }
         context = this.getContext();
 
         this.getActivity().runOnUiThread(new Runnable() {
 
             @Override
             public void run() {
-
-
                 Uri uri = Uri.parse(url);
                 movie_play.setVideoURI(uri);
 
@@ -127,8 +128,7 @@ public class play_movie extends Fragment {
 
     private void setListEp(){
         APIControllers apiControllers = new APIControllers();
-        System.out.println("=========================" + apiControllers.getListEp(MovieName, idFilm).size());
-        Film_list_Adapter film_list_adapter = new Film_list_Adapter(apiControllers.getListEp(MovieName, idFilm), this.getActivity());
+        Film_list_Adapter film_list_adapter = new Film_list_Adapter(apiControllers.getListEp(highRate.getName(), highRate.getMovieId()), this.getActivity(), highRate);
 
         this.getActivity().runOnUiThread(new Runnable() {
 
@@ -137,5 +137,14 @@ public class play_movie extends Fragment {
                 rcv.setAdapter(film_list_adapter);
             }
         });
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        Fragment selectedFragment = new detail_movie(highRate, context);
+        ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                selectedFragment).commit();
+
+        return true;
     }
 }

@@ -6,28 +6,22 @@
     android:layout_margin="10dp"
     android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/ep_name"
-        android:layout_width="234dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1"
-        android:lineSpacingExtra="34sp"
-        android:text="Hầu gái nhà rông Kobayasi: tập 1"
-        android:textSize="15sp" />
-
     <androidx.cardview.widget.CardView
-        android:layout_width="18dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        app:cardCornerRadius="20dp">
+        app:cardCornerRadius="20sp">
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/ep_name"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:backgroundTint="#3B8C97"
-            android:text="Xem ngay" />
+            android:background="#4C8A8A"
+            android:lineSpacingExtra="34sp"
+            android:padding="7dp"
+            android:text="Hầu gái nhà rông Kobayasi: tập 1"
+            android:textSize="15sp" />
     </androidx.cardview.widget.CardView>
+
 </LinearLayout>
