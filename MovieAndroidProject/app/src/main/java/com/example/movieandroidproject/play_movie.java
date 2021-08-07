@@ -1,8 +1,10 @@
 package com.example.movieandroidproject;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -14,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
@@ -24,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -110,6 +114,7 @@ public class play_movie extends Fragment implements IOnBackPressed {
         }
         context = this.getContext();
 
+
         this.getActivity().runOnUiThread(new Runnable() {
 
             @Override
@@ -122,6 +127,16 @@ public class play_movie extends Fragment implements IOnBackPressed {
                 mediaController.setAnchorView(movie_play);
 
                 movie_play.start();
+
+                ProgressDialog progDailog = ProgressDialog.show(context, "Xin đợi trong giây lát ...", "Chúng tôi đang chuẩn bị video cho bạn ...", true);
+
+                movie_play.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
+                    public void onPrepared(MediaPlayer mp) {
+                        // TODO Auto-generated method stub
+                        progDailog.dismiss();
+                    }
+                });
             }
         });
     }
@@ -142,7 +157,12 @@ public class play_movie extends Fragment implements IOnBackPressed {
     @Override
     public boolean onBackPressed() {
         Fragment selectedFragment = new detail_movie(highRate, context);
-        ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+        FragmentManager manager = ((AppCompatActivity) context).getSupportFragmentManager();
+
+        manager.beginTransaction()
+                .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,
+                        R.anim.enter_right_to_left, R.anim.exit_right_to_left)
+                .replace(R.id.fragment_container,
                 selectedFragment).commit();
 
         return true;

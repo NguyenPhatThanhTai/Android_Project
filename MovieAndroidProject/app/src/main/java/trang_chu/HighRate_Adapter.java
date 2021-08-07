@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.movieandroidproject.R;
@@ -65,7 +66,12 @@ public class HighRate_Adapter extends RecyclerView.Adapter<HighRate_Adapter.High
                     HighRate hi = new HighRate(highRate.getMovieId(), highRate.getName(), highRate.getViews(), highRate.getEpisodes(), highRate.getYears(), highRate.getDescription(),highRate.getThumbnails(), highRate.getFee());
 
                     Fragment selectedFragment = new detail_movie(hi, context);
-                    ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    FragmentManager manager = ((AppCompatActivity) context).getSupportFragmentManager();
+
+                    manager.beginTransaction()
+                            .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
+                                    R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+                            .replace(R.id.fragment_container,
                             selectedFragment).commit();
                 }
             });

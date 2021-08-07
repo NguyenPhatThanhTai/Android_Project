@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import java.io.InputStream;
 import trang_chu.*;
@@ -61,7 +62,12 @@ public class detail_movie extends Fragment implements IOnBackPressed {
                 //Gọi trang xem phim
 
                 Fragment selectedFragment = new play_movie(highRate, "");
-                ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                FragmentManager manager = ((AppCompatActivity) context).getSupportFragmentManager();
+
+                manager.beginTransaction()
+                        .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
+                                R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+                        .replace(R.id.fragment_container,
                         selectedFragment).commit();
             }
         });
@@ -97,7 +103,12 @@ public class detail_movie extends Fragment implements IOnBackPressed {
     @Override
     public boolean onBackPressed() {
         Fragment selectedFragment = new trang_chu();
-        ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+        FragmentManager manager = ((AppCompatActivity) context).getSupportFragmentManager();
+
+        manager.beginTransaction()
+                .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,
+                        R.anim.enter_right_to_left, R.anim.exit_right_to_left)
+                .replace(R.id.fragment_container,
                 selectedFragment).commit();
 
         return true;
