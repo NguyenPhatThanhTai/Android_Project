@@ -138,42 +138,17 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="89dp"
                         android:orientation="horizontal">
 
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="238dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            app:cardBackgroundColor="@android:color/transparent"
-                            app:cardCornerRadius="30sp">
-
-                            <Button
-                                android:id="@+id/back_detail"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:backgroundTint="#AEAAA0A0"
-                                android:text="Quay Lại" />
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
+                        <Button
+                            android:id="@+id/playnow_detail"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:layout_weight="1"
-                            app:cardBackgroundColor="@android:color/transparent"
-                            app:cardCornerRadius="30sp">
-
-                            <Button
-                                android:id="@+id/playnow_detail"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:backgroundTint="#377483"
-                                android:text="Xem Ngay" />
-                        </androidx.cardview.widget.CardView>
+                            android:layout_margin="10dp"
+                            android:background="@drawable/custom_button"
+                            android:padding="10dp"
+                            android:text="Xem Ngay" />
 
                     </LinearLayout>
 

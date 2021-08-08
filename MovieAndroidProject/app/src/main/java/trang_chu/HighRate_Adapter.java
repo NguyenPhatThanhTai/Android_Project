@@ -53,6 +53,8 @@ public class HighRate_Adapter extends RecyclerView.Adapter<HighRate_Adapter.High
         else {
             //set Tên cho danh sách
             holder.HighRate_Tittle.setText(highRate.getName());
+            //set số tập
+            holder.HighRate_ep_num.setText(highRate.getEpisodes());
             //set ảnh
             new HighRate_Adapter.DownloadImageTask(view.findViewById(R.id.HighRate_Image))
                     .execute(highRate.getThumbnails());
@@ -87,12 +89,13 @@ public class HighRate_Adapter extends RecyclerView.Adapter<HighRate_Adapter.High
     }
 
     public class HighRateViewHolder extends RecyclerView.ViewHolder{
-        private TextView HighRate_Tittle;
+        private TextView HighRate_Tittle, HighRate_ep_num;
 
         public HighRateViewHolder(@NonNull View itemView) {
             super(itemView);
 
             HighRate_Tittle = itemView.findViewById(R.id.HighRate_Tittle);
+            HighRate_ep_num = itemView.findViewById(R.id.ep_num);
         }
     }
 

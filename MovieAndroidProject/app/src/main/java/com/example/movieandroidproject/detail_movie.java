@@ -52,8 +52,6 @@ public class detail_movie extends Fragment implements IOnBackPressed {
         time_detail.setText(highRate.getEpisodes());
         TextView descrip_detail = view.findViewById(R.id.descrip_detail);
         descrip_detail.setText(highRate.getDescription());
-
-        Button back_detail = view.findViewById(R.id.back_detail);
         Button playnow_detail = view.findViewById(R.id.playnow_detail);
 
         playnow_detail.setOnClickListener(new View.OnClickListener() {
