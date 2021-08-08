@@ -28,6 +28,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -97,8 +98,8 @@ public class play_movie extends Fragment implements IOnBackPressed {
         thread.start();
 
         RecyclerView rcv_ep = view.findViewById(R.id.rcv_ep);
-        LinearLayoutManager linearLayoutManagerHighRate = new LinearLayoutManager(this.getActivity(), RecyclerView.VERTICAL, false);
-        rcv_ep.setLayoutManager(linearLayoutManagerHighRate);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 2);
+        rcv_ep.setLayoutManager(gridLayoutManager);
         rcv = rcv_ep;
 
         thread = new Thread(this::setListEp);
@@ -128,15 +129,15 @@ public class play_movie extends Fragment implements IOnBackPressed {
 
                 movie_play.start();
 
-                ProgressDialog progDailog = ProgressDialog.show(context, "Xin đợi trong giây lát ...", "Chúng tôi đang chuẩn bị video cho bạn ...", true);
-
-                movie_play.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-
-                    public void onPrepared(MediaPlayer mp) {
-                        // TODO Auto-generated method stub
-                        progDailog.dismiss();
-                    }
-                });
+//                ProgressDialog progDailog = ProgressDialog.show(context, "Xin đợi trong giây lát ...", "Chúng tôi đang chuẩn bị video cho bạn ...", true);
+//
+//                movie_play.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//
+//                    public void onPrepared(MediaPlayer mp) {
+//                        // TODO Auto-generated method stub
+//                        progDailog.dismiss();
+//                    }
+//                });
             }
         });
     }
@@ -154,9 +155,21 @@ public class play_movie extends Fragment implements IOnBackPressed {
         });
     }
 
+    public void setVideoUrl(String url){
+        Uri uri = Uri.parse(url);
+        movie_play.setVideoURI(uri);
+
+        MediaController mediaController = new MediaController(context);
+        movie_play.setMediaController(mediaController);
+        mediaController.setAnchorView(movie_play);
+
+        movie_play.start();
+    }
+
     @Override
     public boolean onBackPressed() {
         Fragment selectedFragment = new detail_movie(highRate, context);
+        System.out.println("======== " + highRate);
         FragmentManager manager = ((AppCompatActivity) context).getSupportFragmentManager();
 
         manager.beginTransaction()

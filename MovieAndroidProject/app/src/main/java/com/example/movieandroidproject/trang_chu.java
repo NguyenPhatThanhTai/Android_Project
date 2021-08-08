@@ -51,7 +51,6 @@ public class trang_chu extends Fragment {
         viewPager.setAdapter(photo_adapter);
 
         //goi api dữ liệu highrate phim
-
         thread = new Thread(this::threadGetMovie);
         thread.start();
 
