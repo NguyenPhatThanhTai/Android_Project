@@ -73,6 +73,7 @@ public class detail_movie extends Fragment implements IOnBackPressed {
         return view;
     }
 
+    //Lấy ảnh từ url
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 

@@ -19,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -43,6 +44,8 @@ import trang_chu.*;
 
 public class play_movie extends Fragment implements IOnBackPressed {
     VideoView movie_play;
+    ImageView play_btn;
+    ProgressBar play_load;
     private HighRate highRate;
     private String url = "";
     private Thread thread;
@@ -93,9 +96,29 @@ public class play_movie extends Fragment implements IOnBackPressed {
         this.getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         movie_play = view.findViewById(R.id.movie_play);
-
         thread = new Thread(this::getUrlFilm);
         thread.start();
+
+        play_btn = view.findViewById(R.id.play_button);
+        play_btn.setVisibility(View.GONE);
+        play_load = view.findViewById(R.id.play_loading);
+
+        movie_play.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
+            public void onPrepared(MediaPlayer mp) {
+                // TODO Auto-generated method stub
+                play_load.setVisibility(View.GONE);
+                play_btn.setVisibility(View.VISIBLE);
+            }
+        });
+
+        play_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                play_btn.setVisibility(View.GONE);
+                movie_play.start();
+            }
+        });
 
         RecyclerView rcv_ep = view.findViewById(R.id.rcv_ep);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 2);
@@ -126,8 +149,6 @@ public class play_movie extends Fragment implements IOnBackPressed {
                 MediaController mediaController = new MediaController(context);
                 movie_play.setMediaController(mediaController);
                 mediaController.setAnchorView(movie_play);
-
-                movie_play.start();
 
 //                ProgressDialog progDailog = ProgressDialog.show(context, "Xin đợi trong giây lát ...", "Chúng tôi đang chuẩn bị video cho bạn ...", true);
 //
@@ -163,7 +184,25 @@ public class play_movie extends Fragment implements IOnBackPressed {
         movie_play.setMediaController(mediaController);
         mediaController.setAnchorView(movie_play);
 
-        movie_play.start();
+        play_btn.setVisibility(View.GONE);
+        play_load.setVisibility(View.VISIBLE);
+
+        movie_play.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
+            public void onPrepared(MediaPlayer mp) {
+                // TODO Auto-generated method stub
+                play_load.setVisibility(View.GONE);
+                play_btn.setVisibility(View.VISIBLE);
+            }
+        });
+
+        play_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                play_btn.setVisibility(View.GONE);
+                movie_play.start();
+            }
+        });
     }
 
     @Override

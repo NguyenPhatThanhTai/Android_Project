@@ -116,7 +116,7 @@ public class Film_list_Adapter extends RecyclerView.Adapter<Film_list_Adapter.Fi
                 else
                     mediaMetadataRetriever.setDataSource(url);
                 //   mediaMetadataRetriever.setDataSource(videoPath);
-                bitmap = mediaMetadataRetriever.getFrameAtTime(10000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+                bitmap = mediaMetadataRetriever.getFrameAtTime(50000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
             }
             catch (Exception e)
             {

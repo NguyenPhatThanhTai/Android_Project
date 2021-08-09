@@ -76,7 +76,7 @@ public class APIControllers {
         String url = "";
         try {
 
-            json = readJsonFromUrl("http://trongeddy48-001-site1.etempurl.com/api/SingleFilm?id="+id);
+            json = readJsonFromUrl("http://trongeddy48-001-site1.etempurl.com/api/FilmByMovieId?id="+id);
 
             JSONArray jsonArray = json.getJSONArray("FilmList");
 

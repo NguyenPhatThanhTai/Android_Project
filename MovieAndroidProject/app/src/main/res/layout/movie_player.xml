@@ -8,13 +8,31 @@
     <FrameLayout
         android:id="@+id/Fram_movie"
         android:layout_width="match_parent"
-        android:layout_height="240dp">
+        android:layout_height="240dp"
+        android:layout_gravity="center">
 
         <VideoView
             android:id="@+id/movie_play"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center|center_horizontal"
             android:keepScreenOn="true" />
+
+        <ImageButton
+            android:id="@+id/play_button"
+            android:layout_width="76dp"
+            android:layout_height="46dp"
+            android:layout_gravity="center|center_horizontal"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_play_arrow_24" />
+
+        <ProgressBar
+            android:id="@+id/play_loading"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal" />
 
     </FrameLayout>
 
@@ -31,7 +49,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcv_ep"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent">
 
             </androidx.recyclerview.widget.RecyclerView>
 

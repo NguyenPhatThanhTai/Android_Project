@@ -67,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.nav_home:
                     selectedFragment = new trang_chu();
                     break;
+                case  R.id.nav_film_room:
+                    selectedFragment = new phong_phim();
+                    break;
             }
 
             FragmentManager manager = getSupportFragmentManager();
