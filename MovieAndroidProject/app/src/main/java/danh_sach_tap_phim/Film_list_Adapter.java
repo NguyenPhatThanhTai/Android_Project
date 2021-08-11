@@ -23,6 +23,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.movieandroidproject.MainActivity;
 import com.example.movieandroidproject.R;
 import com.example.movieandroidproject.detail_movie;
@@ -69,7 +71,6 @@ public class Film_list_Adapter extends RecyclerView.Adapter<Film_list_Adapter.Fi
             holder.ep_name.setText("Tập " + filmList.getEp());
 
             //anh xem trc video
-//            url = filmList.getUrl();
             new Film_list_Adapter.getVideoThumbnail(thumbnail, filmList.getUrl())
                     .execute(filmList.getUrl());
 
@@ -111,8 +112,6 @@ public class Film_list_Adapter extends RecyclerView.Adapter<Film_list_Adapter.Fi
         }
 
         protected Bitmap doInBackground(String... urls) {
-            System.out.println("Url la " + url);
-            System.out.println("Tập " + i++);
             Bitmap bitmap = null;
             MediaMetadataRetriever mediaMetadataRetriever = null;
             try

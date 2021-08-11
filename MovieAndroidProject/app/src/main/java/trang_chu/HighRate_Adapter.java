@@ -3,6 +3,7 @@ package trang_chu;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.util.LogPrinter;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.movieandroidproject.R;
 import com.example.movieandroidproject.detail_movie;
+import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
 import java.util.List;
@@ -47,6 +49,7 @@ public class HighRate_Adapter extends RecyclerView.Adapter<HighRate_Adapter.High
     @Override
     public void onBindViewHolder(@NonNull HighRateViewHolder holder, int position) {
         HighRate highRate = mHighRate.get(position);
+        ImageView thumbnail_img;
         if(highRate == null){
             return;
         }
@@ -56,8 +59,9 @@ public class HighRate_Adapter extends RecyclerView.Adapter<HighRate_Adapter.High
             //set số tập
             holder.HighRate_ep_num.setText(highRate.getEpisodes());
             //set ảnh
-            new HighRate_Adapter.DownloadImageTask(view.findViewById(R.id.HighRate_Image))
-                    .execute(highRate.getThumbnails());
+            thumbnail_img = view.findViewById(R.id.HighRate_Image);
+            //Thư viện load ảnh Picasso
+            Picasso.get().load(highRate.getThumbnails()).into(thumbnail_img);
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -90,37 +94,14 @@ public class HighRate_Adapter extends RecyclerView.Adapter<HighRate_Adapter.High
 
     public class HighRateViewHolder extends RecyclerView.ViewHolder{
         private TextView HighRate_Tittle, HighRate_ep_num;
+        private ImageView HighRate_Image;
 
         public HighRateViewHolder(@NonNull View itemView) {
             super(itemView);
 
             HighRate_Tittle = itemView.findViewById(R.id.HighRate_Tittle);
             HighRate_ep_num = itemView.findViewById(R.id.ep_num);
-        }
-    }
-
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Lỗi ", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
+            HighRate_Image = itemView.findViewById(R.id.HighRate_Image);
         }
     }
 }

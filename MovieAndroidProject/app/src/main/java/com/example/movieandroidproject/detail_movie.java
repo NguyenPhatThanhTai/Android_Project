@@ -20,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.InputStream;
 import trang_chu.*;
 
@@ -37,12 +39,9 @@ public class detail_movie extends Fragment implements IOnBackPressed {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.detail_movie, container, false);
+        ImageView img_detail = view.findViewById(R.id.img_detail);
 
-//        ImageView img_detail = view.findViewById(R.id.img_detail);
-//        img_detail.setImageResource(this.img_detail);
-
-        new DownloadImageTask(view.findViewById(R.id.img_detail))
-                .execute(highRate.getThumbnails());
+        Picasso.get().load(highRate.getThumbnails()).into(img_detail);
 
         TextView name_detail = view.findViewById(R.id.name_detail);
         name_detail.setText(highRate.getName());
@@ -71,32 +70,6 @@ public class detail_movie extends Fragment implements IOnBackPressed {
         });
 
         return view;
-    }
-
-    //Lấy ảnh từ url
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Lỗi ", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
-        }
     }
 
     @Override

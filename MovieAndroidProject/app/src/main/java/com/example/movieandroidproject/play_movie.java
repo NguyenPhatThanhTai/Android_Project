@@ -41,6 +41,8 @@ public class play_movie extends Fragment implements IOnBackPressed {
     private Thread thread;
     private Context context;
     private TextView on_playing;
+    private int seekVideo;
+    private boolean onResume = false;
 
     private RecyclerView rcv;
 
@@ -88,6 +90,7 @@ public class play_movie extends Fragment implements IOnBackPressed {
 
         movie_play = view.findViewById(R.id.movie_play);
         on_playing = view.findViewById(R.id.txt_playing);
+
         thread = new Thread(this::getUrlFilm);
         thread.start();
 
@@ -147,19 +150,6 @@ public class play_movie extends Fragment implements IOnBackPressed {
         });
     }
 
-    private void setListEp(){
-        APIControllers apiControllers = new APIControllers();
-        Film_list_Adapter film_list_adapter = new Film_list_Adapter(apiControllers.getListEp(highRate.getName(), highRate.getMovieId()), this.getActivity(), highRate);
-
-        this.getActivity().runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-                rcv.setAdapter(film_list_adapter);
-            }
-        });
-    }
-
     public void setVideoUrl(String url, String Ep, String Name){
         movie_play.pause();
 
@@ -196,8 +186,54 @@ public class play_movie extends Fragment implements IOnBackPressed {
         });
     }
 
+    private void setListEp(){
+        APIControllers apiControllers = new APIControllers();
+        Film_list_Adapter film_list_adapter = new Film_list_Adapter(apiControllers.getListEp(highRate.getName(), highRate.getMovieId()), this.getActivity(), highRate);
+
+        this.getActivity().runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                rcv.setAdapter(film_list_adapter);
+            }
+        });
+    }
+
     public void test(String data){
         Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        movie_play.pause();
+        seekVideo = movie_play.getCurrentPosition();
+        onResume = true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(onResume == true){
+            movie_play.seekTo(seekVideo);
+            play_load.setVisibility(View.VISIBLE);
+            movie_play.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
+                public void onPrepared(MediaPlayer mp) {
+                    // TODO Auto-generated method stub
+                    play_load.setVisibility(View.GONE);
+                    play_btn.setVisibility(View.VISIBLE);
+                }
+            });
+
+            play_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    play_btn.setVisibility(View.GONE);
+                    movie_play.start();
+                }
+            });
+        }
     }
 
     @Override

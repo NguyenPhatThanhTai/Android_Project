@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -28,9 +29,8 @@ import Category.Category;
 import Category.CategoryAdapter;
 
 public class MainActivity extends AppCompatActivity {
-
-    private RecyclerView rcvCategory;
-    Thread thread;
+    private int seekVideo;
+    private Fragment f;
 
     public MainActivity() {
     }
@@ -56,17 +56,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if (f instanceof play_movie)
-        {
-            // do something with f
-            ((play_movie) f).test("oke ne");
-        }
+//    @Override
+//    protected void onResume() {
+//        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+//        if (f instanceof play_movie)
+//        {
+//            // do something with f
+//            ((play_movie) f).test("Trở lại");
+//        }
+//
+//        super.onResume();
+//    }
 
-        super.onResume();
-    }
+//    @Override
+//    public void onSaveInstanceState(@NonNull Bundle outState) {
+//        f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+//        getSupportFragmentManager().putFragment(outState, "myfragment", f);
+//        super.onSaveInstanceState(outState);
+//    }
+//
+//    @Override
+//    public void onRestoreInstanceState(Bundle inState){
+//        f = getSupportFragmentManager().getFragment(inState, "myfragment");
+//    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navLis = new BottomNavigationView.OnNavigationItemSelectedListener(){
         @Override

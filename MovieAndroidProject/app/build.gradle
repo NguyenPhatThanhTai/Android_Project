@@ -10,7 +10,7 @@ android {
         minSdk 28
         targetSdk 31
         versionCode 1
-        versionName "1.0"
+        versionName "2.0-demo"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -39,4 +39,5 @@ dependencies {
 
     implementation 'me.relex:circleindicator:2.1.6'
     implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

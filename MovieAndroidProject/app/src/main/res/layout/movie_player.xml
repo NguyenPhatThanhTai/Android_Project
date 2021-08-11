@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:background="@drawable/custom_button_blue"
+                android:background="@drawable/custom_button_gray"
                 android:text="EU" />
 
             <Button
@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:background="@drawable/custom_button_red"
+                android:background="@drawable/custom_button_gray"
                 android:text="RU" />
 
             <Button
@@ -108,7 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:background="@drawable/custom_button_yellow"
+                android:background="@drawable/custom_button_gray"
                 android:text="VN" />
 
             <Button
@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:background="@drawable/custom_button_green"
+                android:background="@drawable/custom_button_gray"
                 android:text="JP" />
         </LinearLayout>
     </LinearLayout>
