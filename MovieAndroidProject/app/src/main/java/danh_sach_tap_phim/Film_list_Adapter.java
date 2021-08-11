@@ -5,8 +5,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
+import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +29,7 @@ import com.example.movieandroidproject.detail_movie;
 import com.example.movieandroidproject.play_movie;
 
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,7 +41,7 @@ public class Film_list_Adapter extends RecyclerView.Adapter<Film_list_Adapter.Fi
     private Context context;
     private View view;
     private HighRate highRate;
-    private String url;
+    int i = 1;
 
     public Film_list_Adapter(List<Film_List> list, Context context, HighRate highRate) {
         this.list = list;
@@ -66,8 +69,8 @@ public class Film_list_Adapter extends RecyclerView.Adapter<Film_list_Adapter.Fi
             holder.ep_name.setText("Tập " + filmList.getEp());
 
             //anh xem trc video
-            url = filmList.getUrl();
-            new Film_list_Adapter.getVideoThumbnail(thumbnail)
+//            url = filmList.getUrl();
+            new Film_list_Adapter.getVideoThumbnail(thumbnail, filmList.getUrl())
                     .execute(filmList.getUrl());
 
             FragmentManager manager = ((AppCompatActivity)context).getSupportFragmentManager();
@@ -78,7 +81,7 @@ public class Film_list_Adapter extends RecyclerView.Adapter<Film_list_Adapter.Fi
                     Fragment f = manager.findFragmentById(R.id.fragment_container);
                     if(f instanceof play_movie)
                         // do something with f
-                        ((play_movie) f).setVideoUrl(filmList.getUrl());
+                        ((play_movie) f).setVideoUrl(filmList.getUrl(), filmList.getEp(), filmList.getFilm_Name());
 
 //                    Fragment selectedFragment = new play_movie(highRate, filmList.getUrl());
 //                    ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
@@ -92,7 +95,7 @@ public class Film_list_Adapter extends RecyclerView.Adapter<Film_list_Adapter.Fi
                     Fragment f = manager.findFragmentById(R.id.fragment_container);
                     if(f instanceof play_movie)
                         // do something with f
-                        ((play_movie) f).setVideoUrl(filmList.getUrl());
+                        ((play_movie) f).setVideoUrl(filmList.getUrl(), filmList.getEp(), filmList.getFilm_Name());
                 }
             });
         }
@@ -100,12 +103,16 @@ public class Film_list_Adapter extends RecyclerView.Adapter<Film_list_Adapter.Fi
 
     private class getVideoThumbnail extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
+        String url;
 
-        public getVideoThumbnail(ImageView bmImage) {
+        public getVideoThumbnail(ImageView bmImage, String url) {
             this.bmImage = bmImage;
+            this.url = url;
         }
 
         protected Bitmap doInBackground(String... urls) {
+            System.out.println("Url la " + url);
+            System.out.println("Tập " + i++);
             Bitmap bitmap = null;
             MediaMetadataRetriever mediaMetadataRetriever = null;
             try
@@ -116,7 +123,7 @@ public class Film_list_Adapter extends RecyclerView.Adapter<Film_list_Adapter.Fi
                 else
                     mediaMetadataRetriever.setDataSource(url);
                 //   mediaMetadataRetriever.setDataSource(videoPath);
-                bitmap = mediaMetadataRetriever.getFrameAtTime(50000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+                bitmap = mediaMetadataRetriever.getFrameAtTime(5000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
             }
             catch (Exception e)
             {

@@ -1,26 +1,20 @@
 package com.example.movieandroidproject;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -30,15 +24,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.List;
-
 import API.APIControllers;
-import danh_sach_tap_phim.Film_List;
 import danh_sach_tap_phim.Film_list_Adapter;
 import trang_chu.*;
 
@@ -50,6 +40,7 @@ public class play_movie extends Fragment implements IOnBackPressed {
     private String url = "";
     private Thread thread;
     private Context context;
+    private TextView on_playing;
 
     private RecyclerView rcv;
 
@@ -96,8 +87,11 @@ public class play_movie extends Fragment implements IOnBackPressed {
         this.getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         movie_play = view.findViewById(R.id.movie_play);
+        on_playing = view.findViewById(R.id.txt_playing);
         thread = new Thread(this::getUrlFilm);
         thread.start();
+
+        on_playing.setText(highRate.getName() + " tập 1");
 
         play_btn = view.findViewById(R.id.play_button);
         play_btn.setVisibility(View.GONE);
@@ -116,7 +110,6 @@ public class play_movie extends Fragment implements IOnBackPressed {
             @Override
             public void onClick(View view) {
                 play_btn.setVisibility(View.GONE);
-                movie_play.seekTo(0);
                 movie_play.start();
             }
         });
@@ -147,8 +140,6 @@ public class play_movie extends Fragment implements IOnBackPressed {
                 Uri uri = Uri.parse(url);
                 movie_play.setVideoURI(uri);
 
-                movie_play.seekTo(15000);
-
                 MediaController mediaController = new MediaController(context);
                 movie_play.setMediaController(mediaController);
                 mediaController.setAnchorView(movie_play);
@@ -169,13 +160,15 @@ public class play_movie extends Fragment implements IOnBackPressed {
         });
     }
 
-    public void setVideoUrl(String url){
+    public void setVideoUrl(String url, String Ep, String Name){
         movie_play.pause();
+
+        on_playing.setText(Name + " tập " + Ep);
 
         Uri uri = Uri.parse(url);
         movie_play.setVideoURI(uri);
 
-        movie_play.seekTo(15000);
+//        movie_play.seekTo(15000);
 
         MediaController mediaController = new MediaController(context);
         movie_play.setMediaController(mediaController);
@@ -197,7 +190,7 @@ public class play_movie extends Fragment implements IOnBackPressed {
             @Override
             public void onClick(View view) {
                 play_btn.setVisibility(View.GONE);
-                movie_play.seekTo(0);
+//                movie_play.seekTo(0);
                 movie_play.start();
             }
         });
