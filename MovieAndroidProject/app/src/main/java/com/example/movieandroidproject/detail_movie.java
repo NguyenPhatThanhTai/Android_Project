@@ -103,6 +103,7 @@ public class detail_movie extends Fragment implements IOnBackPressed {
     public boolean onBackPressed() {
         Fragment selectedFragment = new trang_chu();
         FragmentManager manager = ((AppCompatActivity) context).getSupportFragmentManager();
+        manager.popBackStack();
 
         manager.beginTransaction()
                 .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,

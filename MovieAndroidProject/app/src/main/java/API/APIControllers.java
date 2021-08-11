@@ -39,6 +39,7 @@ public class APIControllers {
         }
     }
 
+    //Lấy toàn bộ phim
     public List<HighRate> getApiMovie(){
         List<HighRate> list = new ArrayList<>();
         System.out.println("BAT DAU TEST API...");
@@ -70,6 +71,7 @@ public class APIControllers {
         return list;
     }
 
+    //Lấy phim đầu tiên theo url phim
     public String getUrlById(String id){
         System.out.println("BAT DAU TEST API...");
         JSONObject json = null;
@@ -91,6 +93,7 @@ public class APIControllers {
         return url;
     }
 
+    //Lấy danh sách tập
     public List<Film_List> getListEp(String NameMovie, String id){
         List<Film_List> list = new ArrayList<>();
         System.out.println("BAT DAU TEST API...");

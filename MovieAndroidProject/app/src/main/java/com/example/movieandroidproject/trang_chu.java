@@ -19,6 +19,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import API.APIControllers;
+import me.relex.circleindicator.CircleIndicator;
 import trang_chu.*;
 
 public class trang_chu extends Fragment {
@@ -49,6 +50,10 @@ public class trang_chu extends Fragment {
         mListPhoto = getListNewestFilm();
         photo_adapter = new Photo_Adapter(this.getActivity(), mListPhoto);
         viewPager.setAdapter(photo_adapter);
+
+        CircleIndicator circleIndicator = view.findViewById(R.id.circle_indicator);
+        circleIndicator.setViewPager(viewPager);
+        photo_adapter.registerDataSetObserver(circleIndicator.getDataSetObserver());
 
         //goi api dữ liệu highrate phim
         thread = new Thread(this::threadGetMovie);

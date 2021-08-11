@@ -116,6 +116,7 @@ public class play_movie extends Fragment implements IOnBackPressed {
             @Override
             public void onClick(View view) {
                 play_btn.setVisibility(View.GONE);
+                movie_play.seekTo(0);
                 movie_play.start();
             }
         });
@@ -146,19 +147,11 @@ public class play_movie extends Fragment implements IOnBackPressed {
                 Uri uri = Uri.parse(url);
                 movie_play.setVideoURI(uri);
 
+                movie_play.seekTo(15000);
+
                 MediaController mediaController = new MediaController(context);
                 movie_play.setMediaController(mediaController);
                 mediaController.setAnchorView(movie_play);
-
-//                ProgressDialog progDailog = ProgressDialog.show(context, "Xin đợi trong giây lát ...", "Chúng tôi đang chuẩn bị video cho bạn ...", true);
-//
-//                movie_play.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-//
-//                    public void onPrepared(MediaPlayer mp) {
-//                        // TODO Auto-generated method stub
-//                        progDailog.dismiss();
-//                    }
-//                });
             }
         });
     }
@@ -177,8 +170,12 @@ public class play_movie extends Fragment implements IOnBackPressed {
     }
 
     public void setVideoUrl(String url){
+        movie_play.pause();
+
         Uri uri = Uri.parse(url);
         movie_play.setVideoURI(uri);
+
+        movie_play.seekTo(15000);
 
         MediaController mediaController = new MediaController(context);
         movie_play.setMediaController(mediaController);
@@ -200,9 +197,14 @@ public class play_movie extends Fragment implements IOnBackPressed {
             @Override
             public void onClick(View view) {
                 play_btn.setVisibility(View.GONE);
+                movie_play.seekTo(0);
                 movie_play.start();
             }
         });
+    }
+
+    public void test(String data){
+        Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
     }
 
     @Override
