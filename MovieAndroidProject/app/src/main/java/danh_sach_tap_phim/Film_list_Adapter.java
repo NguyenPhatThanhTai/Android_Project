@@ -4,16 +4,22 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +35,9 @@ import com.example.movieandroidproject.MainActivity;
 import com.example.movieandroidproject.R;
 import com.example.movieandroidproject.detail_movie;
 import com.example.movieandroidproject.play_movie;
+import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -42,13 +50,11 @@ public class Film_list_Adapter extends RecyclerView.Adapter<Film_list_Adapter.Fi
     private List<Film_List> list;
     private Context context;
     private View view;
-    private HighRate highRate;
     int i = 1;
 
-    public Film_list_Adapter(List<Film_List> list, Context context, HighRate highRate) {
+    public Film_list_Adapter(List<Film_List> list, Context context) {
         this.list = list;
         this.context = context;
-        this.highRate = highRate;
     }
 
     @NonNull
@@ -62,7 +68,6 @@ public class Film_list_Adapter extends RecyclerView.Adapter<Film_list_Adapter.Fi
     @Override
     public void onBindViewHolder(@NonNull Film_list_Holder holder, int position) {
         Film_List filmList = list.get(position);
-        ImageView thumbnail = view.findViewById(R.id.thumbnail_video);
 
         if(filmList == null){
             return;
@@ -70,9 +75,6 @@ public class Film_list_Adapter extends RecyclerView.Adapter<Film_list_Adapter.Fi
         else {
             holder.ep_name.setText("Tập " + filmList.getEp());
 
-            //anh xem trc video
-            new Film_list_Adapter.getVideoThumbnail(thumbnail, filmList.getUrl())
-                    .execute(filmList.getUrl());
 
             FragmentManager manager = ((AppCompatActivity)context).getSupportFragmentManager();
 
@@ -83,64 +85,8 @@ public class Film_list_Adapter extends RecyclerView.Adapter<Film_list_Adapter.Fi
                     if(f instanceof play_movie)
                         // do something with f
                         ((play_movie) f).setVideoUrl(filmList.getUrl(), filmList.getEp(), filmList.getFilm_Name());
-
-//                    Fragment selectedFragment = new play_movie(highRate, filmList.getUrl());
-//                    ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-//                            selectedFragment).commit();
                 }
             });
-
-            thumbnail.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Fragment f = manager.findFragmentById(R.id.fragment_container);
-                    if(f instanceof play_movie)
-                        // do something with f
-                        ((play_movie) f).setVideoUrl(filmList.getUrl(), filmList.getEp(), filmList.getFilm_Name());
-                }
-            });
-        }
-    }
-
-    private class getVideoThumbnail extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-        String url;
-
-        public getVideoThumbnail(ImageView bmImage, String url) {
-            this.bmImage = bmImage;
-            this.url = url;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            Bitmap bitmap = null;
-            MediaMetadataRetriever mediaMetadataRetriever = null;
-            try
-            {
-                mediaMetadataRetriever = new MediaMetadataRetriever();
-                if (Build.VERSION.SDK_INT >= 14)
-                    mediaMetadataRetriever.setDataSource(url, new HashMap<String, String>());
-                else
-                    mediaMetadataRetriever.setDataSource(url);
-                //   mediaMetadataRetriever.setDataSource(videoPath);
-                bitmap = mediaMetadataRetriever.getFrameAtTime(5000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-            finally
-            {
-                if (mediaMetadataRetriever != null)
-                {
-                    mediaMetadataRetriever.release();
-                }
-            }
-
-            return bitmap;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
         }
     }
 
@@ -153,11 +99,10 @@ public class Film_list_Adapter extends RecyclerView.Adapter<Film_list_Adapter.Fi
     }
 
     public class Film_list_Holder extends RecyclerView.ViewHolder{
-        private TextView ep_name;
+        private Button ep_name;
 
         public Film_list_Holder(@NonNull View itemView) {
             super(itemView);
-
             ep_name = itemView.findViewById(R.id.ep_name);
         }
     }

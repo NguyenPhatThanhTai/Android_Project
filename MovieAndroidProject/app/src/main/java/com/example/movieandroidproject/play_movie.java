@@ -101,7 +101,6 @@ public class play_movie extends Fragment implements IOnBackPressed {
         play_load = view.findViewById(R.id.play_loading);
 
         movie_play.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-
             public void onPrepared(MediaPlayer mp) {
                 // TODO Auto-generated method stub
                 play_load.setVisibility(View.GONE);
@@ -118,7 +117,7 @@ public class play_movie extends Fragment implements IOnBackPressed {
         });
 
         RecyclerView rcv_ep = view.findViewById(R.id.rcv_ep);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 5);
         rcv_ep.setLayoutManager(gridLayoutManager);
         rcv = rcv_ep;
 
@@ -158,8 +157,6 @@ public class play_movie extends Fragment implements IOnBackPressed {
         Uri uri = Uri.parse(url);
         movie_play.setVideoURI(uri);
 
-//        movie_play.seekTo(15000);
-
         MediaController mediaController = new MediaController(context);
         movie_play.setMediaController(mediaController);
         mediaController.setAnchorView(movie_play);
@@ -171,6 +168,7 @@ public class play_movie extends Fragment implements IOnBackPressed {
 
             public void onPrepared(MediaPlayer mp) {
                 // TODO Auto-generated method stub
+                movie_play.seekTo(0);
                 play_load.setVisibility(View.GONE);
                 play_btn.setVisibility(View.VISIBLE);
             }
@@ -188,10 +186,9 @@ public class play_movie extends Fragment implements IOnBackPressed {
 
     private void setListEp(){
         APIControllers apiControllers = new APIControllers();
-        Film_list_Adapter film_list_adapter = new Film_list_Adapter(apiControllers.getListEp(highRate.getName(), highRate.getMovieId()), this.getActivity(), highRate);
+        Film_list_Adapter film_list_adapter = new Film_list_Adapter(apiControllers.getListEp(highRate.getName(), highRate.getMovieId()), this.getActivity());
 
         this.getActivity().runOnUiThread(new Runnable() {
-
             @Override
             public void run() {
                 rcv.setAdapter(film_list_adapter);

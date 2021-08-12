@@ -1,32 +1,16 @@
 package com.example.movieandroidproject;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.GridLayout;
-import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import API.APIControllers;
-import Category.Category;
-import Category.CategoryAdapter;
+import rap_phim.sanh_phim;
 
 public class MainActivity extends AppCompatActivity {
     private int seekVideo;
@@ -93,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new trang_chu();
                     break;
                 case  R.id.nav_film_room:
-                    selectedFragment = new phong_phim();
+                    selectedFragment = new sanh_phim();
                     break;
             }
 

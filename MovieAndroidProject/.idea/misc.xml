@@ -9,7 +9,10 @@
         <entry key="..\:/MovieAndroidProject/app/src/main/res/drawable/custom_button_gray.xml" value="0.25092592592592594" />
         <entry key="..\:/MovieAndroidProject/app/src/main/res/drawable/custom_button_green.xml" value="0.25833333333333336" />
         <entry key="..\:/MovieAndroidProject/app/src/main/res/drawable/custom_button_red.xml" value="0.25833333333333336" />
+        <entry key="..\:/MovieAndroidProject/app/src/main/res/drawable/custom_button_rim_drarkgreen.xml" value="0.2462962962962963" />
         <entry key="..\:/MovieAndroidProject/app/src/main/res/drawable/custom_button_yellow.xml" value="0.25833333333333336" />
+        <entry key="..\:/MovieAndroidProject/app/src/main/res/drawable/custom_textview.xml" value="0.2462962962962963" />
+        <entry key="..\:/MovieAndroidProject/app/src/main/res/drawable/custom_textview_white.xml" value="0.2462962962962963" />
         <entry key="..\:/MovieAndroidProject/app/src/main/res/drawable/ic_play_arrow_24.xml" value="0.22777777777777777" />
         <entry key="..\:/MovieAndroidProject/app/src/main/res/drawable/ic_play_circle_outline_24.xml" value="0.25462962962962965" />
         <entry key="..\:/MovieAndroidProject/app/src/main/res/layout/activity_main.xml" value="0.1793478260869565" />
@@ -23,7 +26,8 @@
         <entry key="..\:/MovieAndroidProject/app/src/main/res/layout/items_photo.xml" value="0.24003623188405798" />
         <entry key="..\:/MovieAndroidProject/app/src/main/res/layout/list_category.xml" value="0.24864130434782608" />
         <entry key="..\:/MovieAndroidProject/app/src/main/res/layout/movie_player.xml" value="0.264" />
-        <entry key="..\:/MovieAndroidProject/app/src/main/res/layout/phong_phim.xml" value="0.17798913043478262" />
+        <entry key="..\:/MovieAndroidProject/app/src/main/res/layout/phong_phim.xml" value="0.264" />
+        <entry key="..\:/MovieAndroidProject/app/src/main/res/layout/sanh_phong_phim.xml" value="0.20425724637681159" />
         <entry key="..\:/MovieAndroidProject/app/src/main/res/layout/test.xml" value="0.2" />
         <entry key="..\:/MovieAndroidProject/app/src/main/res/layout/trang_chu.xml" value="0.264" />
         <entry key="..\:/MovieAndroidProject/app/src/main/res/menu/bottom_navigation.xml" value="0.27447916666666666" />

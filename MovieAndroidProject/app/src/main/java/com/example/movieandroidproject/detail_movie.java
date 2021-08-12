@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,6 +41,9 @@ public class detail_movie extends Fragment implements IOnBackPressed {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.detail_movie, container, false);
         ImageView img_detail = view.findViewById(R.id.img_detail);
+        RatingBar rt_bar_detail = view.findViewById(R.id.rt_bar_detail);
+
+        rt_bar_detail.setRating(Float.parseFloat("5.0"));
 
         Picasso.get().load(highRate.getThumbnails()).into(img_detail);
 
