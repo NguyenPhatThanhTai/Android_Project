@@ -4,17 +4,22 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.tabs.TabLayout;
 
+import Dangnhap_Dangki.Dangnhap_Dangki;
+import Dangnhap_Dangki.Dangnhap_DangkiAdapter;
 import rap_phim.sanh_phim;
 
 public class MainActivity extends AppCompatActivity {
     private int seekVideo;
     private Fragment f;
+
 
     public MainActivity() {
     }
@@ -29,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNAV.getMenu().findItem(R.id.nav_home).setChecked(true);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new trang_chu()).commit();
+
     }
 
     //Bắt sự kiện nhấn nút lui về của dt
@@ -79,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
                 case  R.id.nav_film_room:
                     selectedFragment = new sanh_phim();
                     break;
+                case R.id.nav_setting:
+                    selectedFragment = new Dangnhap_Dangki();
             }
 
             FragmentManager manager = getSupportFragmentManager();
