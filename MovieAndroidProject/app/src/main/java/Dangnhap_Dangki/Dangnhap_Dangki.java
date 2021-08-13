@@ -38,22 +38,7 @@ public class Dangnhap_Dangki extends Fragment {
         viewPager2.setAdapter(adapter);
         tabLayout.addTab(tabLayout.newTab().setText("Đăng nhập"));
         tabLayout.addTab(tabLayout.newTab().setText("Đăng kí"));
-        EditText username = view.findViewById(R.id.username);
-        EditText password = view.findViewById(R.id.password);
-        Button dangnhap = view.findViewById(R.id.dangnhap);
-        APIControllers api = new APIControllers();
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                dangnhap.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        api.DangNhap(username.getText().toString(), password.getText().toString());
-                    }
-                });
-            }
-        });
-        thread.start();
+
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

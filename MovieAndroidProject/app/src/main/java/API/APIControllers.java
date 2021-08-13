@@ -18,6 +18,13 @@ import java.util.Base64;
 import java.util.List;
 
 import danh_sach_tap_phim.Film_List;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import trang_chu.HighRate;
 
 public class APIControllers {
@@ -118,62 +125,52 @@ public class APIControllers {
 
         return list;
     }
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+    OkHttpClient client = new OkHttpClient();
+
+    Call post(String url, String json, Callback callback) {
+        RequestBody body = RequestBody.create(JSON, json);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+        Call call = client.newCall(request);
+        call.enqueue(callback);
+        return call;
+    }
     public void DangNhap(String username, String password){
         String query_url = "http://trongeddy48-001-site1.etempurl.com/api/Login";
         String json = "{ \"username\" : \""+username+"\", " +
                 "       \"password\" : \""+password+"\"}";
-        try {
-            URL url = new URL(query_url);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setConnectTimeout(5000);
-            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-            conn.setRequestMethod("POST");
-            OutputStream os = conn.getOutputStream();
-            os.write(json.getBytes("UTF-8"));
-            os.close();
-            // read the response
-            BufferedReader br = null;
-            if (100 <= conn.getResponseCode() && conn.getResponseCode() <= 399) {
-                br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            } else {
-                br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+        System.out.println(json);
+        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+        post(query_url, json, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
             }
 
-            String array1 = br.readLine();
-            System.out.println(array1);
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    String responseStr = response.body().string();
 
-//            JSONObject json2 = new JSONObject(array1);
-//
-//            JSONArray jsonArray2 = json2.getJSONArray("token");
-//
-//            //get token
-//            String token = jsonArray2.get(0).toString();
-//
-//
-//            //get key and typ
-//            String[] chunks = token.split("\\.");
-//
-//            Base64.Decoder decoder = Base64.getDecoder();
-//
-//            String header = new String(decoder.decode(chunks[0]));
-//            String payload = new String(decoder.decode(chunks[1]));
-//
-//            String[] strArray = new String[] {payload};
-//
-//            JSONObject json3 = new JSONObject(strArray[0]);
-//
-//            System.out.println(json3);
+                    try {
+                        JSONObject jObject = new JSONObject(responseStr);
+                        String fullname = jObject.getJSONObject("message").getString("FullName");
+                        System.out.println(fullname);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
 
-//            Object key = json3.get("key");
-//            Object typ = json3.get("typ");
+                    // Do what you want to do with the response.
+                } else {
+                    // Request not successful
+                }
+            }
 
-
-            br.close();
-            conn.disconnect();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        });
     }
 }

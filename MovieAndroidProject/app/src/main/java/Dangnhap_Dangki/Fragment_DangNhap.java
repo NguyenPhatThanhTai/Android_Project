@@ -7,8 +7,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.movieandroidproject.R;
+
+import API.APIControllers;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,7 +64,19 @@ public class Fragment_DangNhap extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment__dang_nhap, container, false);
+        EditText username = view.findViewById(R.id.username);
+        EditText password = view.findViewById(R.id.password);
+        Button dangnhap = view.findViewById(R.id.dangnhap);
+        APIControllers api = new APIControllers();
+        dangnhap.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    api.DangNhap(username.getText().toString(), password.getText().toString());
+                }
+            });
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment__dang_nhap, container, false);
+        return view;
+
     }
 }
