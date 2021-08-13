@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,7 +17,10 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.example.movieandroidproject.R;
 import com.google.android.material.tabs.TabLayout;
 
+import API.APIControllers;
+
 public class Dangnhap_Dangki extends Fragment {
+
 
     TabLayout tabLayout;
     ViewPager2 viewPager2;
@@ -33,6 +38,23 @@ public class Dangnhap_Dangki extends Fragment {
         viewPager2.setAdapter(adapter);
         tabLayout.addTab(tabLayout.newTab().setText("Đăng nhập"));
         tabLayout.addTab(tabLayout.newTab().setText("Đăng kí"));
+        EditText username = view.findViewById(R.id.username);
+        EditText password = view.findViewById(R.id.password);
+        Button dangnhap = view.findViewById(R.id.dangnhap);
+        APIControllers api = new APIControllers();
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                dangnhap.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        api.DangNhap(username.getText().toString(), password.getText().toString());
+                    }
+                });
+            }
+        });
+        thread.start();
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -55,6 +77,7 @@ public class Dangnhap_Dangki extends Fragment {
                 super.onPageSelected(position);
             }
         });
+
         return view;
     }
 }
