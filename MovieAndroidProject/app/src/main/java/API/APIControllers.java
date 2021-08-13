@@ -160,6 +160,12 @@ public class APIControllers {
                     try {
                         JSONObject jObject = new JSONObject(responseStr);
                         String fullname = jObject.getJSONObject("message").getString("FullName");
+                        if(fullname != null){
+
+                        }
+                        else {
+                            System.out.println("Sai mật khẩu");
+                        }
                         System.out.println(fullname);
                     } catch (JSONException e) {
                         e.printStackTrace();
