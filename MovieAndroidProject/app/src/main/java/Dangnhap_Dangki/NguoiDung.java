@@ -12,6 +12,9 @@ public class NguoiDung {
     private String Avatar;
     private String Wallet;
 
+    public NguoiDung() {
+    }
+
     public NguoiDung(String userId, String username, String password, String fullName, String birthday, String address, String phone, String email, String avatar, String wallet) {
         UserId = userId;
         Username = username;

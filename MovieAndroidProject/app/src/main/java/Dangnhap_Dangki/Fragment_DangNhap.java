@@ -72,11 +72,17 @@ public class Fragment_DangNhap extends Fragment {
         dangnhap.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    api.DangNhap(username.getText().toString(), password.getText().toString());
+                    Thread thread = new Thread() {
+                        @Override
+                        public void run() {
+                            NguoiDung nguoiDung = api.DangNhap(username.getText().toString(), password.getText().toString());
+                            System.out.println(nguoiDung.getUserId());
+                        }
+                    };
+                    thread.start();
                 }
             });
         // Inflate the layout for this fragment
         return view;
-
     }
 }

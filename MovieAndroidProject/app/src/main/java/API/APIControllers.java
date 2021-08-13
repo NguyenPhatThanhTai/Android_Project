@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+import Dangnhap_Dangki.NguoiDung;
 import danh_sach_tap_phim.Film_List;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -28,6 +29,8 @@ import okhttp3.Response;
 import trang_chu.HighRate;
 
 public class APIControllers {
+    NguoiDung dangnhap = null;
+
     public static String readAll(Reader rd) throws IOException {
         StringBuilder sb = new StringBuilder();
         int cp;
@@ -129,54 +132,44 @@ public class APIControllers {
 
     OkHttpClient client = new OkHttpClient();
 
-    Call post(String url, String json, Callback callback) {
+    Call post(String url, String json) {
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
                 .build();
         Call call = client.newCall(request);
-        call.enqueue(callback);
         return call;
     }
-    public void DangNhap(String username, String password){
+
+    public NguoiDung DangNhap(String username, String password){
         String query_url = "http://trongeddy48-001-site1.etempurl.com/api/Login";
         String json = "{ \"username\" : \""+username+"\", " +
                 "       \"password\" : \""+password+"\"}";
-        System.out.println(json);
-        MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+            try {
+                Response response = post(query_url, json).execute();
+                String responseStr = response.body().string();
 
-        post(query_url, json, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
+                JSONObject jObject = new JSONObject(responseStr);
+                String UserId = jObject.getJSONObject("message").getString("UserId");
+                String Username = jObject.getJSONObject("message").getString("Username");
+                String Password = jObject.getJSONObject("message").getString("Password");
+                String FullName = jObject.getJSONObject("message").getString("FullName");
+                String Birthday = jObject.getJSONObject("message").getString("Birthday");
+                String Address = jObject.getJSONObject("message").getString("Address");
+                String Phone = jObject.getJSONObject("message").getString("Phone");
+                String Email = jObject.getJSONObject("message").getString("Email");
+                String Avatar = jObject.getJSONObject("message").getString("Avatar");
+                String Wallet = jObject.getJSONObject("message").getString("Wallet");
 
+                dangnhap = new NguoiDung(UserId, Username, Password, FullName, Birthday, Address,
+                        Phone, Email, Avatar, Wallet);
+
+            } catch (Exception e) {
+                dangnhap = null;
+                e.printStackTrace();
             }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String responseStr = response.body().string();
-
-                    try {
-                        JSONObject jObject = new JSONObject(responseStr);
-                        String fullname = jObject.getJSONObject("message").getString("FullName");
-                        if(fullname != null){
-
-                        }
-                        else {
-                            System.out.println("Sai mật khẩu");
-                        }
-                        System.out.println(fullname);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    // Do what you want to do with the response.
-                } else {
-                    // Request not successful
-                }
-            }
-
-        });
+        return dangnhap;
     }
 }
