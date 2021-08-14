@@ -32,7 +32,7 @@ public class trang_chu extends Fragment {
 
     private Thread thread;
     private RecyclerView RCHR;
-    private Spinner TheLoai, Studio;
+    private Spinner TheLoai, Studio, QuocGia;
 
     @Nullable
     @Override
@@ -45,6 +45,7 @@ public class trang_chu extends Fragment {
 
         TheLoai = view.findViewById(R.id.Theloai);
         Studio = view.findViewById(R.id.Studio);
+        QuocGia = view.findViewById(R.id.QuocGia);
 
         //Add dropdown list
         thread = new Thread(this::setDanhSachCombobox);
@@ -190,5 +191,16 @@ public class trang_chu extends Fragment {
         ArrayAdapter<String> adapter_studio = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,studio);
         Studio.setAdapter(adapter_studio); // this will set list of values to spinner
         Studio.setSelection(studio.indexOf(1));//set selected value in spinner
+
+        //Studio
+        ArrayList<String> quocgia = new ArrayList<String>();
+        quocgia.add("Quốc gia sản xuất");
+        quocgia.add("Quốc gia 1");
+        quocgia.add("Quốc gia 2");
+        quocgia.add("Quốc gia 3");
+
+        ArrayAdapter<String> adapter_quocgia = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,quocgia);
+        QuocGia.setAdapter(adapter_quocgia); // this will set list of values to spinner
+        QuocGia.setSelection(quocgia.indexOf(1));//set selected value in spinner
     }
 }

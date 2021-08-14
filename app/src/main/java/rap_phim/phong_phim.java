@@ -29,20 +29,27 @@ import trang_chu.HighRate;
 public class phong_phim extends Fragment {
     private WebView wv_view;
     private Thread thread;
+    private String roomId, movieId, userId;
+
+    public phong_phim(String roomId, String movieId, String userId){
+        this.roomId = roomId;
+        this.movieId = movieId;
+        this.userId = userId;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.phong_phim, container, false);
         wv_view = view.findViewById(R.id.wv_view);
-
-        goUrl("http://trongeddy48-001-site1.etempurl.com/Room/RoomMovie?id=00000001&roomid=123&userid=002");
+        goUrl("http://trongeddy48-001-site1.etempurl.com/Room/RoomMovie?id="+movieId+"&roomid="+roomId+"&userid="+userId);
 
         return view;
     }
 
     private void goUrl(String addressBar)  {
         String url = addressBar.toString().trim();
+        System.out.println("url phong o day" + url);
         if(url.isEmpty())  {
             Toast.makeText(getContext(),"Please enter url",Toast.LENGTH_SHORT).show();
             return;

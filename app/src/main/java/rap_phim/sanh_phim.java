@@ -1,13 +1,20 @@
 package rap_phim;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,44 +24,146 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.movieandroidproject.R;
 import com.example.movieandroidproject.play_movie;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import API.APIControllers;
+import Dangnhap_Dangki.Dangnhap_Dangki;
+import danh_sach_tap_phim.Film_List;
+import trang_chu.HighRate;
 
 public class sanh_phim extends Fragment {
+    String roomId, movieId, userId;
+    Spinner spn_saved_movie;
+    List<HighRate> list;
+    Thread thread;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.sanh_phong_phim, container, false);
-        Spinner spn_saved_movie = view.findViewById(R.id.spn_saved_movie);
+        spn_saved_movie = view.findViewById(R.id.spn_saved_movie);
         RatingBar rt_bar_detail = view.findViewById(R.id.rt_bar_movie_room);
+        APIControllers api = new APIControllers();
         Button btn_join = view.findViewById(R.id.btn_join);
+        Button btn_create_room = view.findViewById(R.id.btn_create_room);
 
-        btn_join.setOnClickListener(new View.OnClickListener() {
+        thread = new Thread(this::setListMovie);
+        thread.start();
+
+        SharedPreferences sp1 = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+        userId = sp1.getString("Unm", null);
+
+        //Tạo phòng mới
+        btn_create_room.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment selectedFragment = new phong_phim();
-                FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
 
-                manager.beginTransaction()
-                        .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
-                                R.anim.enter_left_to_right, R.anim.exit_left_to_right)
-                        .replace(R.id.fragment_container,
-                                selectedFragment).commit();
+                if(userId != null){
+                    thread = new Thread(){
+                        @Override
+                        public void run() {
+                            roomId = api.createRoom();
+                            Fragment selectedFragment = new phong_phim(roomId, movieId, userId);
+                            FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+
+                            manager.beginTransaction()
+                                    .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
+                                            R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+                                    .replace(R.id.fragment_container,
+                                            selectedFragment).commit();
+                        }
+                    };
+                    thread.start();
+                }
+                else {
+                    Fragment selectedFragment = new Dangnhap_Dangki();
+                    FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+
+                    manager.beginTransaction()
+                            .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
+                                    R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+                            .replace(R.id.fragment_container,
+                                    selectedFragment).commit();
+                }
             }
         });
 
-        rt_bar_detail.setRating(Float.parseFloat("4.5"));
+        //Join phòng theo id
+        btn_join.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View vi) {
+                EditText txt_ma_phong = view.findViewById(R.id.txt_ma_phong);
 
-        ArrayList<String> options=new ArrayList<String>();
-        options.add("Chọn phim đã lưu ở đây");
-        options.add("Tên phim 2");
-        options.add("Tên phim 3");
+                if (txt_ma_phong.getText().toString() == null || txt_ma_phong.getText().toString().equals("")){
+                    Toast.makeText(getContext(), "Vui lòng nhập mã phòng", Toast.LENGTH_SHORT);
+                }
+                else {
+                    Fragment selectedFragment = new phong_phim(txt_ma_phong.getText().toString(), "", userId);
+                    FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item,options);
-        spn_saved_movie.setAdapter(adapter); // this will set list of values to spinner
+                    manager.beginTransaction()
+                            .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
+                                    R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+                            .replace(R.id.fragment_container,
+                                    selectedFragment).commit();
+                }
+            }
+        });
 
-        spn_saved_movie.setSelection(options.indexOf(1));//set selected value in spinner
+        spn_saved_movie.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View vi, int i, long l) {
+                String string = adapterView.getSelectedItem().toString();
+                String[] parts = string.split(" - ");
+                String part1 = parts[0];
+                String part2 = parts[1];
+                String part3 = parts[2];
+                movieId = part2;
+
+                if(list != null){
+                    HighRate highRate = list.get(Integer.parseInt(part1));
+
+                    ImageView img_film_selected = view.findViewById(R.id.img_film_selected);
+                    TextView txt_name = view.findViewById(R.id.txt_name);
+
+                    Picasso.get().load(highRate.getThumbnails()).into(img_film_selected);
+                    txt_name.setText(highRate.getName() + " - Số tập: " + highRate.getEpisodes());
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        rt_bar_detail.setRating(Float.parseFloat("5.0"));
 
         return view;
+    }
+
+    private void setListMovie(){
+        APIControllers apiControllers = new APIControllers();
+        list = apiControllers.getApiMovie();
+
+        ArrayList<String> options = new ArrayList<String>();
+
+        for (int i = 0; i < list.size(); i ++) {
+            options.add(i + " - " + list.get(i).getMovieId() + " - " + list.get(i).getName());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item,options);
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                spn_saved_movie.setAdapter(adapter); // this will set list of values to spinner
+
+                spn_saved_movie.setSelection(options.indexOf(1));//set selected value in spinner
+            }
+        });
     }
 }

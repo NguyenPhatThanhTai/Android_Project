@@ -52,6 +52,20 @@ public class APIControllers {
         }
     }
 
+    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+
+    OkHttpClient client = new OkHttpClient();
+
+    Call post(String url, String json) {
+        RequestBody body = RequestBody.create(JSON, json);
+        Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .build();
+        Call call = client.newCall(request);
+        return call;
+    }
+
     //Lấy toàn bộ phim
     public List<HighRate> getApiMovie(){
         List<HighRate> list = new ArrayList<>();
@@ -111,7 +125,6 @@ public class APIControllers {
         List<Film_List> list = new ArrayList<>();
         System.out.println("BAT DAU TEST API...");
         JSONObject json = null;
-        String url = "";
         try {
 
             json = readJsonFromUrl("http://trongeddy48-001-site1.etempurl.com/api/FilmByMovieId?id="+id);
@@ -128,18 +141,22 @@ public class APIControllers {
 
         return list;
     }
-    public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
-    OkHttpClient client = new OkHttpClient();
+    //Tạo phòng
+    public String createRoom(){
+        JSONObject json = null;
+        String roomId;
 
-    Call post(String url, String json) {
-        RequestBody body = RequestBody.create(JSON, json);
-        Request request = new Request.Builder()
-                .url(url)
-                .post(body)
-                .build();
-        Call call = client.newCall(request);
-        return call;
+        try {
+            json = readJsonFromUrl("http://trongeddy48-001-site1.etempurl.com/api/CreateRoom");
+
+            JSONObject jsonObject = new JSONObject(json.toString());
+            roomId = jsonObject.getString("RoomId");
+            return roomId;
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return null;
+        }
     }
 
     public NguoiDung DangNhap(String username, String password){
