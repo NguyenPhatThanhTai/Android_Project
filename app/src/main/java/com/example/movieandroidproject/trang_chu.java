@@ -5,6 +5,8 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +32,7 @@ public class trang_chu extends Fragment {
 
     private Thread thread;
     private RecyclerView RCHR;
+    private Spinner TheLoai, Studio;
 
     @Nullable
     @Override
@@ -39,6 +42,13 @@ public class trang_chu extends Fragment {
         RecyclerView recyclerViewHighRate = view.findViewById(R.id.rcv_HighRate);
         RCHR = recyclerViewHighRate;
         RecyclerView recyclerViewRecomment = view.findViewById(R.id.rcv_Recomment);
+
+        TheLoai = view.findViewById(R.id.Theloai);
+        Studio = view.findViewById(R.id.Studio);
+
+        //Add dropdown list
+        thread = new Thread(this::setDanhSachCombobox);
+        thread.start();
 
         //Chỉnh linear cho nó cuộn được sang 2 bên
         LinearLayoutManager linearLayoutManagerHighRate = new LinearLayoutManager(this.getActivity(), RecyclerView.HORIZONTAL, false);
@@ -154,5 +164,31 @@ public class trang_chu extends Fragment {
                 RCHR.setAdapter(highRate_adapter);
             }
         });
+    }
+
+    private void setDanhSachCombobox(){
+        //thể loại
+        ArrayList<String> theloai = new ArrayList<String>();
+        theloai.add("Thể loại phim");
+        theloai.add("Thể loại 1");
+        theloai.add("Thể loại 2");
+        theloai.add("Thể loại 3");
+        theloai.add("Thể loại 4");
+        theloai.add("Thể loại 5");
+
+        ArrayAdapter<String> adapter_theloai = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,theloai);
+        TheLoai.setAdapter(adapter_theloai); // this will set list of values to spinner
+        TheLoai.setSelection(theloai.indexOf(1));//set selected value in spinner
+
+        //Studio
+        ArrayList<String> studio = new ArrayList<String>();
+        studio.add("Studio sản xuất");
+        studio.add("Studio 1");
+        studio.add("Studio 2");
+        studio.add("Studio 3");
+
+        ArrayAdapter<String> adapter_studio = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,studio);
+        Studio.setAdapter(adapter_studio); // this will set list of values to spinner
+        Studio.setSelection(studio.indexOf(1));//set selected value in spinner
     }
 }
