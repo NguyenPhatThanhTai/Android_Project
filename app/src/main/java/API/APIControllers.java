@@ -29,7 +29,7 @@ import okhttp3.Response;
 import trang_chu.HighRate;
 
 public class APIControllers {
-    NguoiDung dangnhap = null;
+    NguoiDung nguoidung = null;
 
     public static String readAll(Reader rd) throws IOException {
         StringBuilder sb = new StringBuilder();
@@ -162,14 +162,41 @@ public class APIControllers {
                 String Avatar = jObject.getJSONObject("message").getString("Avatar");
                 String Wallet = jObject.getJSONObject("message").getString("Wallet");
 
-                dangnhap = new NguoiDung(UserId, Username, Password, FullName, Birthday, Address,
+                nguoidung = new NguoiDung(UserId, Username, Password, FullName, Birthday, Address,
                         Phone, Email, Avatar, Wallet);
 
             } catch (Exception e) {
-                dangnhap = null;
+                nguoidung = null;
                 e.printStackTrace();
             }
 
-        return dangnhap;
+        return nguoidung;
     }
+    public NguoiDung ThongTinCaNhan(String id){
+        System.out.println("BAT DAU TEST API...");
+        JSONObject json = null;
+        String url = "";
+        try {
+            String querry_json = "http://trongeddy48-001-site1.etempurl.com/api/User?id="+id;
+            json = readJsonFromUrl(querry_json);
+            JSONObject jsonObject = new JSONObject(json.toString());
+            String userid = jsonObject.getJSONObject("User").getString("UserId");
+            String username = jsonObject.getJSONObject("User").getString("Username");
+            String password = jsonObject.getJSONObject("User").getString("Password");
+            String fullName = jsonObject.getJSONObject("User").getString("FullName");
+            String birthday = jsonObject.getJSONObject("User").getString("Birthday");
+            String address = jsonObject.getJSONObject("User").getString("Address");
+            String phone = jsonObject.getJSONObject("User").getString("Phone");
+            String email = jsonObject.getJSONObject("User").getString("Email");
+            String avatar = jsonObject.getJSONObject("User").getString("Avatar");
+            String wallet = jsonObject.getJSONObject("User").getString("Wallet");
+
+            nguoidung = new NguoiDung(userid, username, password, fullName, birthday, address,
+                    phone, email, avatar, wallet);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return nguoidung;
+    }
+
 }

@@ -38,7 +38,7 @@ public class Dangnhap_Dangki extends Fragment {
         String unm=sp1.getString("Unm", null);
         if(unm != null){
             System.out.println("================"+unm);
-            Fragment selectedFragment = new Fragment_NguoiDung();
+            Fragment selectedFragment = new Fragment_NguoiDung(unm);
             FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
             manager.beginTransaction()
                     .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,
