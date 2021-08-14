@@ -36,19 +36,23 @@ public class Fragment_NguoiDung extends Fragment {
             public void run() {
                 APIControllers api = new APIControllers();
                 NguoiDung nd = api.ThongTinCaNhan(id);
-
                 TextView tendangnhap = view.findViewById(R.id.tendangnhap);
-                tendangnhap.setText(nd.getUsername());
                 TextView tendaydu = view.findViewById(R.id.tendaydu);
-                tendaydu.setText(nd.getFullName());
                 TextView sinhnhat = view.findViewById(R.id.sinhnhat);
-                sinhnhat.setText(nd.getBirthday());
                 TextView diachi = view.findViewById(R.id.diachi);
-                diachi.setText(nd.getAddress());
                 TextView sodienthoai = view.findViewById(R.id.sodienthoai);
-                sodienthoai.setText(nd.getPhone());
                 TextView email = view.findViewById(R.id.email);
-                email.setText(nd.getEmail());
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tendangnhap.setText(nd.getUsername());
+                        tendaydu.setText(nd.getFullName());
+                        sinhnhat.setText(nd.getBirthday());
+                        diachi.setText(nd.getAddress());
+                        sodienthoai.setText(nd.getPhone());
+                        email.setText(nd.getEmail());
+                    }
+                });
             }
         };
         thread.start();
