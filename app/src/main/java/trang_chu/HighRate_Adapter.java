@@ -60,8 +60,9 @@ public class HighRate_Adapter extends RecyclerView.Adapter<HighRate_Adapter.High
             holder.HighRate_ep_num.setText(highRate.getEpisodes());
             //set ảnh
             thumbnail_img = view.findViewById(R.id.HighRate_Image);
-            //Thư viện load ảnh Picasso
-            Picasso.get().load(highRate.getThumbnails()).into(thumbnail_img);
+            holder.setImage(highRate.getThumbnails());
+            //set lượt xem
+            holder.Highrate_View.setText("Lượt xem: " + highRate.getViews());
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -93,15 +94,21 @@ public class HighRate_Adapter extends RecyclerView.Adapter<HighRate_Adapter.High
     }
 
     public class HighRateViewHolder extends RecyclerView.ViewHolder{
-        private TextView HighRate_Tittle, HighRate_ep_num;
+        private TextView HighRate_Tittle, HighRate_ep_num, Highrate_View;
         private ImageView HighRate_Image;
+
+        public void setImage(String url){
+            HighRate_Image = itemView.findViewById(R.id.HighRate_Image);
+            //Thư viện load ảnh Picasso
+            Picasso.get().load(url).into(HighRate_Image);
+        }
 
         public HighRateViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            Highrate_View = itemView.findViewById(R.id.Highrate_View);
             HighRate_Tittle = itemView.findViewById(R.id.HighRate_Tittle);
             HighRate_ep_num = itemView.findViewById(R.id.ep_num);
-            HighRate_Image = itemView.findViewById(R.id.HighRate_Image);
         }
     }
 }

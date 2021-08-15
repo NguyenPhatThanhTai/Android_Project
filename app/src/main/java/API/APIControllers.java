@@ -27,6 +27,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import trang_chu.HighRate;
+import trang_chu.RecommentForYou;
 
 public class APIControllers {
     NguoiDung nguoidung = null;
@@ -79,6 +80,37 @@ public class APIControllers {
 
             for (int i = 0; i < jsonArray.length(); i ++){
                 list.add(new HighRate(
+                        jsonArray.getJSONObject(i).getString("MovieId"),
+                        jsonArray.getJSONObject(i).getString("Name"),
+                        jsonArray.getJSONObject(i).getString("Views"),
+                        jsonArray.getJSONObject(i).getString("Episodes"),
+                        jsonArray.getJSONObject(i).getString("Years"),
+                        jsonArray.getJSONObject(i).getString("Description"),
+                        jsonArray.getJSONObject(i).getString("Thumbnails"),
+                        jsonArray.getJSONObject(i).getString("Fee")
+                ));
+            }
+
+            System.out.println(jsonArray);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+        return list;
+    }
+
+    //Lấy toàn bộ phim
+    public List<RecommentForYou> getAllMovie(){
+        List<RecommentForYou> list = new ArrayList<>();
+        System.out.println("BAT DAU TEST API...");
+        JSONObject json = null;
+        try {
+            json = readJsonFromUrl("http://trongeddy48-001-site1.etempurl.com/api/movie");
+
+            JSONArray jsonArray = json.getJSONArray("MovieList");
+
+            for (int i = 0; i < jsonArray.length(); i ++){
+                list.add(new RecommentForYou(
                         jsonArray.getJSONObject(i).getString("MovieId"),
                         jsonArray.getJSONObject(i).getString("Name"),
                         jsonArray.getJSONObject(i).getString("Views"),

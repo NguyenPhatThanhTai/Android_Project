@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -31,8 +32,8 @@ public class trang_chu extends Fragment {
     private Timer mTimer;
 
     private Thread thread;
-    private RecyclerView RCHR;
-    private Spinner TheLoai, Studio, QuocGia;
+    private RecyclerView RCHR, RCRC;
+    private Spinner TheLoai, Studio;
 
     @Nullable
     @Override
@@ -42,10 +43,10 @@ public class trang_chu extends Fragment {
         RecyclerView recyclerViewHighRate = view.findViewById(R.id.rcv_HighRate);
         RCHR = recyclerViewHighRate;
         RecyclerView recyclerViewRecomment = view.findViewById(R.id.rcv_Recomment);
+        RCRC = recyclerViewRecomment;
 
         TheLoai = view.findViewById(R.id.Theloai);
         Studio = view.findViewById(R.id.Studio);
-        QuocGia = view.findViewById(R.id.QuocGia);
 
         //Add dropdown list
         thread = new Thread(this::setDanhSachCombobox);
@@ -54,8 +55,9 @@ public class trang_chu extends Fragment {
         //Chỉnh linear cho nó cuộn được sang 2 bên
         LinearLayoutManager linearLayoutManagerHighRate = new LinearLayoutManager(this.getActivity(), RecyclerView.HORIZONTAL, false);
         recyclerViewHighRate.setLayoutManager(linearLayoutManagerHighRate);
-        LinearLayoutManager linearLayoutManagerRecomment = new LinearLayoutManager(this.getActivity(), RecyclerView.HORIZONTAL, false);
-        recyclerViewRecomment.setLayoutManager(linearLayoutManagerRecomment);
+        //Chỉnh 1 hàng 2 phim, cuộn xuống
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 2);
+        recyclerViewRecomment.setLayoutManager(gridLayoutManager);
 
         //phần hình ảnh tự động chuyển
         mListPhoto = getListNewestFilm();
@@ -70,21 +72,9 @@ public class trang_chu extends Fragment {
         thread = new Thread(this::threadGetMovie);
         thread.start();
 
-//        APIControllers apiControllers = new APIControllers();
-//        listHR = apiControllers.getApiMovie();
-//        HighRate_Adapter highRate_adapter = new HighRate_Adapter(listHR, (MainActivity) this.getActivity());
-//
-//        this.getActivity().runOnUiThread(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                recyclerViewHighRate.setAdapter(highRate_adapter);
-//            }
-//        });
-
-        //set dữ liệu
-        RecommentForYou_Adapter recommentForYou_adapter = new RecommentForYou_Adapter(getListRecommentForYou(), (MainActivity) this.getActivity());
-        recyclerViewRecomment.setAdapter(recommentForYou_adapter);
+        //gọi api dữ liệu recomment film
+        thread = new Thread(this::threadAllMovie);
+        thread.start();
 
         autoSlideImages();
         return view;
@@ -99,17 +89,6 @@ public class trang_chu extends Fragment {
         list.add(new Photo(R.drawable.demon_slayer));
 
         return list;
-    }
-
-    private List<RecommentForYou> getListRecommentForYou(){
-        List<RecommentForYou> list = new ArrayList<>();
-        list.add(new RecommentForYou(R.drawable.pt_your_name, "Tên cậu là gì"));
-        list.add(new RecommentForYou(R.drawable.pt_your_name, "Tên cậu là gì"));
-        list.add(new RecommentForYou(R.drawable.pt_your_name, "Tên cậu là gì"));
-        list.add(new RecommentForYou(R.drawable.pt_your_name, "Tên cậu là gì"));
-        list.add(new RecommentForYou(R.drawable.pt_your_name, "Tên cậu là gì"));
-
-        return  list;
     }
 
     private void autoSlideImages(){
@@ -158,11 +137,50 @@ public class trang_chu extends Fragment {
         APIControllers apiControllers = new APIControllers();
         HighRate_Adapter highRate_adapter = new HighRate_Adapter(apiControllers.getApiMovie(), (MainActivity) this.getActivity());
 
+        RCHR.post(new Runnable() {
+            @Override
+            public void run() {
+
+                Thread thread = new Thread(){
+                    @Override
+                    public void run() {
+                        int i = 0;
+                        while (true){
+                            if (i == highRate_adapter.getItemCount()){
+                                i = 0;
+                            }
+                            RCHR.smoothScrollToPosition(i);
+                            try {
+                                Thread.sleep(2000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            i+= 1;
+                        }
+                    }
+                };
+                thread.start();
+            }
+        });
+
         this.getActivity().runOnUiThread(new Runnable() {
 
             @Override
             public void run() {
                 RCHR.setAdapter(highRate_adapter);
+            }
+        });
+    }
+
+    private void threadAllMovie(){
+        APIControllers apiControllers = new APIControllers();
+        RecommentForYou_Adapter recommentForYou_adapter = new RecommentForYou_Adapter(apiControllers.getAllMovie(), (MainActivity) this.getActivity());
+
+        this.getActivity().runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+                RCRC.setAdapter(recommentForYou_adapter);
             }
         });
     }
@@ -191,16 +209,5 @@ public class trang_chu extends Fragment {
         ArrayAdapter<String> adapter_studio = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,studio);
         Studio.setAdapter(adapter_studio); // this will set list of values to spinner
         Studio.setSelection(studio.indexOf(1));//set selected value in spinner
-
-        //Studio
-        ArrayList<String> quocgia = new ArrayList<String>();
-        quocgia.add("Quốc gia sản xuất");
-        quocgia.add("Quốc gia 1");
-        quocgia.add("Quốc gia 2");
-        quocgia.add("Quốc gia 3");
-
-        ArrayAdapter<String> adapter_quocgia = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,quocgia);
-        QuocGia.setAdapter(adapter_quocgia); // this will set list of values to spinner
-        QuocGia.setSelection(quocgia.indexOf(1));//set selected value in spinner
     }
 }

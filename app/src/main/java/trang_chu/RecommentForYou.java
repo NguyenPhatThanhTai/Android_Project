@@ -1,27 +1,87 @@
 package trang_chu;
 
 public class RecommentForYou {
-    private int Recomment_Image;
-    private String Tittle;
+    private String MovieId;
+    private String Name;
+    private String Views;
+    private String Episodes;
+    private String Years;
+    private String Description;
+    private String Thumbnails;
+    private String Fee;
 
-    public RecommentForYou(int recomment_Image, String tittle) {
-        Recomment_Image = recomment_Image;
-        Tittle = tittle;
+    public RecommentForYou(String movieId, String name, String views, String episodes, String years, String description, String thumbnails, String fee) {
+        MovieId = movieId;
+        Name = name;
+        Views = views;
+        Episodes = episodes;
+        Years = years;
+        Description = description;
+        Thumbnails = thumbnails;
+        Fee = fee;
     }
 
-    public int getRecomment_Image() {
-        return Recomment_Image;
+    public String getMovieId() {
+        return MovieId;
     }
 
-    public void setRecomment_Image(int recomment_Image) {
-        Recomment_Image = recomment_Image;
+    public void setMovieId(String movieId) {
+        MovieId = movieId;
     }
 
-    public String getTittle() {
-        return Tittle;
+    public String getName() {
+        return Name;
     }
 
-    public void setTittle(String tittle) {
-        Tittle = tittle;
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public String getViews() {
+        return Views;
+    }
+
+    public void setViews(String views) {
+        Views = views;
+    }
+
+    public String getEpisodes() {
+        return Episodes;
+    }
+
+    public void setEpisodes(String episodes) {
+        Episodes = episodes;
+    }
+
+    public String getYears() {
+        return Years;
+    }
+
+    public void setYears(String years) {
+        Years = years;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    public String getThumbnails() {
+        return Thumbnails;
+    }
+
+    public void setThumbnails(String thumbnails) {
+        Thumbnails = thumbnails;
+    }
+
+    public String getFee() {
+        return Fee;
+    }
+
+    public void setFee(String fee) {
+        Fee = fee;
     }
 }
