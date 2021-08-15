@@ -5,8 +5,8 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/logo_truoc"
-        android:label="Xem Gì Đó"
+        android:icon="@drawable/choigido"
+        android:label="Xemgido"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"

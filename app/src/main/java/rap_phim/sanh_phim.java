@@ -66,14 +66,25 @@ public class sanh_phim extends Fragment {
                         @Override
                         public void run() {
                             roomId = api.createRoom();
-                            Fragment selectedFragment = new phong_phim(roomId, movieId, userId);
-                            FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+                            String check = api.addViewerToRoom(roomId, userId);
+                            if(check.equals("Ok")){
+                                Fragment selectedFragment = new phong_phim(roomId, movieId, userId);
+                                FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
 
-                            manager.beginTransaction()
-                                    .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
-                                            R.anim.enter_left_to_right, R.anim.exit_left_to_right)
-                                    .replace(R.id.fragment_container,
-                                            selectedFragment).commit();
+                                manager.beginTransaction()
+                                        .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
+                                                R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+                                        .replace(R.id.fragment_container,
+                                                selectedFragment).commit();
+                            }
+                            else {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getContext(), "Có lỗi xảy ra rồi", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
                         }
                     };
                     thread.start();
@@ -101,14 +112,31 @@ public class sanh_phim extends Fragment {
                     Toast.makeText(getContext(), "Vui lòng nhập mã phòng", Toast.LENGTH_SHORT);
                 }
                 else {
-                    Fragment selectedFragment = new phong_phim(txt_ma_phong.getText().toString(), "", userId);
-                    FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+                    Thread thread = new Thread(){
+                        @Override
+                        public void run() {
+                            String check = api.addViewerToRoom(txt_ma_phong.getText().toString(), userId);
+                            if(check.equals("Ok")){
+                                Fragment selectedFragment = new phong_phim(txt_ma_phong.getText().toString(), "", userId);
+                                FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
 
-                    manager.beginTransaction()
-                            .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
-                                    R.anim.enter_left_to_right, R.anim.exit_left_to_right)
-                            .replace(R.id.fragment_container,
-                                    selectedFragment).commit();
+                                manager.beginTransaction()
+                                        .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
+                                                R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+                                        .replace(R.id.fragment_container,
+                                                selectedFragment).commit();
+                            }
+                            else {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getContext(), "Phòng không tồn tại hoặc phòng đã đầy", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }
+                    };
+                    thread.start(); //08150920
                 }
             }
         });

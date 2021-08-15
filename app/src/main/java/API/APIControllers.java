@@ -72,13 +72,18 @@ public class APIControllers {
         List<HighRate> list = new ArrayList<>();
         System.out.println("BAT DAU TEST API...");
         JSONObject json = null;
+        int num = 6;
         try {
 
             json = readJsonFromUrl("http://trongeddy48-001-site1.etempurl.com/api/movie");
 
             JSONArray jsonArray = json.getJSONArray("MovieList");
 
-            for (int i = 0; i < jsonArray.length(); i ++){
+            if(jsonArray.length() < 6){
+                num = jsonArray.length();
+            }
+
+            for (int i = 0; i < num; i ++){
                 list.add(new HighRate(
                         jsonArray.getJSONObject(i).getString("MovieId"),
                         jsonArray.getJSONObject(i).getString("Name"),
@@ -136,7 +141,6 @@ public class APIControllers {
         JSONObject json = null;
         String url = "";
         try {
-
             json = readJsonFromUrl("http://trongeddy48-001-site1.etempurl.com/api/FilmByMovieId?id="+id);
 
             JSONArray jsonArray = json.getJSONArray("FilmList");
@@ -188,6 +192,24 @@ public class APIControllers {
         }catch (Exception ex){
             ex.printStackTrace();
             return null;
+        }
+    }
+
+    //Add nguoi dung vao phong
+    public String addViewerToRoom(String roomId, String UserId){
+        JSONObject json = null;
+        String check = "not ok";
+
+        try {
+            json = readJsonFromUrl("http://trongeddy48-001-site1.etempurl.com/api/AddUserToRoom?id="+roomId+"&user="+UserId);
+
+            JSONObject jsonObject = new JSONObject(json.toString());
+            check = jsonObject.getString("Room");
+
+            return check;
+        }catch (Exception ex){
+            ex.printStackTrace();
+            return check;
         }
     }
 

@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.ConsoleMessage;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.RatingBar;
@@ -59,5 +61,13 @@ public class phong_phim extends Fragment {
         wv_view.getSettings().setJavaScriptEnabled(true);
         wv_view.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         wv_view.loadUrl(url);
+
+        wv_view.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+                android.util.Log.d("===============================", consoleMessage.message());
+                return true;
+            }
+        });
     }
 }

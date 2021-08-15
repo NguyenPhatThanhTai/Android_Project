@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:background="@drawable/black_wallpaper">
+    android:background="@drawable/trang_chu_wallpaper">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -199,7 +199,7 @@
                         android:id="@+id/rcv_HighRate"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="#000000">
+                        android:background="@android:color/transparent">
 
                     </androidx.recyclerview.widget.RecyclerView>
 
@@ -239,7 +239,7 @@
                         android:id="@+id/rcv_Recomment"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="#000000" />
+                        android:background="@android:color/transparent" />
                 </LinearLayout>
 
             </LinearLayout>
