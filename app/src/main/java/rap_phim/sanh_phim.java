@@ -33,11 +33,12 @@ import API.APIControllers;
 import Dangnhap_Dangki.Dangnhap_Dangki;
 import danh_sach_tap_phim.Film_List;
 import trang_chu.HighRate;
+import trang_chu.RecommentForYou;
 
 public class sanh_phim extends Fragment {
     String roomId, movieId, userId;
     Spinner spn_saved_movie;
-    List<HighRate> list;
+    List<RecommentForYou> list;
     Thread thread;
 
     @Nullable
@@ -164,13 +165,13 @@ public class sanh_phim extends Fragment {
                 movieId = part2;
 
                 if(list != null){
-                    HighRate highRate = list.get(Integer.parseInt(part1));
+                    RecommentForYou recomment = list.get(Integer.parseInt(part1));
 
                     ImageView img_film_selected = view.findViewById(R.id.img_film_selected);
                     TextView txt_name = view.findViewById(R.id.txt_name);
 
-                    Picasso.get().load(highRate.getThumbnails()).into(img_film_selected);
-                    txt_name.setText(highRate.getName() + " - Số tập: " + highRate.getEpisodes());
+                    Picasso.get().load(recomment.getThumbnails()).into(img_film_selected);
+                    txt_name.setText(recomment.getName() + " - Số tập: " + recomment.getEpisodes());
                 }
             }
 
@@ -187,7 +188,7 @@ public class sanh_phim extends Fragment {
 
     private void setListMovie(){
         APIControllers apiControllers = new APIControllers();
-        list = apiControllers.getApiMovie();
+        list = apiControllers.getAllMovie();
 
         ArrayList<String> options = new ArrayList<String>();
 
