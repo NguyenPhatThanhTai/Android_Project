@@ -1,5 +1,6 @@
 package rap_phim;
 
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -65,14 +66,20 @@ public class phong_phim extends Fragment {
         wv_view.setWebViewClient(new WebViewClient());
         wv_view.setWebChromeClient(new MyChrome());
 
-        wv_view.getSettings().setLoadsImagesAutomatically(true);
-        wv_view.getSettings().setJavaScriptEnabled(true);
-        wv_view.getSettings().setAllowFileAccess(true);
-        wv_view.getSettings().setDomStorageEnabled(true);
-        wv_view.getSettings().setMediaPlaybackRequiresUserGesture(false);
-        wv_view.getSettings().setPluginState(WebSettings.PluginState.ON);
+        final WebSettings settings = wv_view.getSettings();
+
+        settings.setLoadsImagesAutomatically(true);
+        settings.setAllowContentAccess(true);
+        settings.setBlockNetworkImage(false);
+        settings.setAppCacheEnabled(true);
+        settings.setSafeBrowsingEnabled(false);
+        settings.setJavaScriptEnabled(true);
+        settings.setAllowFileAccess(true);
+        settings.setDomStorageEnabled(true);
+        settings.setMediaPlaybackRequiresUserGesture(false);
+        settings.setPluginState(WebSettings.PluginState.ON);
         wv_view.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        wv_view.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
+        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
         wv_view.loadUrl(url);
 
         wv_view.setWebChromeClient(new WebChromeClient() {
@@ -112,7 +119,7 @@ public class phong_phim extends Fragment {
             ((FrameLayout)getActivity().getWindow().getDecorView()).removeView(this.mCustomView);
             this.mCustomView = null;
             getActivity().getWindow().getDecorView().setSystemUiVisibility(this.mOriginalSystemUiVisibility);
-            getActivity().setRequestedOrientation(this.mOriginalOrientation);
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             this.mCustomViewCallback.onCustomViewHidden();
             this.mCustomViewCallback = null;
         }
@@ -124,6 +131,7 @@ public class phong_phim extends Fragment {
                 onHideCustomView();
                 return;
             }
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
             this.mCustomView = paramView;
             this.mOriginalSystemUiVisibility = getActivity().getWindow().getDecorView().getSystemUiVisibility();
             this.mOriginalOrientation = getActivity().getRequestedOrientation();
