@@ -13,7 +13,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
@@ -34,6 +36,11 @@ public class trang_chu extends Fragment {
     private Thread thread;
     private RecyclerView RCHR, RCRC;
     private Spinner TheLoai, Studio;
+    private int position;
+
+    SnapHelper snapHelper;
+
+    LinearLayoutManager linearLayoutManagerHighRate;
 
     @Nullable
     @Override
@@ -53,13 +60,16 @@ public class trang_chu extends Fragment {
         thread.start();
 
         //Chỉnh linear cho nó cuộn được sang 2 bên
-        LinearLayoutManager linearLayoutManagerHighRate = new LinearLayoutManager(this.getActivity(), RecyclerView.HORIZONTAL, false);
+        linearLayoutManagerHighRate = new LinearLayoutManager(this.getActivity(), RecyclerView.HORIZONTAL, false);
         recyclerViewHighRate.setLayoutManager(linearLayoutManagerHighRate);
+        recyclerViewHighRate.smoothScrollBy(5, 0);
+//        snapHelper =  new LinearSnapHelper();
+//        snapHelper.attachToRecyclerView(RCHR);
         //Chỉnh 1 hàng 2 phim, cuộn xuống
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 2);
         recyclerViewRecomment.setLayoutManager(gridLayoutManager);
 
-        //phần hình ảnh tự động chuyển
+        //phần banner hình ảnh tự động chuyển
         mListPhoto = getListNewestFilm();
         photo_adapter = new Photo_Adapter(this.getActivity(), mListPhoto);
         viewPager.setAdapter(photo_adapter);
@@ -133,9 +143,29 @@ public class trang_chu extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
     private void threadGetMovie(){
         APIControllers apiControllers = new APIControllers();
         HighRate_Adapter highRate_adapter = new HighRate_Adapter(apiControllers.getApiMovie(), (MainActivity) this.getActivity());
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(apiControllers.getApiMovie() != null){
+                    position = Integer.MAX_VALUE / 2;
+                    RCHR.scrollToPosition(position);
+                }
+            }
+        });
 
         RCHR.post(new Runnable() {
             @Override
