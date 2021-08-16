@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.ConsoleMessage;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.RatingBar;
@@ -59,7 +60,12 @@ public class phong_phim extends Fragment {
 
         wv_view.getSettings().setLoadsImagesAutomatically(true);
         wv_view.getSettings().setJavaScriptEnabled(true);
+        wv_view.getSettings().setAllowFileAccess(true);
+        wv_view.getSettings().setDomStorageEnabled(true);
+        wv_view.getSettings().setMediaPlaybackRequiresUserGesture(false);
+        wv_view.getSettings().setPluginState(WebSettings.PluginState.ON);
         wv_view.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        wv_view.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
         wv_view.loadUrl(url);
 
         wv_view.setWebChromeClient(new WebChromeClient() {
