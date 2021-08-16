@@ -1,7 +1,11 @@
 package com.example.movieandroidproject;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,16 +35,21 @@ public class trang_chu extends Fragment {
     private ViewPager viewPager;
     private Photo_Adapter photo_adapter;
     private List<Photo> mListPhoto;
+    private List<HighRate> mListHighRate;
     private Timer mTimer;
 
     private Thread thread;
     private RecyclerView RCHR, RCRC;
     private Spinner TheLoai, Studio;
     private int position;
+    Timer timer;
+    TimerTask timerTask;
 
     SnapHelper snapHelper;
 
     LinearLayoutManager linearLayoutManagerHighRate;
+    private boolean loading = true;
+    int pastVisiblesItems, visibleItemCount, totalItemCount;
 
     @Nullable
     @Override
@@ -59,12 +68,41 @@ public class trang_chu extends Fragment {
         thread = new Thread(this::setDanhSachCombobox);
         thread.start();
 
+        //gọi api dữ liệu recomment film
+        thread = new Thread(this::threadAllMovie);
+        thread.start();
+
+        //goi api dữ liệu highrate phim
+        thread = new Thread(this::threadGetMovie);
+        thread.start();
+
         //Chỉnh linear cho nó cuộn được sang 2 bên
         linearLayoutManagerHighRate = new LinearLayoutManager(this.getActivity(), RecyclerView.HORIZONTAL, false);
-        recyclerViewHighRate.setLayoutManager(linearLayoutManagerHighRate);
+        RCHR.setLayoutManager(linearLayoutManagerHighRate);
+
+        if (mListHighRate != null) {
+            position = Integer.MAX_VALUE / 2;
+            RCHR.scrollToPosition(position);
+        }
+
+        snapHelper =  new LinearSnapHelper();
+        snapHelper.attachToRecyclerView(RCHR);
         recyclerViewHighRate.smoothScrollBy(5, 0);
-//        snapHelper =  new LinearSnapHelper();
-//        snapHelper.attachToRecyclerView(RCHR);
+
+        RCHR.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (newState == 1) {
+                    stopAutoScrollBanner();
+                } else if (newState == 0) {
+                    position = linearLayoutManagerHighRate.findFirstCompletelyVisibleItemPosition();
+                    runAutoScrollBanner();
+                }
+            }
+        });
+
         //Chỉnh 1 hàng 2 phim, cuộn xuống
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 2);
         recyclerViewRecomment.setLayoutManager(gridLayoutManager);
@@ -78,16 +116,50 @@ public class trang_chu extends Fragment {
         circleIndicator.setViewPager(viewPager);
         photo_adapter.registerDataSetObserver(circleIndicator.getDataSetObserver());
 
-        //goi api dữ liệu highrate phim
-        thread = new Thread(this::threadGetMovie);
-        thread.start();
-
-        //gọi api dữ liệu recomment film
-        thread = new Thread(this::threadAllMovie);
-        thread.start();
-
         autoSlideImages();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        runAutoScrollBanner();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        stopAutoScrollBanner();
+    }
+
+    private void stopAutoScrollBanner() {
+        if (timer != null && timerTask != null) {
+            timerTask.cancel();
+            timer.cancel();
+            timer = null;
+            timerTask = null;
+            position = linearLayoutManagerHighRate.findFirstCompletelyVisibleItemPosition();
+        }
+    }
+
+    private void runAutoScrollBanner() {
+        if (timer == null && timerTask == null) {
+            timer = new Timer();
+            timerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    if (position == Integer.MAX_VALUE) {
+                        position = Integer.MAX_VALUE / 2;
+                        RCHR.scrollToPosition(position);
+                        RCHR.smoothScrollBy(5, 0);
+                    } else {
+                        position++;
+                        RCHR.smoothScrollToPosition(position);
+                    }
+                }
+            };
+            timer.schedule(timerTask, 2000, 2000);
+        }
     }
 
     private List<Photo> getListNewestFilm(){
@@ -134,64 +206,10 @@ public class trang_chu extends Fragment {
         }, 500, 3000);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mTimer != null){
-            mTimer.cancel();
-            mTimer = null;
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
     private void threadGetMovie(){
         APIControllers apiControllers = new APIControllers();
+        mListHighRate = apiControllers.getApiMovie();
         HighRate_Adapter highRate_adapter = new HighRate_Adapter(apiControllers.getApiMovie(), (MainActivity) this.getActivity());
-
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if(apiControllers.getApiMovie() != null){
-                    position = Integer.MAX_VALUE / 2;
-                    RCHR.scrollToPosition(position);
-                }
-            }
-        });
-
-        RCHR.post(new Runnable() {
-            @Override
-            public void run() {
-
-                Thread thread = new Thread(){
-                    @Override
-                    public void run() {
-                        int i = 0;
-                        while (true){
-                            if (i == highRate_adapter.getItemCount()){
-                                i = 0;
-                            }
-                            RCHR.smoothScrollToPosition(i);
-                            try {
-                                Thread.sleep(2000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            i+= 1;
-                        }
-                    }
-                };
-                thread.start();
-            }
-        });
 
         this.getActivity().runOnUiThread(new Runnable() {
 

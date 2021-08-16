@@ -199,7 +199,10 @@
                         android:id="@+id/rcv_HighRate"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@android:color/transparent">
+                        android:background="@android:color/transparent"
+                        android:clipToPadding="false"
+                        android:paddingStart="35dp"
+                        android:paddingEnd="35dp">
 
                     </androidx.recyclerview.widget.RecyclerView>
 

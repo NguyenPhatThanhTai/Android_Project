@@ -48,7 +48,7 @@ public class HighRate_Adapter extends RecyclerView.Adapter<HighRate_Adapter.High
 
     @Override
     public void onBindViewHolder(@NonNull HighRateViewHolder holder, int position) {
-        HighRate highRate = mHighRate.get(position);
+        HighRate highRate = mHighRate.get(position%mHighRate.size());
         ImageView thumbnail_img;
         if(highRate == null){
             return;
@@ -87,10 +87,7 @@ public class HighRate_Adapter extends RecyclerView.Adapter<HighRate_Adapter.High
 
     @Override
     public int getItemCount() {
-        if(mHighRate != null){
-            return mHighRate.size();
-        }
-        return 0;
+        return mHighRate==null?0:Integer.MAX_VALUE;
     }
 
     public class HighRateViewHolder extends RecyclerView.ViewHolder{
