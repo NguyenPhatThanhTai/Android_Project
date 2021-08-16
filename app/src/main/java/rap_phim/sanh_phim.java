@@ -109,34 +109,46 @@ public class sanh_phim extends Fragment {
                 EditText txt_ma_phong = view.findViewById(R.id.txt_ma_phong);
 
                 if (txt_ma_phong.getText().toString() == null || txt_ma_phong.getText().toString().equals("")){
-                    Toast.makeText(getContext(), "Vui lòng nhập mã phòng", Toast.LENGTH_SHORT);
+                    Toast.makeText(getContext(), "Vui lòng nhập mã phòng", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Thread thread = new Thread(){
-                        @Override
-                        public void run() {
-                            String check = api.addViewerToRoom(txt_ma_phong.getText().toString(), userId);
-                            if(check.equals("Ok")){
-                                Fragment selectedFragment = new phong_phim(txt_ma_phong.getText().toString(), "", userId);
-                                FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+                    if(userId != null){
+                        Thread thread = new Thread(){
+                            @Override
+                            public void run() {
+                                String check = api.addViewerToRoom(txt_ma_phong.getText().toString(), userId);
+                                if(check.equals("Ok")){
+                                    Fragment selectedFragment = new phong_phim(txt_ma_phong.getText().toString(), "", userId);
+                                    FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
 
-                                manager.beginTransaction()
-                                        .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
-                                                R.anim.enter_left_to_right, R.anim.exit_left_to_right)
-                                        .replace(R.id.fragment_container,
-                                                selectedFragment).commit();
+                                    manager.beginTransaction()
+                                            .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
+                                                    R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+                                            .replace(R.id.fragment_container,
+                                                    selectedFragment).commit();
+                                }
+                                else {
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            Toast.makeText(getContext(), "Phòng không tồn tại hoặc phòng đã đầy", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
                             }
-                            else {
-                                getActivity().runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Toast.makeText(getContext(), "Phòng không tồn tại hoặc phòng đã đầy", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        }
-                    };
-                    thread.start(); //08150920
+                        };
+                        thread.start();
+                    }
+                    else {
+                        Fragment selectedFragment = new Dangnhap_Dangki();
+                        FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+
+                        manager.beginTransaction()
+                                .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
+                                        R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+                                .replace(R.id.fragment_container,
+                                        selectedFragment).commit();
+                    }
                 }
             }
         });
