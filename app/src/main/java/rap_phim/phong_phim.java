@@ -34,9 +34,6 @@ public class phong_phim extends Fragment {
     private WebView wv_view;
     private Thread thread;
     private String roomId, movieId, userId;
-    private ListView list_debug;
-    ArrayList<String> listItems=new ArrayList<String>();
-    ArrayAdapter<String> adapter;
 
     public phong_phim(String roomId, String movieId, String userId){
         this.roomId = roomId;
@@ -50,12 +47,6 @@ public class phong_phim extends Fragment {
         View view = inflater.inflate(R.layout.phong_phim, container, false);
         wv_view = view.findViewById(R.id.wv_view);
         goUrl("http://trongeddy48-001-site1.etempurl.com/Room/RoomMovie?id="+movieId+"&roomid="+roomId+"&userid="+userId);
-        list_debug = view.findViewById(R.id.list_debug);
-
-        adapter = new ArrayAdapter<String>(this.getContext(),
-                android.R.layout.simple_list_item_1,
-                listItems);
-        list_debug.setAdapter(adapter);
 
         return view;
     }
@@ -84,8 +75,7 @@ public class phong_phim extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        listItems.add("- " + consoleMessage.message());
-                        adapter.notifyDataSetChanged();
+                        System.out.println(consoleMessage.message() + " Dòng thứ " + consoleMessage.lineNumber() + " thuộc " + consoleMessage.sourceId());
                     }
                 });
                 return true;
