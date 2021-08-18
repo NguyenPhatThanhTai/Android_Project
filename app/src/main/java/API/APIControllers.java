@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
+import Category.Category;
 import Dangnhap_Dangki.NguoiDung;
 import danh_sach_tap_phim.Film_List;
 import okhttp3.Call;
@@ -26,6 +27,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import the_loai.TheLoai;
 import tim_kiem.TimKiem;
 import trang_chu.HighRate;
 import trang_chu.RecommentForYou;
@@ -301,5 +303,62 @@ public class APIControllers {
             ex.printStackTrace();
             return null;
         }
+    }
+
+    public List<TheLoai> getTheLoai(String tl) {
+        System.out.println("BAT DAU TEST API...");
+        JSONObject json = null;
+        String url = "";
+        List<TheLoai> list = new ArrayList<>();
+        try {
+            json = readJsonFromUrl("http://trongeddy48-001-site1.etempurl.com/api/MovieByCate?id=" + tl);
+
+            JSONArray jsonArray = json.getJSONArray("MovieList");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                list.add(new TheLoai(
+                        jsonArray.getJSONObject(i).getString("MovieId"),
+                        jsonArray.getJSONObject(i).getString("Name"),
+                        jsonArray.getJSONObject(i).getString("Views"),
+                        jsonArray.getJSONObject(i).getString("Episodes"),
+                        jsonArray.getJSONObject(i).getString("Years"),
+                        jsonArray.getJSONObject(i).getString("Description"),
+                        jsonArray.getJSONObject(i).getString("Thumbnails"),
+                        jsonArray.getJSONObject(i).getString("Fee")
+                ));
+            }
+
+            System.out.println(jsonArray);
+            return list;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public List<Category> getAllCate() {
+        List<Category> list = new ArrayList<>();
+        System.out.println("BAT DAU TEST API...");
+        JSONObject json = null;
+        try {
+
+            json = readJsonFromUrl("http://trongeddy48-001-site1.etempurl.com/api/Category");
+
+            JSONArray jsonArray = json.getJSONArray("CategoryList");
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                list.add(new Category(
+                        jsonArray.getJSONObject(i).getString("Name"),
+                        jsonArray.getJSONObject(i).getString("Icon"),
+                        jsonArray.getJSONObject(i).getString("CategoryId")
+                ));
+            }
+
+            System.out.println(jsonArray);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return list;
     }
 }

@@ -11,7 +11,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,7 +22,7 @@ import java.util.List;
 import API.APIControllers;
 import tim_kiem.*;
 
-public class tim_kiem extends Fragment {
+public class tim_kiem extends Fragment implements IOnBackPressed{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -62,5 +64,20 @@ public class tim_kiem extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        Fragment selectedFragment = new trang_chu();
+        FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+        manager.popBackStack();
+
+        manager.beginTransaction()
+                .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,
+                        R.anim.enter_right_to_left, R.anim.exit_right_to_left)
+                .replace(R.id.fragment_container,
+                        selectedFragment).commit();
+
+        return true;
     }
 }

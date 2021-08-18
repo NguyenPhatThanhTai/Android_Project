@@ -1,9 +1,10 @@
 package com.example.movieandroidproject;
-import android.graphics.drawable.Drawable;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,36 +14,42 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import API.APIControllers;
 import Category.Category;
 import Category.CategoryAdapter;
+import the_loai.*;
 
-public class the_loai extends Fragment implements IOnBackPressed{
+public class phimtheo_theloai extends Fragment implements IOnBackPressed {
 
-    List<Category> categoryData = new ArrayList<>();
+    List<TheLoai> categoryList = new ArrayList<>();
+    String id, tentheloai;
+    public phimtheo_theloai(String id, String tentheloai){
+        this.id = id;
+        this.tentheloai = tentheloai;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.items_category2, container, false);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rcv_category);
+        View view = inflater.inflate(R.layout.cate_film, container, false);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rcv_cateFilm);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 2);
+        TextView textView = view.findViewById(R.id.txt_tenCate);
+        textView.setText(tentheloai);
         recyclerView.setLayoutManager(gridLayoutManager);
         Thread thread = new Thread()
         {
             @Override
             public void run() {
-                categoryData = new APIControllers().getAllCate();
+                categoryList = new APIControllers().getTheLoai(id);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        CategoryAdapter categoryAdapter = new CategoryAdapter(categoryData, (MainActivity) getActivity());
-                        recyclerView.setAdapter(categoryAdapter);
+                        TheloaiAdapter theloaiAdapter = new TheloaiAdapter(categoryList, (MainActivity) getActivity());
+                        recyclerView.setAdapter(theloaiAdapter);
                     }
                 });
             }
@@ -56,7 +63,7 @@ public class the_loai extends Fragment implements IOnBackPressed{
 
     @Override
     public boolean onBackPressed() {
-        Fragment selectedFragment = new trang_chu();
+        Fragment selectedFragment = new the_loai();
         FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
         manager.popBackStack();
 
@@ -68,14 +75,4 @@ public class the_loai extends Fragment implements IOnBackPressed{
 
         return true;
     }
-
-//    public static Drawable LoadImageFromWebOperations(String url) {
-//        try {
-//            InputStream is = (InputStream) new URL(url).getContent();
-//            Drawable d = Drawable.createFromStream(is, "res/drawable");
-//            return d;
-//        } catch (Exception e) {
-//            return null;
-//        }
-//    }
 }

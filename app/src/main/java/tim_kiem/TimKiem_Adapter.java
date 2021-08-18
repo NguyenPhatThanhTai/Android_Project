@@ -43,7 +43,7 @@ public class TimKiem_Adapter extends RecyclerView.Adapter<TimKiem_Adapter.TimKie
         else{
             holder.HighRate_Tittle.setText(tk.getName());
             holder.HighRate_ep_num.setText(tk.getEpisodes());
-            holder.Highrate_View.setText(tk.getViews());
+            holder.Highrate_View.setText("Lượt xem: " + tk.getViews());
             holder.setImage(tk.getThumbnails());
         }
 

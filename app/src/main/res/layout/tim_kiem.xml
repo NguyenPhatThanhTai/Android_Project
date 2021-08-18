@@ -17,8 +17,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.8"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name" />
+            android:hint="Nhập tên phim ở đây !"
+            android:inputType="textPersonName" />
 
         <ImageButton
             android:id="@+id/btn_timkiem"
