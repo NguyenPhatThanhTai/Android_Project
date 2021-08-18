@@ -244,8 +244,6 @@ public class trang_chu extends Fragment {
         theloai.add("Thể loại 5");
 
         ArrayAdapter<String> adapter_theloai = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,theloai);
-        TheLoai.setAdapter(adapter_theloai); // this will set list of values to spinner
-        TheLoai.setSelection(theloai.indexOf(1));//set selected value in spinner
 
         //Studio
         ArrayList<String> studio = new ArrayList<String>();
@@ -255,7 +253,16 @@ public class trang_chu extends Fragment {
         studio.add("Studio 3");
 
         ArrayAdapter<String> adapter_studio = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item,studio);
-        Studio.setAdapter(adapter_studio); // this will set list of values to spinner
-        Studio.setSelection(studio.indexOf(1));//set selected value in spinner
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TheLoai.setAdapter(adapter_theloai); // this will set list of values to spinner
+                TheLoai.setSelection(theloai.indexOf(1));//set selected value in spinner
+
+                Studio.setAdapter(adapter_studio); // this will set list of values to spinner
+                Studio.setSelection(studio.indexOf(1));//set selected value in spinner
+            }
+        });
     }
 }

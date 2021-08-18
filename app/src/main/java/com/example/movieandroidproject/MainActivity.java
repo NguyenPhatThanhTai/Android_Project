@@ -87,6 +87,10 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.nav_setting:
                     selectedFragment = new Dangnhap_Dangki();
+                    break;
+                case R.id.nav_timkiem:
+                    selectedFragment = new tim_kiem();
+                    break;
             }
 
             FragmentManager manager = getSupportFragmentManager();

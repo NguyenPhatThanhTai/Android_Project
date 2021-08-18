@@ -26,6 +26,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import tim_kiem.TimKiem;
 import trang_chu.HighRate;
 import trang_chu.RecommentForYou;
 
@@ -68,7 +69,7 @@ public class APIControllers {
     }
 
     //Lấy toàn bộ phim
-    public List<HighRate> getApiMovie(){
+    public List<HighRate> getApiMovie() {
         List<HighRate> list = new ArrayList<>();
         System.out.println("BAT DAU TEST API...");
         JSONObject json = null;
@@ -79,11 +80,11 @@ public class APIControllers {
 
             JSONArray jsonArray = json.getJSONArray("MovieList");
 
-            if(jsonArray.length() < 6){
+            if (jsonArray.length() < 6) {
                 num = jsonArray.length();
             }
 
-            for (int i = 0; i < num; i ++){
+            for (int i = 0; i < num; i++) {
                 list.add(new HighRate(
                         jsonArray.getJSONObject(i).getString("MovieId"),
                         jsonArray.getJSONObject(i).getString("Name"),
@@ -97,7 +98,7 @@ public class APIControllers {
             }
 
             System.out.println(jsonArray);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
@@ -105,7 +106,7 @@ public class APIControllers {
     }
 
     //Lấy toàn bộ phim
-    public List<RecommentForYou> getAllMovie(){
+    public List<RecommentForYou> getAllMovie() {
         List<RecommentForYou> list = new ArrayList<>();
         System.out.println("BAT DAU TEST API...");
         JSONObject json = null;
@@ -114,7 +115,7 @@ public class APIControllers {
 
             JSONArray jsonArray = json.getJSONArray("MovieList");
 
-            for (int i = 0; i < jsonArray.length(); i ++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 list.add(new RecommentForYou(
                         jsonArray.getJSONObject(i).getString("MovieId"),
                         jsonArray.getJSONObject(i).getString("Name"),
@@ -128,7 +129,7 @@ public class APIControllers {
             }
 
             System.out.println(jsonArray);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
@@ -136,12 +137,12 @@ public class APIControllers {
     }
 
     //Lấy phim đầu tiên theo url phim
-    public String getUrlById(String id){
+    public String getUrlById(String id) {
         System.out.println("BAT DAU TEST API...");
         JSONObject json = null;
         String url = "";
         try {
-            json = readJsonFromUrl("http://trongeddy48-001-site1.etempurl.com/api/FilmByMovieId?id="+id);
+            json = readJsonFromUrl("http://trongeddy48-001-site1.etempurl.com/api/FilmByMovieId?id=" + id);
 
             JSONArray jsonArray = json.getJSONArray("FilmList");
 
@@ -149,7 +150,7 @@ public class APIControllers {
             url = jsonArray.getJSONObject(0).getString("URL");
 
             System.out.println(jsonArray);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
@@ -157,21 +158,21 @@ public class APIControllers {
     }
 
     //Lấy danh sách tập
-    public List<Film_List> getListEp(String NameMovie, String id){
+    public List<Film_List> getListEp(String NameMovie, String id) {
         List<Film_List> list = new ArrayList<>();
         System.out.println("BAT DAU TEST API...");
         JSONObject json = null;
         try {
 
-            json = readJsonFromUrl("http://trongeddy48-001-site1.etempurl.com/api/FilmByMovieId?id="+id);
+            json = readJsonFromUrl("http://trongeddy48-001-site1.etempurl.com/api/FilmByMovieId?id=" + id);
 
             JSONArray jsonArray = json.getJSONArray("FilmList");
 
-            for (int i = 0; i < jsonArray.length(); i ++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 list.add(new Film_List(NameMovie, jsonArray.getJSONObject(i).getString("URL"), jsonArray.getJSONObject(i).getString("Ep")));
             }
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
@@ -179,7 +180,7 @@ public class APIControllers {
     }
 
     //Tạo phòng
-    public String createRoom(){
+    public String createRoom() {
         JSONObject json = null;
         String roomId;
 
@@ -189,66 +190,67 @@ public class APIControllers {
             JSONObject jsonObject = new JSONObject(json.toString());
             roomId = jsonObject.getString("RoomId");
             return roomId;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }
     }
 
     //Add nguoi dung vao phong
-    public String addViewerToRoom(String roomId, String UserId){
+    public String addViewerToRoom(String roomId, String UserId) {
         JSONObject json = null;
         String check = "not ok";
 
         try {
-            json = readJsonFromUrl("http://trongeddy48-001-site1.etempurl.com/api/AddUserToRoom?id="+roomId+"&user="+UserId);
+            json = readJsonFromUrl("http://trongeddy48-001-site1.etempurl.com/api/AddUserToRoom?id=" + roomId + "&user=" + UserId);
 
             JSONObject jsonObject = new JSONObject(json.toString());
             check = jsonObject.getString("Room");
 
             return check;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             return check;
         }
     }
 
-    public NguoiDung DangNhap(String username, String password){
+    public NguoiDung DangNhap(String username, String password) {
         String query_url = "http://trongeddy48-001-site1.etempurl.com/api/Login";
-        String json = "{ \"username\" : \""+username+"\", " +
-                "       \"password\" : \""+password+"\"}";
-            try {
-                Response response = post(query_url, json).execute();
-                String responseStr = response.body().string();
+        String json = "{ \"username\" : \"" + username + "\", " +
+                "       \"password\" : \"" + password + "\"}";
+        try {
+            Response response = post(query_url, json).execute();
+            String responseStr = response.body().string();
 
-                JSONObject jObject = new JSONObject(responseStr);
-                String UserId = jObject.getJSONObject("message").getString("UserId");
-                String Username = jObject.getJSONObject("message").getString("Username");
-                String Password = jObject.getJSONObject("message").getString("Password");
-                String FullName = jObject.getJSONObject("message").getString("FullName");
-                String Birthday = jObject.getJSONObject("message").getString("Birthday");
-                String Address = jObject.getJSONObject("message").getString("Address");
-                String Phone = jObject.getJSONObject("message").getString("Phone");
-                String Email = jObject.getJSONObject("message").getString("Email");
-                String Avatar = jObject.getJSONObject("message").getString("Avatar");
-                String Wallet = jObject.getJSONObject("message").getString("Wallet");
+            JSONObject jObject = new JSONObject(responseStr);
+            String UserId = jObject.getJSONObject("message").getString("UserId");
+            String Username = jObject.getJSONObject("message").getString("Username");
+            String Password = jObject.getJSONObject("message").getString("Password");
+            String FullName = jObject.getJSONObject("message").getString("FullName");
+            String Birthday = jObject.getJSONObject("message").getString("Birthday");
+            String Address = jObject.getJSONObject("message").getString("Address");
+            String Phone = jObject.getJSONObject("message").getString("Phone");
+            String Email = jObject.getJSONObject("message").getString("Email");
+            String Avatar = jObject.getJSONObject("message").getString("Avatar");
+            String Wallet = jObject.getJSONObject("message").getString("Wallet");
 
-                nguoidung = new NguoiDung(UserId, Username, Password, FullName, Birthday, Address,
-                        Phone, Email, Avatar, Wallet);
+            nguoidung = new NguoiDung(UserId, Username, Password, FullName, Birthday, Address,
+                    Phone, Email, Avatar, Wallet);
 
-            } catch (Exception e) {
-                nguoidung = null;
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+            nguoidung = null;
+            e.printStackTrace();
+        }
 
         return nguoidung;
     }
-    public NguoiDung ThongTinCaNhan(String id){
+
+    public NguoiDung ThongTinCaNhan(String id) {
         System.out.println("BAT DAU TEST API...");
         JSONObject json = null;
         String url = "";
         try {
-            String querry_json = "http://trongeddy48-001-site1.etempurl.com/api/User?id="+id;
+            String querry_json = "http://trongeddy48-001-site1.etempurl.com/api/User?id=" + id;
             json = readJsonFromUrl(querry_json);
             JSONObject jsonObject = new JSONObject(json.toString());
             String userid = jsonObject.getJSONObject("User").getString("UserId");
@@ -264,10 +266,40 @@ public class APIControllers {
 
             nguoidung = new NguoiDung(userid, username, password, fullName, birthday, address,
                     phone, email, avatar, wallet);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return nguoidung;
     }
 
+    public List<TimKiem> getTimKiem(String tk) {
+        System.out.println("BAT DAU TEST API...");
+        JSONObject json = null;
+        String url = "";
+        List<TimKiem> list = new ArrayList<>();
+        try {
+            json = readJsonFromUrl("http://trongeddy48-001-site1.etempurl.com/api/SearchFromMovie?search=" + tk);
+
+            JSONArray jsonArray = json.getJSONArray("Messages");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    list.add(new TimKiem(
+                            jsonArray.getJSONObject(i).getString("MovieId"),
+                            jsonArray.getJSONObject(i).getString("Name"),
+                            jsonArray.getJSONObject(i).getString("Views"),
+                            jsonArray.getJSONObject(i).getString("Episodes"),
+                            jsonArray.getJSONObject(i).getString("Years"),
+                            jsonArray.getJSONObject(i).getString("Description"),
+                            jsonArray.getJSONObject(i).getString("Thumbnails"),
+                            jsonArray.getJSONObject(i).getString("Fee")
+                    ));
+                }
+
+                System.out.println(jsonArray);
+                return list;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
 }

@@ -6,6 +6,10 @@
         android:icon="@drawable/ic_category_24"
         android:title="Thể loại" />
     <item
+        android:id="@+id/nav_timkiem"
+        android:icon="@drawable/ic_search_24"
+        android:title="Tìm Kiếm" />
+    <item
         android:id="@+id/nav_home"
         android:title="Trang Chủ"
         android:icon="@drawable/ic_home_24"/>
