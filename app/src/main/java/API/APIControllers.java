@@ -216,6 +216,43 @@ public class APIControllers {
         }
     }
 
+    public NguoiDung DangKi(String username, String password, String fullname, String birthday,
+                            String address, String phone, String email){
+        String query_url = "http://trongeddy48-001-site1.etempurl.com/api/Register";
+        String json = "{ \"username\" : \""+username+"\", " +
+                "\"password\" : \""+password+"\", " +
+                "\"fullname\" : \""+fullname+"\", " +
+                "\"birthday\" : \""+birthday+"\", " +
+                "\"address\" : \""+address+"\", " +
+                "\"phone\" : \""+phone+"\", " +
+                "\"email\" : \""+email+"\"}";
+        try {
+            Response response = post(query_url, json).execute();
+            String responseStr = response.body().string();
+
+            JSONObject jObject = new JSONObject(responseStr);
+            String UserId = jObject.getJSONObject("message").getString("UserId");
+            String Username = jObject.getJSONObject("message").getString("Username");
+            String Password = jObject.getJSONObject("message").getString("Password");
+            String FullName = jObject.getJSONObject("message").getString("FullName");
+            String Birthday = jObject.getJSONObject("message").getString("Birthday");
+            String Address = jObject.getJSONObject("message").getString("Address");
+            String Phone = jObject.getJSONObject("message").getString("Phone");
+            String Email = jObject.getJSONObject("message").getString("Email");
+            String Avatar = jObject.getJSONObject("message").getString("Avatar");
+            String Wallet = jObject.getJSONObject("message").getString("Wallet");
+
+            nguoidung = new NguoiDung(UserId, Username, Password, FullName, Birthday, Address,
+                    Phone, Email, Avatar, Wallet);
+
+        } catch (Exception e) {
+            nguoidung = null;
+            e.printStackTrace();
+        }
+
+        return nguoidung;
+    }
+
     public NguoiDung DangNhap(String username, String password) {
         String query_url = "http://trongeddy48-001-site1.etempurl.com/api/Login";
         String json = "{ \"username\" : \"" + username + "\", " +
@@ -361,4 +398,5 @@ public class APIControllers {
 
         return list;
     }
+
 }

@@ -17,13 +17,14 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.movieandroidproject.IOnBackPressed;
 import com.example.movieandroidproject.R;
 import com.example.movieandroidproject.trang_chu;
 import com.google.android.material.tabs.TabLayout;
 
 import API.APIControllers;
 
-public class Dangnhap_Dangki extends Fragment {
+public class Dangnhap_Dangki extends Fragment implements IOnBackPressed {
 
 
     TabLayout tabLayout;
@@ -83,5 +84,20 @@ public class Dangnhap_Dangki extends Fragment {
         }
 
         return view;
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        Fragment selectedFragment = new trang_chu();
+        FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+        manager.popBackStack();
+
+        manager.beginTransaction()
+                .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,
+                        R.anim.enter_right_to_left, R.anim.exit_right_to_left)
+                .replace(R.id.fragment_container,
+                        selectedFragment).commit();
+
+        return true;
     }
 }
