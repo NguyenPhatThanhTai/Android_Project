@@ -1,11 +1,14 @@
 package com.example.movieandroidproject;
 
+import android.app.PictureInPictureParams;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.text.TextUtils;
+import android.util.Rational;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +46,8 @@ public class play_movie extends Fragment implements IOnBackPressed {
     private TextView on_playing;
     private int seekVideo;
     private boolean onResume = false;
+    private boolean outPIP = false;
+    private PictureInPictureParams.Builder pictureInPictureParams;
 
     private RecyclerView rcv;
 
@@ -94,11 +99,14 @@ public class play_movie extends Fragment implements IOnBackPressed {
         thread = new Thread(this::getUrlFilm);
         thread.start();
 
+        on_playing.setEllipsize(TextUtils.TruncateAt.MARQUEE);
         on_playing.setText(highRate.getName() + " tập 1");
 
         play_btn = view.findViewById(R.id.play_button);
         play_btn.setVisibility(View.GONE);
         play_load = view.findViewById(R.id.play_loading);
+
+        pictureInPictureParams = new PictureInPictureParams.Builder();
 
         movie_play.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             public void onPrepared(MediaPlayer mp) {
@@ -203,9 +211,14 @@ public class play_movie extends Fragment implements IOnBackPressed {
     @Override
     public void onPause() {
         super.onPause();
-        movie_play.pause();
-        seekVideo = movie_play.getCurrentPosition();
-        onResume = true;
+        if (outPIP == true){
+            seekVideo = movie_play.getCurrentPosition();
+            onResume = true;
+        }
+        Rational aspecration = new Rational(movie_play.getWidth(), movie_play.getHeight());
+        pictureInPictureParams.setAspectRatio(aspecration).build();
+        getActivity().enterPictureInPictureMode(pictureInPictureParams.build());
+        outPIP = false;
     }
 
     @Override
@@ -213,7 +226,6 @@ public class play_movie extends Fragment implements IOnBackPressed {
         super.onResume();
         if(onResume == true){
             movie_play.seekTo(seekVideo);
-            play_load.setVisibility(View.VISIBLE);
             movie_play.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
 
                 public void onPrepared(MediaPlayer mp) {
@@ -230,6 +242,14 @@ public class play_movie extends Fragment implements IOnBackPressed {
                     movie_play.start();
                 }
             });
+        }
+    }
+
+    @Override
+    public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode) {
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode);
+        if(!isInPictureInPictureMode){
+            outPIP = true;
         }
     }
 

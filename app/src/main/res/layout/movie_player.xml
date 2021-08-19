@@ -54,9 +54,11 @@
 
         <TextView
             android:id="@+id/txt_playing"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:ellipsize="marquee"
+            android:padding="10dp"
             android:text="TextView"
             android:textAllCaps="false"
             android:textColor="#CF8B8B"

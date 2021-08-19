@@ -75,7 +75,6 @@ public class Film_list_Adapter extends RecyclerView.Adapter<Film_list_Adapter.Fi
         else {
             holder.ep_name.setText("Tập " + filmList.getEp());
 
-
             FragmentManager manager = ((AppCompatActivity)context).getSupportFragmentManager();
 
             holder.ep_name.setOnClickListener(new View.OnClickListener() {

@@ -9,9 +9,16 @@
         <entry key="..\:/Users/ASUS/Documents/GitHub/Android_Project/app/src/main/res/layout/tim_kiem.xml" value="0.14492753623188406" />
         <entry key="..\:/Users/ASUS/Documents/GitHub/Android_Project/app/src/main/res/menu/bottom_navigation.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/THANH TAI/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/simple_list_item_1.xml" value="0.24094202898550723" />
+        <entry key="..\:/Users/THANH TAI/Documents/GitHub/Android_Project/app/src/main/res/drawable/button_background_blue.xml" value="0.22037037037037038" />
+        <entry key="..\:/Users/THANH TAI/Documents/GitHub/Android_Project/app/src/main/res/drawable/custom_button_blue.xml" value="0.22037037037037038" />
+        <entry key="..\:/Users/THANH TAI/Documents/GitHub/Android_Project/app/src/main/res/drawable/custom_button_light_blue.xml" value="0.22037037037037038" />
+        <entry key="..\:/Users/THANH TAI/Documents/GitHub/Android_Project/app/src/main/res/drawable/custom_button_rim_drarkgreen.xml" value="0.22037037037037038" />
         <entry key="..\:/Users/THANH TAI/Documents/GitHub/Android_Project/app/src/main/res/layout/activity_main.xml" value="0.2151268115942029" />
         <entry key="..\:/Users/THANH TAI/Documents/GitHub/Android_Project/app/src/main/res/layout/dangnhap_dangki.xml" value="0.2246376811594203" />
+        <entry key="..\:/Users/THANH TAI/Documents/GitHub/Android_Project/app/src/main/res/layout/detail_movie.xml" value="0.1334853090172239" />
         <entry key="..\:/Users/THANH TAI/Documents/GitHub/Android_Project/app/src/main/res/layout/items_highrate.xml" value="0.536" />
+        <entry key="..\:/Users/THANH TAI/Documents/GitHub/Android_Project/app/src/main/res/layout/items_list_episode.xml" value="0.1334853090172239" />
+        <entry key="..\:/Users/THANH TAI/Documents/GitHub/Android_Project/app/src/main/res/layout/movie_player.xml" value="0.264" />
         <entry key="..\:/Users/THANH TAI/Documents/GitHub/Android_Project/app/src/main/res/layout/phong_phim.xml" value="0.2246376811594203" />
         <entry key="..\:/Users/THANH TAI/Documents/GitHub/Android_Project/app/src/main/res/layout/sanh_phong_phim.xml" value="0.4" />
         <entry key="..\:/Users/THANH TAI/Documents/GitHub/Android_Project/app/src/main/res/layout/trang_chu.xml" value="0.264" />
@@ -29,6 +36,5 @@
       </map>
     </option>
   </component>
-  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>
