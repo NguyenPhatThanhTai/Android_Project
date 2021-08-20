@@ -25,12 +25,16 @@
         <entry key="..\:/Users/THANH TAI/Documents/GitHub/Android_Project/app/src/main/res/menu/bottom_navigation.xml" value="0.27447916666666666" />
         <entry key="..\:/Users/ngtha/AndroidStudioProjects/Android_Project/app/src/main/res/drawable/button_background_blue.xml" value="0.2203125" />
         <entry key="..\:/Users/ngtha/AndroidStudioProjects/Android_Project/app/src/main/res/drawable/custom_button_red.xml" value="0.24479166666666666" />
+        <entry key="..\:/Users/ngtha/AndroidStudioProjects/Android_Project/app/src/main/res/drawable/ic_ff.xml" value="0.24114583333333334" />
         <entry key="..\:/Users/ngtha/AndroidStudioProjects/Android_Project/app/src/main/res/drawable/ic_register_hero.xml" value="0.1" />
+        <entry key="..\:/Users/ngtha/AndroidStudioProjects/Android_Project/app/src/main/res/drawable/ic_rew.xml" value="0.24114583333333334" />
         <entry key="..\:/Users/ngtha/AndroidStudioProjects/Android_Project/app/src/main/res/layout/activity_profile.xml" value="0.225" />
+        <entry key="..\:/Users/ngtha/AndroidStudioProjects/Android_Project/app/src/main/res/layout/custom_controller.xml" value="0.225" />
         <entry key="..\:/Users/ngtha/AndroidStudioProjects/Android_Project/app/src/main/res/layout/dangnhap_dangki.xml" value="0.22864583333333333" />
         <entry key="..\:/Users/ngtha/AndroidStudioProjects/Android_Project/app/src/main/res/layout/detail_movie.xml" value="0.225" />
         <entry key="..\:/Users/ngtha/AndroidStudioProjects/Android_Project/app/src/main/res/layout/fragment__dang_ki.xml" value="0.15" />
         <entry key="..\:/Users/ngtha/AndroidStudioProjects/Android_Project/app/src/main/res/layout/fragment__dang_nhap.xml" value="0.1" />
+        <entry key="..\:/Users/ngtha/AndroidStudioProjects/Android_Project/app/src/main/res/layout/movie_player.xml" value="0.225" />
         <entry key="..\:/Users/ngtha/AndroidStudioProjects/Android_Project/app/src/main/res/layout/thong_tin_nguoi_dung.xml" value="0.22" />
         <entry key="..\:/Users/ngtha/AndroidStudioProjects/Android_Project/app/src/main/res/layout/trang_chu.xml" value="0.14628623188405798" />
       </map>

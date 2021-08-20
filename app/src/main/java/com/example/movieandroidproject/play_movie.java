@@ -1,12 +1,20 @@
 package com.example.movieandroidproject;
 
+import static com.example.movieandroidproject.notification_media.CHANNEL_ID;
+
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.PictureInPictureParams;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.media.MediaPlayer;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v4.media.session.MediaSessionCompat;
 import android.text.TextUtils;
 import android.util.Rational;
 import android.view.LayoutInflater;
@@ -15,40 +23,67 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.LoadControl;
+import com.google.android.exoplayer2.PlaybackParameters;
+import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.extractor.ExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.TrackGroupArray;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
+import com.google.android.exoplayer2.trackselection.TrackSelector;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.BandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
+import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import API.APIControllers;
 import danh_sach_tap_phim.Film_list_Adapter;
 import trang_chu.*;
 
 public class play_movie extends Fragment implements IOnBackPressed {
-    VideoView movie_play;
-    ImageView play_btn;
+    PlayerView movie_play;
     ProgressBar play_load;
+    ImageView btFullScreen;
+    SimpleExoPlayer simpleExoPlayer;
+    boolean flag = false;
     private HighRate highRate;
     private String url = "";
     private Thread thread;
     private Context context;
     private TextView on_playing;
-    private int seekVideo;
-    private boolean onResume = false;
     private boolean outPIP = false;
+    private boolean outMoviePlay = false;
     private PictureInPictureParams.Builder pictureInPictureParams;
-
+    private String Ep = "1";
     private RecyclerView rcv;
 
     public play_movie(HighRate highRate, String url) {
@@ -66,7 +101,6 @@ public class play_movie extends Fragment implements IOnBackPressed {
             fr.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
             fr.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
             fr.requestLayout();//It is necesary to refresh the screen
-            Toast.makeText(this.getContext(), "Đang phát ở chế độ nằm ngang", Toast.LENGTH_SHORT).show();
 
             BottomNavigationView bottomNAV = this.getActivity().findViewById(R.id.bottom_nav);
 //            bottomNAV.getMenu().findItem(R.id.nav_home).setVisible(false);
@@ -76,7 +110,6 @@ public class play_movie extends Fragment implements IOnBackPressed {
             fr.getLayoutParams().height = 650;
             fr.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
             fr.requestLayout();//It is necesary to refresh the screen
-            Toast.makeText(this.getContext(), "Đang phát chế độ bình thường", Toast.LENGTH_SHORT).show();
 
             BottomNavigationView bottomNAV = this.getActivity().findViewById(R.id.bottom_nav);
             bottomNAV.setVisibility(View.VISIBLE);
@@ -102,27 +135,15 @@ public class play_movie extends Fragment implements IOnBackPressed {
         on_playing.setEllipsize(TextUtils.TruncateAt.MARQUEE);
         on_playing.setText(highRate.getName() + " tập 1");
 
-        play_btn = view.findViewById(R.id.play_button);
-        play_btn.setVisibility(View.GONE);
         play_load = view.findViewById(R.id.play_loading);
+        btFullScreen = movie_play.findViewById(R.id.bt_fullscreen);
 
         pictureInPictureParams = new PictureInPictureParams.Builder();
 
-        movie_play.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            public void onPrepared(MediaPlayer mp) {
-                // TODO Auto-generated method stub
-                play_load.setVisibility(View.GONE);
-                play_btn.setVisibility(View.VISIBLE);
-            }
-        });
-
-        play_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                play_btn.setVisibility(View.GONE);
-                movie_play.start();
-            }
-        });
+        LoadControl loadControl = new DefaultLoadControl();
+        BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+        TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
+        simpleExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
 
         RecyclerView rcv_ep = view.findViewById(R.id.rcv_ep);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 5);
@@ -133,6 +154,42 @@ public class play_movie extends Fragment implements IOnBackPressed {
         thread.start();
 
         return view;
+    }
+
+    private void sendNotificationMedia(String Ep) {
+
+        MediaSessionCompat mediaSessionCompat = new MediaSessionCompat(getContext(), "tag");
+
+        Notification notification = new NotificationCompat.Builder(getContext(), CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_small_movie)
+                .setSubText("Đang phát")
+                .setContentTitle(highRate.getName())
+                .setContentText("Tập " + Ep)
+                .setLargeIcon(getBitmapFromURL(highRate.getThumbnails()))
+                .addAction(R.drawable.ic_small_replay, "Giảm 10 giây", null)
+                .addAction(R.drawable.ic_small_pause, "Tạm dừng", null)
+                .addAction(R.drawable.ic_small_forward, "Tua 10 giây", null)
+                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
+                        .setShowActionsInCompactView(1 /* #1: pause button */))
+                .build();
+
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getContext());
+        managerCompat.notify(1, notification);
+    }
+
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            // Log exception
+            return null;
+        }
     }
 
     private void getUrlFilm(){
@@ -148,46 +205,164 @@ public class play_movie extends Fragment implements IOnBackPressed {
             @Override
             public void run() {
                 Uri uri = Uri.parse(url);
-                movie_play.setVideoURI(uri);
+                DefaultHttpDataSourceFactory factory = new DefaultHttpDataSourceFactory("exoplayer_video");
+                ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+                MediaSource mediaSource = new ExtractorMediaSource(uri, factory, extractorsFactory, null, null);
+                movie_play.setPlayer(simpleExoPlayer);
+                movie_play.setKeepScreenOn(true);
+                simpleExoPlayer.prepare(mediaSource);
+                simpleExoPlayer.setPlayWhenReady(true);
+                simpleExoPlayer.addListener(new Player.EventListener() {
+                    @Override
+                    public void onTimelineChanged(Timeline timeline, Object o, int i) {
 
-                MediaController mediaController = new MediaController(context);
-                movie_play.setMediaController(mediaController);
-                mediaController.setAnchorView(movie_play);
+                    }
+
+                    @Override
+                    public void onTracksChanged(TrackGroupArray trackGroupArray, TrackSelectionArray trackSelectionArray) {
+
+                    }
+
+                    @Override
+                    public void onLoadingChanged(boolean b) {
+
+                    }
+
+                    @Override
+                    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                        if(playbackState == Player.STATE_BUFFERING){
+                            play_load.setVisibility(View.VISIBLE);
+                        }else if(playbackState == Player.STATE_READY){
+                            play_load.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onRepeatModeChanged(int i) {
+
+                    }
+
+                    @Override
+                    public void onShuffleModeEnabledChanged(boolean b) {
+
+                    }
+
+                    @Override
+                    public void onPlayerError(ExoPlaybackException e) {
+
+                    }
+
+                    @Override
+                    public void onPositionDiscontinuity(int i) {
+
+                    }
+
+                    @Override
+                    public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+
+                    }
+
+                    @Override
+                    public void onSeekProcessed() {
+
+                    }
+                });
+                btFullScreen.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(flag){
+                            btFullScreen.setImageDrawable(getResources().getDrawable(R.drawable.ic_fullscreen));
+                            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                            flag = false;
+                        }else {
+                            btFullScreen.setImageDrawable(getResources().getDrawable(R.drawable.ic_fullscreen_exit));
+                            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                            flag = true;
+                        }
+                    }
+                });
             }
         });
     }
 
     public void setVideoUrl(String url, String Ep, String Name){
-        movie_play.pause();
-
         on_playing.setText(Name + " tập " + Ep);
-
+        this.Ep = Ep;
         Uri uri = Uri.parse(url);
-        movie_play.setVideoURI(uri);
+        DefaultHttpDataSourceFactory factory = new DefaultHttpDataSourceFactory("exoplayer_video");
+        ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+        MediaSource mediaSource = new ExtractorMediaSource(uri, factory, extractorsFactory, null, null);
+        movie_play.setPlayer(simpleExoPlayer);
+        movie_play.setKeepScreenOn(true);
+        simpleExoPlayer.prepare(mediaSource);
+        simpleExoPlayer.setPlayWhenReady(true);
+        simpleExoPlayer.addListener(new Player.EventListener() {
+            @Override
+            public void onTimelineChanged(Timeline timeline, Object o, int i) {
 
-        MediaController mediaController = new MediaController(context);
-        movie_play.setMediaController(mediaController);
-        mediaController.setAnchorView(movie_play);
+            }
 
-        play_btn.setVisibility(View.GONE);
-        play_load.setVisibility(View.VISIBLE);
+            @Override
+            public void onTracksChanged(TrackGroupArray trackGroupArray, TrackSelectionArray trackSelectionArray) {
 
-        movie_play.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            }
 
-            public void onPrepared(MediaPlayer mp) {
-                // TODO Auto-generated method stub
-                movie_play.seekTo(0);
-                play_load.setVisibility(View.GONE);
-                play_btn.setVisibility(View.VISIBLE);
+            @Override
+            public void onLoadingChanged(boolean b) {
+
+            }
+
+            @Override
+            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                if(playbackState == Player.STATE_BUFFERING){
+                    play_load.setVisibility(View.VISIBLE);
+                }else if(playbackState == Player.STATE_READY){
+                    play_load.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onRepeatModeChanged(int i) {
+
+            }
+
+            @Override
+            public void onShuffleModeEnabledChanged(boolean b) {
+
+            }
+
+            @Override
+            public void onPlayerError(ExoPlaybackException e) {
+
+            }
+
+            @Override
+            public void onPositionDiscontinuity(int i) {
+
+            }
+
+            @Override
+            public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+
+            }
+
+            @Override
+            public void onSeekProcessed() {
+
             }
         });
-
-        play_btn.setOnClickListener(new View.OnClickListener() {
+        btFullScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                play_btn.setVisibility(View.GONE);
-//                movie_play.seekTo(0);
-                movie_play.start();
+                if(flag){
+                    btFullScreen.setImageDrawable(getResources().getDrawable(R.drawable.ic_fullscreen));
+                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    flag = false;
+                }else {
+                    btFullScreen.setImageDrawable(getResources().getDrawable(R.drawable.ic_fullscreen_exit));
+                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    flag = true;
+                }
             }
         });
     }
@@ -211,38 +386,32 @@ public class play_movie extends Fragment implements IOnBackPressed {
     @Override
     public void onPause() {
         super.onPause();
-        if (outPIP == true){
-            seekVideo = movie_play.getCurrentPosition();
-            onResume = true;
+        simpleExoPlayer.setPlayWhenReady(false);
+        simpleExoPlayer.getPlaybackState();
+
+        if(outMoviePlay == false){
+            simpleExoPlayer.setPlayWhenReady(true);
+            simpleExoPlayer.getPlaybackState();
+            Rational aspecration = new Rational(movie_play.getWidth(), movie_play.getHeight());
+            pictureInPictureParams.setAspectRatio(aspecration).build();
+            getActivity().enterPictureInPictureMode(pictureInPictureParams.build());
+            outPIP = false;
+            Thread thread = new Thread(){
+                @Override
+                public void run() {
+                    super.run();
+                    sendNotificationMedia(Ep);
+                }
+            };
+            thread.start();
         }
-        Rational aspecration = new Rational(movie_play.getWidth(), movie_play.getHeight());
-        pictureInPictureParams.setAspectRatio(aspecration).build();
-        getActivity().enterPictureInPictureMode(pictureInPictureParams.build());
-        outPIP = false;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if(onResume == true){
-            movie_play.seekTo(seekVideo);
-            movie_play.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-
-                public void onPrepared(MediaPlayer mp) {
-                    // TODO Auto-generated method stub
-                    play_load.setVisibility(View.GONE);
-                    play_btn.setVisibility(View.VISIBLE);
-                }
-            });
-
-            play_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    play_btn.setVisibility(View.GONE);
-                    movie_play.start();
-                }
-            });
-        }
+        simpleExoPlayer.setPlayWhenReady(true);
+        simpleExoPlayer.getPlaybackState();
     }
 
     @Override
@@ -255,6 +424,8 @@ public class play_movie extends Fragment implements IOnBackPressed {
 
     @Override
     public boolean onBackPressed() {
+        outMoviePlay = true;
+
         Fragment selectedFragment = new detail_movie(highRate, context);
         System.out.println("======== " + highRate);
         FragmentManager manager = ((AppCompatActivity) context).getSupportFragmentManager();

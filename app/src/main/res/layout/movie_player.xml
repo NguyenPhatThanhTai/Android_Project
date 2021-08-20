@@ -12,28 +12,25 @@
         android:layout_height="240dp"
         android:layout_gravity="center">
 
-        <VideoView
-            android:id="@+id/movie_play"
+        <com.google.android.exoplayer2.ui.PlayerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center|center_horizontal"
-            android:keepScreenOn="true" />
-
-        <ImageButton
-            android:id="@+id/play_button"
-            android:layout_width="76dp"
-            android:layout_height="46dp"
-            android:layout_gravity="center|center_horizontal"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_play_arrow_24" />
-
+            android:id="@+id/movie_play"
+            app:resize_mode="fit"
+            app:hide_on_touch="true"
+            app:show_timeout="5000"
+            app:rewind_increment="10000"
+            app:fastforward_increment="10000"
+            app:use_controller="true"
+            android:background="@android:color/background_dark"
+            app:player_layout_id="@layout/exo_simple_player_view"
+            app:controller_layout_id="@layout/custom_controller" />
         <ProgressBar
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:id="@+id/play_loading"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|center_horizontal" />
+            android:layout_gravity="center"/>
+
 
     </FrameLayout>
 
