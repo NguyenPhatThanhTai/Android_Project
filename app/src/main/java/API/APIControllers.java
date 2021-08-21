@@ -20,6 +20,7 @@ import java.util.List;
 import Category.Category;
 import Dangnhap_Dangki.NguoiDung;
 import danh_sach_tap_phim.Film_List;
+import luu_phim.luu_phim;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -399,4 +400,109 @@ public class APIControllers {
         return list;
     }
 
+    public Boolean LuuPhim(String movieId, String userId) {
+        System.out.println("BAT DAU TEST API...");
+        JSONObject json = null;
+        String url = "";
+        try {
+            String querry_json = "http://trongeddy48-001-site1.etempurl.com/api/SaveMovie?movieId=" + movieId + "&userId="+ userId;
+            json = readJsonFromUrl(querry_json);
+            JSONObject jsonObject = new JSONObject(json.toString());
+            String check = jsonObject.getString("message");
+
+            if(check.equals("ok"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    public Boolean CheckLuu(String movieId, String userId) {
+        System.out.println("BAT DAU TEST API...");
+        JSONObject json = null;
+        String url = "";
+        try {
+            String querry_json = "http://trongeddy48-001-site1.etempurl.com/api/CheckSaved?movieId=" + movieId + "&userId="+ userId;
+            json = readJsonFromUrl(querry_json);
+            JSONObject jsonObject = new JSONObject(json.toString());
+            String check = jsonObject.getString("message");
+
+            if(check.equals("ok"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    public Boolean HuyLuu(String movieId, String userId) {
+        System.out.println("BAT DAU TEST API...");
+        JSONObject json = null;
+        String url = "";
+        try {
+            String querry_json = "http://trongeddy48-001-site1.etempurl.com/api/CancelSave?movieId=" + movieId + "&userId="+ userId;
+            json = readJsonFromUrl(querry_json);
+            JSONObject jsonObject = new JSONObject(json.toString());
+            String check = jsonObject.getString("message");
+
+            if(check.equals("ok"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    public List<luu_phim> getListSavedFilm(String id) {
+        System.out.println("BAT DAU TEST API...");
+        JSONObject json = null;
+        String url = "";
+        List<luu_phim> list = new ArrayList<>();
+        try {
+            json = readJsonFromUrl("http://trongeddy48-001-site1.etempurl.com/api/UserSavedFilm?id=" + id);
+
+            JSONArray jsonArray = json.getJSONArray("ListSavedFilm");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                list.add(new luu_phim(
+                        jsonArray.getJSONObject(i).getString("MovieId"),
+                        jsonArray.getJSONObject(i).getString("Name"),
+                        jsonArray.getJSONObject(i).getString("Views"),
+                        jsonArray.getJSONObject(i).getString("Episodes"),
+                        jsonArray.getJSONObject(i).getString("Years"),
+                        jsonArray.getJSONObject(i).getString("Description"),
+                        jsonArray.getJSONObject(i).getString("Thumbnails"),
+                        jsonArray.getJSONObject(i).getString("Fee")
+                ));
+            }
+
+            System.out.println(jsonArray);
+            return list;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
 }

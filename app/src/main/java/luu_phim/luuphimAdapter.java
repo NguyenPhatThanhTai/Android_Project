@@ -1,4 +1,4 @@
-package the_loai;
+package luu_phim;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -19,45 +19,44 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import tim_kiem.TimKiem;
-import tim_kiem.TimKiem_Adapter;
 import trang_chu.HighRate;
 
-public class TheloaiAdapter extends RecyclerView.Adapter<TheloaiAdapter.TheLoai_Holder>{
 
-    private List<TheLoai> mTheLoai;
+public class luuphimAdapter extends RecyclerView.Adapter<luuphimAdapter.luuphim_Holder>{
+    private List<luu_phim> mLuuphim;
     private View view;
     Context context;
 
-    public TheloaiAdapter(List<TheLoai> mTheLoai, Context context) {
-        this.mTheLoai = mTheLoai;
+    public luuphimAdapter(List<luu_phim> mLuuphim, Context context) {
+        this.mLuuphim = mLuuphim;
         this.context = context;
     }
+
     @NonNull
     @Override
-    public TheLoai_Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public luuphimAdapter.luuphim_Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         view = LayoutInflater.from(parent.getContext()).inflate(R.layout.items_highrate, parent, false);
-        return new TheloaiAdapter.TheLoai_Holder(view);
+        return new luuphimAdapter.luuphim_Holder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TheLoai_Holder holder, int position) {
-        TheLoai tl = mTheLoai.get(position);
-        if(tl == null){
+    public void onBindViewHolder(@NonNull luuphimAdapter.luuphim_Holder holder, int position) {
+        luu_phim lp = mLuuphim.get(position);
+        if(lp == null){
             return;
         }
-        else{
-            holder.HighRate_Tittle.setText(tl.getName());
-            holder.HighRate_ep_num.setText(tl.getEpisodes());
-            holder.Highrate_View.setText("Lượt xem: " + tl.getViews());
-            holder.setImage(tl.getThumbnails());
+        else {
+            holder.HighRate_Tittle.setText(lp.getName());
+            holder.HighRate_ep_num.setText(lp.getEpisodes());
+            holder.Highrate_View.setText("Lượt xem: " + lp.getViews());
+            holder.setImage(lp.getThumbnails());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 //                    Toast.makeText(context, highRate.getTen(), Toast.LENGTH_SHORT).show();
 
                     //Truyền dữ liệu qua để set trang detail
-                    HighRate hi = new HighRate(tl.getMovieId(), tl.getName(), tl.getViews(), tl.getEpisodes(), tl.getYears(), tl.getDescription(),tl.getThumbnails(), tl.getFee());
+                    HighRate hi = new HighRate(lp.getMovieId(), lp.getName(), lp.getViews(), lp.getEpisodes(), lp.getYears(), lp.getDescription(),lp.getThumbnails(), lp.getFee());
 
                     Fragment selectedFragment = new detail_movie(hi, context);
                     FragmentManager manager = ((AppCompatActivity) context).getSupportFragmentManager();
@@ -74,26 +73,26 @@ public class TheloaiAdapter extends RecyclerView.Adapter<TheloaiAdapter.TheLoai_
 
     @Override
     public int getItemCount() {
-        if(mTheLoai != null){
-            return mTheLoai.size();
+        if(mLuuphim != null){
+            return mLuuphim.size();
         }
         else {
             return 0;
         }
     }
 
-    public class TheLoai_Holder extends RecyclerView.ViewHolder{
+    public class luuphim_Holder extends RecyclerView.ViewHolder{
 
         private TextView HighRate_Tittle, HighRate_ep_num, Highrate_View;
-        private ImageView Cate_Image;
+        private ImageView Recomment_Image;
 
         public void setImage(String url){
-            Cate_Image = itemView.findViewById(R.id.HighRate_Image);
+            Recomment_Image = itemView.findViewById(R.id.HighRate_Image);
             //Thư viện load ảnh Picasso
-            Picasso.get().load(url).into(Cate_Image);
+            Picasso.get().load(url).into(Recomment_Image);
         }
 
-        public TheLoai_Holder(@NonNull View itemView) {
+        public luuphim_Holder(@NonNull View itemView) {
             super(itemView);
 
             Highrate_View = itemView.findViewById(R.id.Highrate_View);

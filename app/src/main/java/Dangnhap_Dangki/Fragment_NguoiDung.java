@@ -8,18 +8,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.movieandroidproject.IOnBackPressed;
 import com.example.movieandroidproject.R;
 import com.example.movieandroidproject.trang_chu;
 
+import java.util.List;
+
 import API.APIControllers;
+import luu_phim.*;
 
 
 public class Fragment_NguoiDung extends Fragment implements IOnBackPressed {
@@ -75,6 +81,37 @@ public class Fragment_NguoiDung extends Fragment implements IOnBackPressed {
                                 selectedFragment).commit();
             }
         });
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 2);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rcv_luuphim);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        Thread thread1 = new Thread(){
+            @Override
+            public void run() {
+                APIControllers Api = new APIControllers();
+                SharedPreferences sp1 = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+                String userId = sp1.getString("Unm", null);
+                List<luu_phim> list = Api.getListSavedFilm(userId);
+                if(list != null)
+                {
+                    luuphimAdapter adapter = new luuphimAdapter(list, getContext());
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            recyclerView.setAdapter(adapter);
+                        }
+                    });
+                }
+                else {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getContext(),"Không tìm thấy phim !",Toast.LENGTH_SHORT );
+                        }
+                    });
+                }
+            }
+        };
+        thread1.start();
         return view;
     }
 

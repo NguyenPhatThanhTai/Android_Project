@@ -8,13 +8,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.movieandroidproject.R;
+import com.example.movieandroidproject.detail_movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import trang_chu.HighRate;
 import trang_chu.RecommentForYou;
 import trang_chu.RecommentForYou_Adapter;
 
@@ -45,6 +50,24 @@ public class TimKiem_Adapter extends RecyclerView.Adapter<TimKiem_Adapter.TimKie
             holder.HighRate_ep_num.setText(tk.getEpisodes());
             holder.Highrate_View.setText("Lượt xem: " + tk.getViews());
             holder.setImage(tk.getThumbnails());
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                    Toast.makeText(context, highRate.getTen(), Toast.LENGTH_SHORT).show();
+
+                    //Truyền dữ liệu qua để set trang detail
+                    HighRate hi = new HighRate(tk.getMovieId(), tk.getName(), tk.getViews(), tk.getEpisodes(), tk.getYears(), tk.getDescription(),tk.getThumbnails(), tk.getFee());
+
+                    Fragment selectedFragment = new detail_movie(hi, context);
+                    FragmentManager manager = ((AppCompatActivity) context).getSupportFragmentManager();
+
+                    manager.beginTransaction()
+                            .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
+                                    R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+                            .replace(R.id.fragment_container,
+                                    selectedFragment).commit();
+                }
+            });
         }
 
     }
