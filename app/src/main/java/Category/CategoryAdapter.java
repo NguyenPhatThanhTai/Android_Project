@@ -91,5 +91,4 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             categoryText = itemView.findViewById(R.id.category_id);
         }
     }
-
 }
