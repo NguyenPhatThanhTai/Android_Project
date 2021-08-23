@@ -6,12 +6,20 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
+    android:background="#000000"
     android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/ep_name"
+    <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/custom_button_rim_drarkgreen"
-        android:text="Button" />
+        app:cardBackgroundColor="#3E4E3A">
+
+        <Button
+            android:id="@+id/ep_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="#000000"
+            android:text="Button" />
+    </androidx.cardview.widget.CardView>
+
 </RelativeLayout>

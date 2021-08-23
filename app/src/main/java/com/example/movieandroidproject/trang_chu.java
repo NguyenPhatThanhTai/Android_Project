@@ -169,6 +169,7 @@ public class trang_chu extends Fragment {
         list.add(new Photo(R.drawable.silentvoice));
         list.add(new Photo(R.drawable.wwy));
         list.add(new Photo(R.drawable.demon_slayer));
+        list.add(new Photo(R.drawable.poster1));
 
         return list;
     }
