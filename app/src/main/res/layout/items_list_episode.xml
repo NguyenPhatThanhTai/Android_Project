@@ -19,7 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="#000000"
-            android:text="Button" />
+            android:text="Button"
+            android:textSize="10sp" />
     </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

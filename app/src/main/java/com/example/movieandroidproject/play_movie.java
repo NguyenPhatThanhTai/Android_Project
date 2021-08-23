@@ -72,7 +72,7 @@ import trang_chu.*;
 public class play_movie extends Fragment implements IOnBackPressed {
     PlayerView movie_play;
     ProgressBar play_load;
-    ImageView btFullScreen;
+    ImageView btFullScreen, btnPause, btnPlay;
     SimpleExoPlayer simpleExoPlayer;
     boolean flag = false;
     private HighRate highRate;
@@ -82,6 +82,7 @@ public class play_movie extends Fragment implements IOnBackPressed {
     private TextView on_playing;
     private boolean outPIP = false;
     private boolean outMoviePlay = false;
+    private boolean stopView;
     private PictureInPictureParams.Builder pictureInPictureParams;
     private String Ep = "1";
     private RecyclerView rcv;
@@ -137,6 +138,8 @@ public class play_movie extends Fragment implements IOnBackPressed {
 
         play_load = view.findViewById(R.id.play_loading);
         btFullScreen = movie_play.findViewById(R.id.bt_fullscreen);
+        btnPause = movie_play.findViewById(R.id.exo_pause);
+        btnPlay = movie_play.findViewById(R.id.exo_play);
 
         pictureInPictureParams = new PictureInPictureParams.Builder();
 
@@ -419,6 +422,8 @@ public class play_movie extends Fragment implements IOnBackPressed {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode);
         if(!isInPictureInPictureMode){
             outPIP = true;
+            simpleExoPlayer.setPlayWhenReady(false);
+            simpleExoPlayer.getPlaybackState();
         }
     }
 
