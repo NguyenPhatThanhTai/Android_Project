@@ -9,34 +9,37 @@
     <FrameLayout
         android:id="@+id/Fram_movie"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:layout_gravity="center">
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_weight="0.3">
 
         <com.google.android.exoplayer2.ui.PlayerView
+            android:id="@+id/movie_play"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/movie_play"
-            app:resize_mode="fit"
-            app:hide_on_touch="true"
-            app:show_timeout="5000"
-            app:rewind_increment="10000"
-            app:fastforward_increment="10000"
-            app:use_controller="true"
             android:background="@android:color/background_dark"
+            app:controller_layout_id="@layout/custom_controller"
+            app:fastforward_increment="10000"
+            app:hide_on_touch="true"
             app:player_layout_id="@layout/exo_simple_player_view"
-            app:controller_layout_id="@layout/custom_controller" />
+            app:resize_mode="fit"
+            app:rewind_increment="10000"
+            app:show_timeout="5000"
+            app:use_controller="true" />
+
         <ProgressBar
+            android:id="@+id/play_loading"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:id="@+id/play_loading"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center" />
 
 
     </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="0.5"
         android:orientation="horizontal">
 
         <TextView
@@ -63,69 +66,11 @@
             android:textStyle="bold|italic" />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/txt_sever"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:text="Sever: "
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/custom_button_gray"
-                android:text="EU" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/custom_button_gray"
-                android:text="RU" />
-
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/custom_button_gray"
-                android:text="VN" />
-
-            <Button
-                android:id="@+id/button4"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/custom_button_gray"
-                android:text="JP" />
-        </LinearLayout>
-    </LinearLayout>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp">
+        android:layout_margin="10dp"
+        android:layout_weight="0.3">
 
         <LinearLayout
             android:layout_width="match_parent"
