@@ -68,6 +68,7 @@ public class phong_phim extends Fragment implements IOnBackPressed {
         }
         wv_view.setWebViewClient(new WebViewClient());
         wv_view.setWebChromeClient(new MyChrome());
+        wv_view.setWebContentsDebuggingEnabled(true);
 
         final WebSettings settings = wv_view.getSettings();
 
