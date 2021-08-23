@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/nav_category"
+        android:icon="@drawable/ic_category_24"
+        android:title="Thể loại" />
+    <item
+        android:id="@+id/nav_timkiem"
+        android:icon="@drawable/ic_search_24"
+        android:title="Tìm Kiếm" />
+    <item
+        android:id="@+id/nav_home"
+        android:title="Trang Chủ"
+        android:icon="@drawable/ic_home_24"/>
+    <item
+        android:id="@+id/nav_film_room"
+        android:title="Phòng Phim"
+        android:icon="@drawable/baseline_live_tv_white_24dp"/>
+    <item
+        android:id="@+id/nav_setting"
+        android:title="Cài đặt"
+        android:icon="@drawable/ic_settings_24"/>
+</menu>
