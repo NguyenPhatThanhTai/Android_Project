@@ -97,6 +97,8 @@ public class detail_movie extends Fragment implements IOnBackPressed {
         playnow_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                APIControllers api = new APIControllers();
+                api.Views(highRate.getMovieId());
                 //Gọi trang xem phim
 
                 Fragment selectedFragment = new play_movie(highRate, "");

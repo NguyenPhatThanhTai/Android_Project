@@ -505,4 +505,29 @@ public class APIControllers {
             return null;
         }
     }
+
+    public Boolean Views(String movieId) {
+        System.out.println("BAT DAU TEST API...");
+        JSONObject json = null;
+        String url = "";
+        try {
+            String querry_json = "http://trongeddy48-001-site1.etempurl.com/api/UpdateViews?id=" + movieId;
+            json = readJsonFromUrl(querry_json);
+            JSONObject jsonObject = new JSONObject(json.toString());
+            String check = jsonObject.getString("message");
+
+            if(check.equals("ok"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
 }
