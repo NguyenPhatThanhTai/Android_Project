@@ -1,9 +1,12 @@
 package com.example.movieandroidproject;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,9 +24,13 @@ import java.util.List;
 import API.APIControllers;
 import Category.Category;
 import Category.CategoryAdapter;
+import Dangnhap_Dangki.NguoiDung;
 
 public class the_loai extends Fragment implements IOnBackPressed{
 
+    TextView txtUserName, txtUserId;
+    String id;
+    NguoiDung nd;
     List<Category> categoryData = new ArrayList<>();
 
     @Nullable
@@ -37,10 +44,34 @@ public class the_loai extends Fragment implements IOnBackPressed{
         {
             @Override
             public void run() {
+                APIControllers api = new APIControllers();
+
+                txtUserName = view.findViewById(R.id.txtUserName);
+                txtUserId = view.findViewById(R.id.txtUserId);
+                SharedPreferences sp1 = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+                id = sp1.getString("Unm", null);
+                if(id != null){
+                    nd = api.ThongTinCaNhan(id);
+                }
+                else {
+                    nd = null;
+                }
+
+
                 categoryData = new APIControllers().getAllCate();
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+
+                        if (nd != null)
+                        {
+                            txtUserName.setText(nd.getFullName());
+                            txtUserId.setText(nd.getUserId());
+                        }
+                        else {
+                            txtUserName.setText("Xin chào!");
+                            txtUserId.setText("Chúc một ngày tốt lành!");
+                        }
                         CategoryAdapter categoryAdapter = new CategoryAdapter(categoryData, (MainActivity) getActivity());
                         recyclerView.setAdapter(categoryAdapter);
                     }
