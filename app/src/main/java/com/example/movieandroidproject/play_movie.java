@@ -370,10 +370,6 @@ public class play_movie extends Fragment implements IOnBackPressed {
         });
     }
 
-    private boolean isPlaying() {
-        return simpleExoPlayer.getPlaybackState() == Player.STATE_READY && simpleExoPlayer.getPlayWhenReady();
-    }
-
     private void setListEp(){
         APIControllers apiControllers = new APIControllers();
         Film_list_Adapter film_list_adapter = new Film_list_Adapter(apiControllers.getListEp(highRate.getName(), highRate.getMovieId()), this.getActivity());

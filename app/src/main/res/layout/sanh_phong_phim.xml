@@ -18,13 +18,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
-                android:orientation="horizontal"
-                android:padding="5dp">
+                android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/txt_ma_phong"
-                    android:layout_width="116dp"
-                    android:layout_height="34dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/custom_textview_white"
                     android:ems="10"
@@ -33,21 +32,30 @@
 
                 <Button
                     android:id="@+id/btn_join"
-                    android:layout_width="50dp"
-                    android:layout_height="35dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/custom_button_green"
                     android:text="Vào phòng" />
 
                 <Button
                     android:id="@+id/btn_create_room"
-                    android:layout_width="50dp"
-                    android:layout_height="35dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
                     android:layout_weight="1"
                     android:background="@drawable/custom_button_blue"
                     android:text="Tạo phòng" />
+
+                <Button
+                    android:id="@+id/btn_test_room"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_button_red"
+                    android:text="Tạo phòng test" />
 
             </LinearLayout>
 

@@ -52,6 +52,7 @@ public class sanh_phim extends Fragment implements IOnBackPressed {
         APIControllers api = new APIControllers();
         Button btn_join = view.findViewById(R.id.btn_join);
         Button btn_create_room = view.findViewById(R.id.btn_create_room);
+        Button btn_test = view.findViewById(R.id.btn_test_room);
 
         thread = new Thread(this::setListMovie);
         thread.start();
@@ -152,6 +153,38 @@ public class sanh_phim extends Fragment implements IOnBackPressed {
                                 .replace(R.id.fragment_container,
                                         selectedFragment).commit();
                     }
+                }
+            }
+        });
+
+        btn_test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(userId != null){
+                    thread = new Thread(){
+                        @Override
+                        public void run() {
+                            Fragment selectedFragment = new phong_phim_test(userId);
+                            FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+
+                            manager.beginTransaction()
+                                    .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
+                                            R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+                                    .replace(R.id.fragment_container,
+                                            selectedFragment).commit();
+                        }
+                    };
+                    thread.start();
+                }
+                else {
+                    Fragment selectedFragment = new Dangnhap_Dangki();
+                    FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+
+                    manager.beginTransaction()
+                            .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
+                                    R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+                            .replace(R.id.fragment_container,
+                                    selectedFragment).commit();
                 }
             }
         });
