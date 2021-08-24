@@ -24,6 +24,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.movieandroidproject.R;
 
 import com.example.movieandroidproject.IOnBackPressed;
+import com.example.movieandroidproject.trang_chu;
 
 public class phong_phim_test extends Fragment implements IOnBackPressed {
     String userId;
@@ -129,9 +130,21 @@ public class phong_phim_test extends Fragment implements IOnBackPressed {
         }
     }
 
+    public void destroyWebView() {
+        goUrl("about:blank");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        destroyWebView();
+    }
+
     @Override
     public boolean onBackPressed() {
-        Fragment selectedFragment = new sanh_phim();
+        destroyWebView();
+
+        Fragment selectedFragment = new trang_chu();
         FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
         manager.popBackStack();
 

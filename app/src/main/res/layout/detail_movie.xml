@@ -42,7 +42,7 @@
 
                         <TextView
                             android:id="@+id/name_detail"
-                            android:layout_width="349dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Your Name"
                             android:textAlignment="viewStart"

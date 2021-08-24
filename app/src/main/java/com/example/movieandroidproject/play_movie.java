@@ -149,7 +149,7 @@ public class play_movie extends Fragment implements IOnBackPressed {
         simpleExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
 
         RecyclerView rcv_ep = view.findViewById(R.id.rcv_ep);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 5);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 4);
         rcv_ep.setLayoutManager(gridLayoutManager);
         rcv = rcv_ep;
 
@@ -392,7 +392,9 @@ public class play_movie extends Fragment implements IOnBackPressed {
         simpleExoPlayer.setPlayWhenReady(false);
         simpleExoPlayer.getPlaybackState();
 
-        if(outMoviePlay == false){
+        Fragment f = getFragmentManager().findFragmentById(R.id.fragment_container);
+
+        if(outMoviePlay == false && f instanceof play_movie){
             simpleExoPlayer.setPlayWhenReady(true);
             simpleExoPlayer.getPlaybackState();
             Rational aspecration = new Rational(movie_play.getWidth(), movie_play.getHeight());
