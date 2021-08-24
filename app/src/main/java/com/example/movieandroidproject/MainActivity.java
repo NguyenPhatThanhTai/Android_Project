@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -14,6 +16,8 @@ import com.google.android.material.tabs.TabLayout;
 
 import Dangnhap_Dangki.Dangnhap_Dangki;
 import Dangnhap_Dangki.Dangnhap_DangkiAdapter;
+import rap_phim.phong_phim;
+import rap_phim.phong_phim_test;
 import rap_phim.sanh_phim;
 
 public class MainActivity extends AppCompatActivity {
@@ -83,7 +87,28 @@ public class MainActivity extends AppCompatActivity {
                     selectedFragment = new trang_chu();
                     break;
                 case  R.id.nav_film_room:
-                    selectedFragment = new sanh_phim();
+                    SharedPreferences sp1 = getSharedPreferences("Login", Context.MODE_PRIVATE);
+                    String userId = sp1.getString("Unm", null);
+                    if(userId != null){
+                        selectedFragment = new phong_phim_test(userId);
+                        FragmentManager manager = getSupportFragmentManager();
+
+                        manager.beginTransaction()
+                                .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
+                                        R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+                                .replace(R.id.fragment_container,
+                                        selectedFragment).commit();
+                    }
+                    else {
+                        selectedFragment = new Dangnhap_Dangki();
+                        FragmentManager manager = getSupportFragmentManager();
+
+                        manager.beginTransaction()
+                                .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
+                                        R.anim.enter_left_to_right, R.anim.exit_left_to_right)
+                                .replace(R.id.fragment_container,
+                                        selectedFragment).commit();
+                    }
                     break;
                 case R.id.nav_setting:
                     selectedFragment = new Dangnhap_Dangki();
