@@ -9,8 +9,12 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -21,6 +25,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.net.InetAddress;
 
+import API.APIControllers;
 import Dangnhap_Dangki.Dangnhap_Dangki;
 import Dangnhap_Dangki.Dangnhap_DangkiAdapter;
 import rap_phim.phong_phim;
@@ -46,6 +51,30 @@ public class MainActivity extends AppCompatActivity {
 
         if(isNetworkConnected()){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new trang_chu()).commit();
+            Thread thread = new Thread() {
+                @Override
+                public void run() {
+                    super.run();
+                    APIControllers api = new APIControllers();
+                    try {
+                        PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+                        String version = pInfo.versionName;
+                        String getVersion = api.checkVersionUpdate(version);
+                        if (getVersion != null){
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    showDialogUpdateApp(getVersion);
+                                }
+                            });
+                        }
+                        System.out.println("Version hiện tại là: " + version);
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            };
+            thread.start();
         }
         else {
             new AlertDialog.Builder(this)
@@ -59,6 +88,21 @@ public class MainActivity extends AppCompatActivity {
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
         }
+    }
+    
+    private void showDialogUpdateApp(String urlUpdate){
+        new AlertDialog.Builder(this)
+                .setTitle("Cập nhật!")
+                .setMessage("Bản cập nhật mới đã ra lò, hãy tải ngay để nhận những thay đổi mới nhất!!!")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlUpdate));
+                        startActivity(browserIntent);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null)
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .show();
     }
 
     private boolean isNetworkConnected() {

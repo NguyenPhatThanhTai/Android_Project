@@ -379,7 +379,6 @@ public class APIControllers {
         System.out.println("BAT DAU TEST API...");
         JSONObject json = null;
         try {
-
             json = readJsonFromUrl("http://trongeddy48-001-site1.etempurl.com/api/Category");
 
             JSONArray jsonArray = json.getJSONArray("CategoryList");
@@ -528,6 +527,26 @@ public class APIControllers {
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;
+        }
+    }
+
+    public String checkVersionUpdate(String currentVersion){
+        System.out.println("BAT DAU TEST API...");
+        JSONObject json = null;
+        String urlUpdate = null;
+        try {
+            json = readJsonFromUrl("http://trongeddy48-001-site1.etempurl.com/api/verapp");
+            JSONObject jsonObject = new JSONObject(json.toString());
+            String newVersion = jsonObject.getJSONObject("Verapp").getString("Ver");
+            System.out.println("=====================================" + newVersion);
+            if(Integer.parseInt(currentVersion) < Integer.parseInt(newVersion)){
+                urlUpdate = jsonObject.getJSONObject("Verapp").getString("URLVer");
+            }
+            return urlUpdate;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
         }
     }
 }
