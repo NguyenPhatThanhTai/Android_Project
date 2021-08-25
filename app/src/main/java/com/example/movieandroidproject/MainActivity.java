@@ -1,19 +1,25 @@
 package com.example.movieandroidproject;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
+
+import java.net.InetAddress;
 
 import Dangnhap_Dangki.Dangnhap_Dangki;
 import Dangnhap_Dangki.Dangnhap_DangkiAdapter;
@@ -38,8 +44,27 @@ public class MainActivity extends AppCompatActivity {
         bottomNAV.setOnNavigationItemSelectedListener(navLis);
         bottomNAV.getMenu().findItem(R.id.nav_home).setChecked(true);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new trang_chu()).commit();
+        if(isNetworkConnected()){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new trang_chu()).commit();
+        }
+        else {
+            new AlertDialog.Builder(this)
+                    .setTitle("Opps!")
+                    .setMessage("Hình như có vấn đề gì với mạng nhà bạn, vui lòng xem xét!!!")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            System.exit(0);
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
+    }
 
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnected();
     }
 
     //Bắt sự kiện nhấn nút lui về của dt
@@ -53,35 +78,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i("MainActivity", "nothing on backstack, calling super");
             super.onBackPressed();
         }
-//        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-//        if (!(fragment instanceof IOnBackPressed) || !((IOnBackPressed) fragment).onBackPressed()) {
-//            super.onBackPressed();
-//        }
     }
-
-//    @Override
-//    protected void onResume() {
-//        Fragment f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-//        if (f instanceof play_movie)
-//        {
-//            // do something with f
-//            ((play_movie) f).test("Trở lại");
-//        }
-//
-//        super.onResume();
-//    }
-
-//    @Override
-//    public void onSaveInstanceState(@NonNull Bundle outState) {
-//        f = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-//        getSupportFragmentManager().putFragment(outState, "myfragment", f);
-//        super.onSaveInstanceState(outState);
-//    }
-//
-//    @Override
-//    public void onRestoreInstanceState(Bundle inState){
-//        f = getSupportFragmentManager().getFragment(inState, "myfragment");
-//    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navLis = new BottomNavigationView.OnNavigationItemSelectedListener(){
         @Override
