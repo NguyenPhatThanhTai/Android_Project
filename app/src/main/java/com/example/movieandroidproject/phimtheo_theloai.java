@@ -14,6 +14,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +24,7 @@ import Category.Category;
 import Category.CategoryAdapter;
 import the_loai.*;
 
-public class phimtheo_theloai extends Fragment implements IOnBackPressed {
+public class phimtheo_theloai extends Fragment {
 
     List<TheLoai> categoryList = new ArrayList<>();
     String id, tentheloai;
@@ -59,20 +61,5 @@ public class phimtheo_theloai extends Fragment implements IOnBackPressed {
 //        System.out.println("Ở đây: " + LoadImageFromWebOperations("https://huyhoanhotel.com/wp-content/uploads/2016/05/765-default-avatar.png"));
 
         return view;
-    }
-
-    @Override
-    public boolean onBackPressed() {
-        Fragment selectedFragment = new the_loai();
-        FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
-        manager.popBackStack();
-
-        manager.beginTransaction()
-                .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,
-                        R.anim.enter_right_to_left, R.anim.exit_right_to_left)
-                .replace(R.id.fragment_container,
-                        selectedFragment).commit();
-
-        return true;
     }
 }

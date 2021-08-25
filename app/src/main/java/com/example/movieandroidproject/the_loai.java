@@ -16,6 +16,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ import Category.Category;
 import Category.CategoryAdapter;
 import Dangnhap_Dangki.NguoiDung;
 
-public class the_loai extends Fragment implements IOnBackPressed{
+public class the_loai extends Fragment{
 
     TextView txtUserName, txtUserId;
     String id;
@@ -85,20 +87,22 @@ public class the_loai extends Fragment implements IOnBackPressed{
         return view;
     }
 
-    @Override
-    public boolean onBackPressed() {
-        Fragment selectedFragment = new trang_chu();
-        FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
-        manager.popBackStack();
-
-        manager.beginTransaction()
-                .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,
-                        R.anim.enter_right_to_left, R.anim.exit_right_to_left)
-                .replace(R.id.fragment_container,
-                        selectedFragment).commit();
-
-        return true;
-    }
+//    @Override
+//    public boolean onBackPressed() {
+//        Fragment selectedFragment = new trang_chu();
+//        FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+//        manager.popBackStack();
+//
+//        manager.beginTransaction()
+//                .add(selectedFragment, "back_stack") // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+//                .addToBackStack(null)
+//                .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,
+//                        R.anim.enter_right_to_left, R.anim.exit_right_to_left)
+//                .replace(R.id.fragment_container,
+//                        selectedFragment).commit();
+//
+//        return true;
+//    }
 
 //    public static Drawable LoadImageFromWebOperations(String url) {
 //        try {

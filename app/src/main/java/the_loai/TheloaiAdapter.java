@@ -63,6 +63,8 @@ public class TheloaiAdapter extends RecyclerView.Adapter<TheloaiAdapter.TheLoai_
                     FragmentManager manager = ((AppCompatActivity) context).getSupportFragmentManager();
 
                     manager.beginTransaction()
+                            .add(selectedFragment, "back_stack") // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+                            .addToBackStack(null)
                             .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
                                     R.anim.enter_left_to_right, R.anim.exit_left_to_right)
                             .replace(R.id.fragment_container,

@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,14 +15,10 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.movieandroidproject.IOnBackPressed;
 import com.example.movieandroidproject.R;
-import com.example.movieandroidproject.trang_chu;
 import com.google.android.material.tabs.TabLayout;
 
-import API.APIControllers;
-
-public class Dangnhap_Dangki extends Fragment implements IOnBackPressed {
+public class Dangnhap_Dangki extends Fragment {
 
 
     TabLayout tabLayout;
@@ -42,6 +36,8 @@ public class Dangnhap_Dangki extends Fragment implements IOnBackPressed {
             Fragment selectedFragment = new Fragment_NguoiDung(unm);
             FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
             manager.beginTransaction()
+                    .add(selectedFragment, "back_stack") // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+                    .addToBackStack(null)
                     .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,
                             R.anim.enter_right_to_left, R.anim.exit_right_to_left)
                     .replace(R.id.fragment_container,
@@ -86,18 +82,18 @@ public class Dangnhap_Dangki extends Fragment implements IOnBackPressed {
         return view;
     }
 
-    @Override
-    public boolean onBackPressed() {
-        Fragment selectedFragment = new trang_chu();
-        FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
-        manager.popBackStack();
-
-        manager.beginTransaction()
-                .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,
-                        R.anim.enter_right_to_left, R.anim.exit_right_to_left)
-                .replace(R.id.fragment_container,
-                        selectedFragment).commit();
-
-        return true;
-    }
+//    @Override
+//    public boolean onBackPressed() {
+//        Fragment selectedFragment = new trang_chu();
+//        FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+//        manager.popBackStack();
+//
+//        manager.beginTransaction()
+//                .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,
+//                        R.anim.enter_right_to_left, R.anim.exit_right_to_left)
+//                .replace(R.id.fragment_container,
+//                        selectedFragment).commit();
+//
+//        return true;
+//    }
 }

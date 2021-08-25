@@ -12,33 +12,16 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
-import android.widget.ListView;
-import android.widget.RatingBar;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.movieandroidproject.IOnBackPressed;
 import com.example.movieandroidproject.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import API.APIControllers;
-import danh_sach_tap_phim.Film_List;
-import danh_sach_tap_phim.Film_list_Adapter;
-import trang_chu.HighRate;
-
-public class phong_phim extends Fragment implements IOnBackPressed {
+public class phong_phim extends Fragment {
     private WebView wv_view;
     private Thread thread;
     private String roomId, movieId, userId;
@@ -100,20 +83,20 @@ public class phong_phim extends Fragment implements IOnBackPressed {
         });
     }
 
-    @Override
-    public boolean onBackPressed() {
-        Fragment selectedFragment = new sanh_phim();
-        FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
-        manager.popBackStack();
-
-        manager.beginTransaction()
-                .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,
-                        R.anim.enter_right_to_left, R.anim.exit_right_to_left)
-                .replace(R.id.fragment_container,
-                        selectedFragment).commit();
-
-        return true;
-    }
+//    @Override
+//    public boolean onBackPressed() {
+//        Fragment selectedFragment = new sanh_phim();
+//        FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+//        manager.popBackStack();
+//
+//        manager.beginTransaction()
+//                .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,
+//                        R.anim.enter_right_to_left, R.anim.exit_right_to_left)
+//                .replace(R.id.fragment_container,
+//                        selectedFragment).commit();
+//
+//        return true;
+//    }
 
     private class MyChrome extends WebChromeClient {
 

@@ -23,10 +23,9 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.movieandroidproject.R;
 
-import com.example.movieandroidproject.IOnBackPressed;
 import com.example.movieandroidproject.trang_chu;
 
-public class phong_phim_test extends Fragment implements IOnBackPressed {
+public class phong_phim_test extends Fragment {
     String userId;
     private WebView wv_view;
 
@@ -138,22 +137,5 @@ public class phong_phim_test extends Fragment implements IOnBackPressed {
     public void onPause() {
         super.onPause();
         destroyWebView();
-    }
-
-    @Override
-    public boolean onBackPressed() {
-        destroyWebView();
-
-        Fragment selectedFragment = new trang_chu();
-        FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
-        manager.popBackStack();
-
-        manager.beginTransaction()
-                .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,
-                        R.anim.enter_right_to_left, R.anim.exit_right_to_left)
-                .replace(R.id.fragment_container,
-                        selectedFragment).commit();
-
-        return true;
     }
 }

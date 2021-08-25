@@ -22,9 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.movieandroidproject.IOnBackPressed;
 import com.example.movieandroidproject.R;
-import com.example.movieandroidproject.play_movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -32,12 +30,9 @@ import java.util.List;
 
 import API.APIControllers;
 import Dangnhap_Dangki.Dangnhap_Dangki;
-import danh_sach_tap_phim.Film_List;
-import trang_chu.HighRate;
 import trang_chu.RecommentForYou;
-import com.example.movieandroidproject.trang_chu;
 
-public class sanh_phim extends Fragment implements IOnBackPressed {
+public class sanh_phim extends Fragment {
     String roomId, movieId, userId;
     Spinner spn_saved_movie;
     List<RecommentForYou> list;
@@ -76,6 +71,8 @@ public class sanh_phim extends Fragment implements IOnBackPressed {
                                 FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
 
                                 manager.beginTransaction()
+                                        .add(selectedFragment, "back_stack") // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+                                        .addToBackStack(null)
                                         .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
                                                 R.anim.enter_left_to_right, R.anim.exit_left_to_right)
                                         .replace(R.id.fragment_container,
@@ -98,6 +95,8 @@ public class sanh_phim extends Fragment implements IOnBackPressed {
                     FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
 
                     manager.beginTransaction()
+                            .add(selectedFragment, "back_stack") // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+                            .addToBackStack(null)
                             .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
                                     R.anim.enter_left_to_right, R.anim.exit_left_to_right)
                             .replace(R.id.fragment_container,
@@ -126,6 +125,8 @@ public class sanh_phim extends Fragment implements IOnBackPressed {
                                     FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
 
                                     manager.beginTransaction()
+                                            .add(selectedFragment, "back_stack") // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+                                            .addToBackStack(null)
                                             .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
                                                     R.anim.enter_left_to_right, R.anim.exit_left_to_right)
                                             .replace(R.id.fragment_container,
@@ -148,6 +149,8 @@ public class sanh_phim extends Fragment implements IOnBackPressed {
                         FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
 
                         manager.beginTransaction()
+                                .add(selectedFragment, "back_stack") // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+                                .addToBackStack(null)
                                 .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
                                         R.anim.enter_left_to_right, R.anim.exit_left_to_right)
                                 .replace(R.id.fragment_container,
@@ -168,6 +171,8 @@ public class sanh_phim extends Fragment implements IOnBackPressed {
                             FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
 
                             manager.beginTransaction()
+                                    .add(selectedFragment, "back_stack") // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+                                    .addToBackStack(null)
                                     .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
                                             R.anim.enter_left_to_right, R.anim.exit_left_to_right)
                                     .replace(R.id.fragment_container,
@@ -181,6 +186,8 @@ public class sanh_phim extends Fragment implements IOnBackPressed {
                     FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
 
                     manager.beginTransaction()
+                            .add(selectedFragment, "back_stack") // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+                            .addToBackStack(null)
                             .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
                                     R.anim.enter_left_to_right, R.anim.exit_left_to_right)
                             .replace(R.id.fragment_container,
@@ -243,18 +250,18 @@ public class sanh_phim extends Fragment implements IOnBackPressed {
         });
     }
 
-    @Override
-    public boolean onBackPressed() {
-        Fragment selectedFragment = new trang_chu();
-        FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
-        manager.popBackStack();
-
-        manager.beginTransaction()
-                .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,
-                        R.anim.enter_right_to_left, R.anim.exit_right_to_left)
-                .replace(R.id.fragment_container,
-                        selectedFragment).commit();
-
-        return true;
-    }
+//    @Override
+//    public boolean onBackPressed() {
+//        Fragment selectedFragment = new trang_chu();
+//        FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
+//        manager.popBackStack();
+//
+//        manager.beginTransaction()
+//                .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,
+//                        R.anim.enter_right_to_left, R.anim.exit_right_to_left)
+//                .replace(R.id.fragment_container,
+//                        selectedFragment).commit();
+//
+//        return true;
+//    }
 }

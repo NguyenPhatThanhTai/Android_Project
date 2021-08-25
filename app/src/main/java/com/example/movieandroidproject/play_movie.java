@@ -69,7 +69,7 @@ import API.APIControllers;
 import danh_sach_tap_phim.Film_list_Adapter;
 import trang_chu.*;
 
-public class play_movie extends Fragment implements IOnBackPressed {
+public class play_movie extends Fragment {
     PlayerView movie_play;
     ProgressBar play_load;
     ImageView btFullScreen, btnPause, btnPlay;
@@ -427,22 +427,5 @@ public class play_movie extends Fragment implements IOnBackPressed {
             simpleExoPlayer.setPlayWhenReady(false);
             simpleExoPlayer.getPlaybackState();
         }
-    }
-
-    @Override
-    public boolean onBackPressed() {
-        outMoviePlay = true;
-
-        Fragment selectedFragment = new detail_movie(highRate, context);
-        System.out.println("======== " + highRate);
-        FragmentManager manager = ((AppCompatActivity) context).getSupportFragmentManager();
-
-        manager.beginTransaction()
-                .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,
-                        R.anim.enter_right_to_left, R.anim.exit_right_to_left)
-                .replace(R.id.fragment_container,
-                selectedFragment).commit();
-
-        return true;
     }
 }

@@ -9,6 +9,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -44,10 +45,18 @@ public class MainActivity extends AppCompatActivity {
     //Bắt sự kiện nhấn nút lui về của dt
     @Override
     public void onBackPressed() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if (!(fragment instanceof IOnBackPressed) || !((IOnBackPressed) fragment).onBackPressed()) {
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            Log.i("MainActivity", "popping backstack");
+            fm.popBackStack();
+        } else {
+            Log.i("MainActivity", "nothing on backstack, calling super");
             super.onBackPressed();
         }
+//        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+//        if (!(fragment instanceof IOnBackPressed) || !((IOnBackPressed) fragment).onBackPressed()) {
+//            super.onBackPressed();
+//        }
     }
 
 //    @Override
@@ -78,42 +87,34 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item){
             Fragment selectedFragment = null;
+            String tagName = "";
 
             switch(item.getItemId()){
                 case R.id.nav_category:
+                    tagName = "Category";
                     selectedFragment = new the_loai();
                     break;
                 case R.id.nav_home:
+                    tagName = "Home";
                     selectedFragment = new trang_chu();
                     break;
                 case  R.id.nav_film_room:
+                    tagName = "Theater";
                     SharedPreferences sp1 = getSharedPreferences("Login", Context.MODE_PRIVATE);
                     String userId = sp1.getString("Unm", null);
                     if(userId != null){
                         selectedFragment = new phong_phim_test(userId);
-                        FragmentManager manager = getSupportFragmentManager();
-
-                        manager.beginTransaction()
-                                .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
-                                        R.anim.enter_left_to_right, R.anim.exit_left_to_right)
-                                .replace(R.id.fragment_container,
-                                        selectedFragment).commit();
                     }
                     else {
                         selectedFragment = new Dangnhap_Dangki();
-                        FragmentManager manager = getSupportFragmentManager();
-
-                        manager.beginTransaction()
-                                .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
-                                        R.anim.enter_left_to_right, R.anim.exit_left_to_right)
-                                .replace(R.id.fragment_container,
-                                        selectedFragment).commit();
                     }
                     break;
                 case R.id.nav_setting:
+                    tagName = "User";
                     selectedFragment = new Dangnhap_Dangki();
                     break;
                 case R.id.nav_timkiem:
+                    tagName = "Search";
                     selectedFragment = new tim_kiem();
                     break;
             }
@@ -121,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
             FragmentManager manager = getSupportFragmentManager();
 
             manager.beginTransaction()
+                    .add(selectedFragment, tagName) // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+                    .addToBackStack(null)
                     .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,
                             R.anim.enter_right_to_left, R.anim.exit_right_to_left)
                     .replace(R.id.fragment_container,
