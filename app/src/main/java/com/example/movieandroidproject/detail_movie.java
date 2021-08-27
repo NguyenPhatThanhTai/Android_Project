@@ -97,18 +97,23 @@ public class detail_movie extends Fragment {
         playnow_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                APIControllers api = new APIControllers();
-                api.Views(highRate.getMovieId());
+                Thread thread1 = new Thread(){
+                    @Override
+                    public void run() {
+                        super.run();
+                        APIControllers api = new APIControllers();
+                        api.Views(highRate.getMovieId());
+                    }
+                };
+                thread1.start();
                 //Gọi trang xem phim
 
                 Fragment selectedFragment = new play_movie(highRate, "");
-                FragmentManager manager = ((AppCompatActivity) context).getSupportFragmentManager();
+                FragmentManager manager = getActivity().getSupportFragmentManager();
 
                 manager.beginTransaction()
                         .add(selectedFragment, "back_stack") // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
                         .addToBackStack(null)
-                        .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
-                                R.anim.enter_left_to_right, R.anim.exit_left_to_right)
                         .replace(R.id.fragment_container,
                         selectedFragment).commit();
             }

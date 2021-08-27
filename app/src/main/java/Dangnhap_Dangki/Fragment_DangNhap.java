@@ -51,7 +51,7 @@ public class Fragment_DangNhap extends Fragment {
                                 Ed.putString("Unm", nguoiDung.getUserId());
                                 Ed.commit();
                                 showAlert("Đăng nhập thành công");
-                                Fragment selectedFragment = new trang_chu();
+                                Fragment selectedFragment = new trang_chu(getActivity());
                                 FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
 
                                 manager.beginTransaction()

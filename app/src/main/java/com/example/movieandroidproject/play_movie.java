@@ -37,6 +37,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -103,7 +104,7 @@ public class play_movie extends Fragment {
             fr.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
             fr.requestLayout();//It is necesary to refresh the screen
 
-            BottomNavigationView bottomNAV = this.getActivity().findViewById(R.id.bottom_nav);
+            MeowBottomNavigation bottomNAV = this.getActivity().findViewById(R.id.meow_bottom);
 //            bottomNAV.getMenu().findItem(R.id.nav_home).setVisible(false);
             bottomNAV.setVisibility(View.GONE);
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
@@ -112,7 +113,7 @@ public class play_movie extends Fragment {
             fr.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
             fr.requestLayout();//It is necesary to refresh the screen
 
-            BottomNavigationView bottomNAV = this.getActivity().findViewById(R.id.bottom_nav);
+            MeowBottomNavigation bottomNAV = this.getActivity().findViewById(R.id.meow_bottom);
             bottomNAV.setVisibility(View.VISIBLE);
         }
     }

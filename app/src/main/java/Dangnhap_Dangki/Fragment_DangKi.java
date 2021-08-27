@@ -1,5 +1,6 @@
 package Dangnhap_Dangki;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -98,7 +99,7 @@ public class Fragment_DangKi extends Fragment {
                                 Ed.putString("Unm", nguoiDung.getUserId());
                                 Ed.commit();
                                 showAlert("Đăng kí thành công");
-                                Fragment selectedFragment = new trang_chu();
+                                Fragment selectedFragment = new trang_chu(getActivity());
                                 FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
 
                                 manager.beginTransaction()

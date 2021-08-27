@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.example.movieandroidproject.R;
 
 import com.example.movieandroidproject.trang_chu;
@@ -39,6 +40,8 @@ public class phong_phim_test extends Fragment {
         View view = inflater.inflate(R.layout.phong_phim, container, false);
         wv_view = view.findViewById(R.id.wv_view);
         goUrl("http://trongeddy48-001-site1.etempurl.com/RoomMovie/Index?id=" + userId);
+        MeowBottomNavigation bottomNAV = this.getActivity().findViewById(R.id.meow_bottom);
+        bottomNAV.setVisibility(View.GONE);
 
         return view;
     }
@@ -137,5 +140,7 @@ public class phong_phim_test extends Fragment {
     public void onPause() {
         super.onPause();
         destroyWebView();
+        MeowBottomNavigation bottomNAV = this.getActivity().findViewById(R.id.meow_bottom);
+        bottomNAV.setVisibility(View.VISIBLE);
     }
 }

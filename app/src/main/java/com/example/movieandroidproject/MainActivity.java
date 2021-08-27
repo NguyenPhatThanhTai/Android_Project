@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
@@ -35,7 +36,7 @@ import rap_phim.sanh_phim;
 public class MainActivity extends AppCompatActivity {
     private int seekVideo;
     private Fragment f;
-
+    MeowBottomNavigation bottomNavigation;
 
     public MainActivity() {
     }
@@ -45,12 +46,89 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView bottomNAV = findViewById(R.id.bottom_nav);
-        bottomNAV.setOnNavigationItemSelectedListener(navLis);
-        bottomNAV.getMenu().findItem(R.id.nav_home).setChecked(true);
+        FragmentManager manager = getSupportFragmentManager();
+
+        manager.beginTransaction()
+                .add(new trang_chu(MainActivity.this), "back_stack") // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+                .addToBackStack(null)
+                .replace(R.id.fragment_container,
+                        new trang_chu(MainActivity.this)).commit();
+
+        bottomNavigation = findViewById(R.id.meow_bottom);
+        bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_category_24));
+        bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_search_24));
+        bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.hat));
+        bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.ic_small_movie));
+        bottomNavigation.add(new MeowBottomNavigation.Model(5, R.drawable.ic_settings_24));
+
+        bottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
+            @Override
+            public void onShowItem(MeowBottomNavigation.Model item) {
+
+            }
+        });
+
+        bottomNavigation.setCount(5,"10");
+        bottomNavigation.show(3, true);
+
+        bottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
+            @Override
+            public void onClickItem(MeowBottomNavigation.Model item) {
+                Fragment selectedFragment = null;
+                String tagName = "";
+                switch(item.getId()){
+                    case 1:
+                        tagName = "Category";
+                        selectedFragment = new the_loai();
+                        break;
+                    case 3:
+                        tagName = "Home";
+                        selectedFragment = new trang_chu(MainActivity.this);
+                        break;
+                    case  4:
+                        tagName = "Movie";
+                        SharedPreferences sp1 = getSharedPreferences("Login", Context.MODE_PRIVATE);
+                        String userId = sp1.getString("Unm", null);
+                        if(userId != null){
+                            selectedFragment = new phong_phim_test(userId);
+                        }
+                        else {
+                            selectedFragment = new Dangnhap_Dangki();
+                        }
+                        break;
+                    case 5:
+                        tagName = "Setting";
+                        selectedFragment = new Dangnhap_Dangki();
+                        break;
+                    case 2:
+                        tagName = "Search";
+                        selectedFragment = new tim_kiem();
+                        break;
+                }
+                FragmentManager manager = getSupportFragmentManager();
+
+                manager.beginTransaction()
+                        .add(selectedFragment, tagName) // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+                        .addToBackStack(null)
+                        .replace(R.id.fragment_container,
+                                selectedFragment).commit();
+            }
+        });
+
+        bottomNavigation.setOnReselectListener(new MeowBottomNavigation.ReselectListener() {
+            @Override
+            public void onReselectItem(MeowBottomNavigation.Model item) {
+//                Toast.makeText(getApplicationContext(), "re", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+//        BottomNavigationView bottomNAV = findViewById(R.id.bottom_nav);
+//        bottomNAV.setOnNavigationItemSelectedListener(navLis);
+//        bottomNAV.getMenu().findItem(R.id.nav_home).setChecked(true);
 
         if(isNetworkConnected()){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new trang_chu()).commit();
+//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new trang_chu()).commit();
             Thread thread = new Thread() {
                 @Override
                 public void run() {
@@ -124,53 +202,53 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navLis = new BottomNavigationView.OnNavigationItemSelectedListener(){
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item){
-            Fragment selectedFragment = null;
-            String tagName = "";
-
-            switch(item.getItemId()){
-                case R.id.nav_category:
-                    tagName = "Category";
-                    selectedFragment = new the_loai();
-                    break;
-                case R.id.nav_home:
-                    tagName = "Home";
-                    selectedFragment = new trang_chu();
-                    break;
-                case  R.id.nav_film_room:
-                    tagName = "Theater";
-                    SharedPreferences sp1 = getSharedPreferences("Login", Context.MODE_PRIVATE);
-                    String userId = sp1.getString("Unm", null);
-                    if(userId != null){
-                        selectedFragment = new phong_phim_test(userId);
-                    }
-                    else {
-                        selectedFragment = new Dangnhap_Dangki();
-                    }
-                    break;
-                case R.id.nav_setting:
-                    tagName = "User";
-                    selectedFragment = new Dangnhap_Dangki();
-                    break;
-                case R.id.nav_timkiem:
-                    tagName = "Search";
-                    selectedFragment = new tim_kiem();
-                    break;
-            }
-
-            FragmentManager manager = getSupportFragmentManager();
-
-            manager.beginTransaction()
-                    .add(selectedFragment, tagName) // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
-                    .addToBackStack(null)
-                    .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,
-                            R.anim.enter_right_to_left, R.anim.exit_right_to_left)
-                    .replace(R.id.fragment_container,
-                    selectedFragment).commit();
-
-            return true;
-        }
-    };
+//    private BottomNavigationView.OnNavigationItemSelectedListener navLis = new BottomNavigationView.OnNavigationItemSelectedListener(){
+//        @Override
+//        public boolean onNavigationItemSelected(@NonNull MenuItem item){
+//            Fragment selectedFragment = null;
+//            String tagName = "";
+//
+//            switch(item.getItemId()){
+//                case R.id.nav_category:
+//                    tagName = "Category";
+//                    selectedFragment = new the_loai();
+//                    break;
+//                case R.id.nav_home:
+//                    tagName = "Home";
+//                    selectedFragment = new trang_chu(MainActivity.this);
+//                    break;
+//                case  R.id.nav_film_room:
+//                    tagName = "Theater";
+//                    SharedPreferences sp1 = getSharedPreferences("Login", Context.MODE_PRIVATE);
+//                    String userId = sp1.getString("Unm", null);
+//                    if(userId != null){
+//                        selectedFragment = new phong_phim_test(userId);
+//                    }
+//                    else {
+//                        selectedFragment = new Dangnhap_Dangki();
+//                    }
+//                    break;
+//                case R.id.nav_setting:
+//                    tagName = "User";
+//                    selectedFragment = new Dangnhap_Dangki();
+//                    break;
+//                case R.id.nav_timkiem:
+//                    tagName = "Search";
+//                    selectedFragment = new tim_kiem();
+//                    break;
+//            }
+//
+//            FragmentManager manager = getSupportFragmentManager();
+//
+//            manager.beginTransaction()
+//                    .add(selectedFragment, tagName) // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+//                    .addToBackStack(null)
+//                    .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,
+//                            R.anim.enter_right_to_left, R.anim.exit_right_to_left)
+//                    .replace(R.id.fragment_container,
+//                    selectedFragment).commit();
+//
+//            return true;
+//        }
+//    };
 }

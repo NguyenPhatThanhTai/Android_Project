@@ -1,28 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/fragment_container"
-        android:layout_above="@id/bottom_nav">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#000000">
 
     </FrameLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_nav"
+    <com.etebarian.meowbottomnavigation.MeowBottomNavigation
+        android:id="@+id/meow_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        app:itemIconSize="30dp"
-        app:labelVisibilityMode="unlabeled"
-        app:menu="@menu/bottom_navigation">
+        android:background="@android:color/transparent"
+        app:mbn_backgroundBottomColor="#F4B36E"
+        app:mbn_circleColor="@color/white"
+        app:mbn_countBackgroundColor="#ff6f00"
+        app:mbn_countTextColor="@color/white"
+        app:mbn_defaultIconColor="@color/white"
+        app:mbn_selectedIconColor="#3c415e" />
 
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
-</RelativeLayout>
+    <!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
+    <!--        android:id="@+id/bottom_nav"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentBottom="true"-->
+    <!--        android:layout_gravity="bottom"-->
+    <!--        android:background="#FFFFFF"-->
+    <!--        app:itemIconSize="30dp"-->
+    <!--        app:labelVisibilityMode="unlabeled"-->
+    <!--        app:menu="@menu/bottom_navigation">-->
+
+    <!--    </com.google.android.material.bottomnavigation.BottomNavigationView>-->
+
+</LinearLayout>

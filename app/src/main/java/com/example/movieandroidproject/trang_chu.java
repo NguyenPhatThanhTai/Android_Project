@@ -1,4 +1,5 @@
 package com.example.movieandroidproject;
+import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 import androidx.viewpager.widget.ViewPager;
 
+import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -41,6 +43,7 @@ public class trang_chu extends Fragment {
     private Timer mTimer;
 
     private Thread thread;
+    private Activity activity;
     private RecyclerView RCHR, RCRC;
     private Spinner TheLoai, Studio;
     private int position;
@@ -53,10 +56,15 @@ public class trang_chu extends Fragment {
     private boolean loading = true;
     int pastVisiblesItems, visibleItemCount, totalItemCount;
 
+    public trang_chu(Activity activity){
+        this.activity = activity;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.trang_chu, container, false);
+
         viewPager = view.findViewById(R.id.viewpager);
         RecyclerView recyclerViewHighRate = view.findViewById(R.id.rcv_HighRate);
         RCHR = recyclerViewHighRate;
@@ -214,7 +222,7 @@ public class trang_chu extends Fragment {
         mListHighRate = apiControllers.getApiMovie();
         HighRate_Adapter highRate_adapter = new HighRate_Adapter(apiControllers.getApiMovie(), (MainActivity) this.getActivity());
 
-        this.getActivity().runOnUiThread(new Runnable() {
+        activity.runOnUiThread(new Runnable() {
 
             @Override
             public void run() {
@@ -227,7 +235,7 @@ public class trang_chu extends Fragment {
         APIControllers apiControllers = new APIControllers();
         RecommentForYou_Adapter recommentForYou_adapter = new RecommentForYou_Adapter(apiControllers.getAllMovie(), (MainActivity) this.getActivity());
 
-        this.getActivity().runOnUiThread(new Runnable() {
+        activity.runOnUiThread(new Runnable() {
 
             @Override
             public void run() {

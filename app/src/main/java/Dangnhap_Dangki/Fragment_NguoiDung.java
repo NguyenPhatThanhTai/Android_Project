@@ -70,7 +70,7 @@ public class Fragment_NguoiDung extends Fragment {
                 SharedPreferences.Editor Ed = sp.edit();
                 Ed.remove("Unm");
                 Ed.commit();
-                Fragment selectedFragment = new trang_chu();
+                Fragment selectedFragment = new trang_chu(getActivity());
                 FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
 
                 manager.beginTransaction()

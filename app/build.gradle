@@ -10,7 +10,7 @@ android {
         minSdk 28
         targetSdk 31
         versionCode 1
-        versionName "2"
+        versionName "3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -43,5 +43,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.google.android.exoplayer:exoplayer:2.7.3'
     implementation "androidx.media:media:1.2.0"
+
+    implementation 'com.etebarian:meow-bottom-navigation-java:1.2.0'
 
 }
