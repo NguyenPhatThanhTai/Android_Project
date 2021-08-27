@@ -46,14 +46,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FragmentManager manager = getSupportFragmentManager();
-
-        manager.beginTransaction()
-                .add(new trang_chu(MainActivity.this), "back_stack") // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
-                .addToBackStack(null)
-                .replace(R.id.fragment_container,
-                        new trang_chu(MainActivity.this)).commit();
-
         bottomNavigation = findViewById(R.id.meow_bottom);
         bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_category_24));
         bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_search_24));
@@ -128,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 //        bottomNAV.getMenu().findItem(R.id.nav_home).setChecked(true);
 
         if(isNetworkConnected()){
-//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new trang_chu()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new trang_chu(MainActivity.this)).commit();
             Thread thread = new Thread() {
                 @Override
                 public void run() {
