@@ -64,6 +64,7 @@ public class trang_chu extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.trang_chu, container, false);
+        ((MainActivity)getActivity()).setBottomNav(3);
 
         viewPager = view.findViewById(R.id.viewpager);
         RecyclerView recyclerViewHighRate = view.findViewById(R.id.rcv_HighRate);

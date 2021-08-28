@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.example.movieandroidproject.MainActivity;
 import com.example.movieandroidproject.R;
 
 import com.example.movieandroidproject.trang_chu;
@@ -38,6 +39,8 @@ public class phong_phim_test extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.phong_phim, container, false);
+        ((MainActivity)getActivity()).setBottomNav(4);
+
         wv_view = view.findViewById(R.id.wv_view);
         goUrl("http://trongeddy48-001-site1.etempurl.com/RoomMovie/Index?id=" + userId);
         MeowBottomNavigation bottomNAV = this.getActivity().findViewById(R.id.meow_bottom);

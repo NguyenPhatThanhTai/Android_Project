@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.movieandroidproject.MainActivity;
 import com.example.movieandroidproject.R;
 import com.google.android.material.tabs.TabLayout;
 
@@ -29,6 +30,8 @@ public class Dangnhap_Dangki extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dangnhap_dangki, container, false);
+        ((MainActivity)getActivity()).setBottomNav(5);
+
         SharedPreferences sp1=getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
         String unm=sp1.getString("Unm", null);
         if(unm != null){

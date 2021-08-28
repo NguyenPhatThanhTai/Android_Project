@@ -39,6 +39,8 @@ public class the_loai extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.items_category2, container, false);
+        ((MainActivity)getActivity()).setBottomNav(1);
+
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rcv_category);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);

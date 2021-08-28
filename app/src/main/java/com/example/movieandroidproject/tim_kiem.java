@@ -29,6 +29,8 @@ public class tim_kiem extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tim_kiem, container, false);
+        ((MainActivity)getActivity()).setBottomNav(2);
+
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rcv_timkiem);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);

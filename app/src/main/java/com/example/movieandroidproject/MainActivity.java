@@ -47,11 +47,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bottomNavigation = findViewById(R.id.meow_bottom);
-        bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_category_24));
-        bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_search_24));
-        bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.hat));
-        bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.ic_small_movie));
-        bottomNavigation.add(new MeowBottomNavigation.Model(5, R.drawable.ic_settings_24));
+        bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.menu));
+        bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.loupe));
+        bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.house));
+        bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.ticket));
+        bottomNavigation.add(new MeowBottomNavigation.Model(5, R.drawable.profile));
 
         bottomNavigation.setOnShowListener(new MeowBottomNavigation.ShowListener() {
             @Override
@@ -192,6 +192,10 @@ public class MainActivity extends AppCompatActivity {
             Log.i("MainActivity", "nothing on backstack, calling super");
             super.onBackPressed();
         }
+    }
+
+    public void setBottomNav(int number){
+        bottomNavigation.show(number, true);
     }
 
 //    private BottomNavigationView.OnNavigationItemSelectedListener navLis = new BottomNavigationView.OnNavigationItemSelectedListener(){
