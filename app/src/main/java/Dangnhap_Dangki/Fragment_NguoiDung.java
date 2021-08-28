@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.movieandroidproject.MainActivity;
 import com.example.movieandroidproject.R;
+import com.example.movieandroidproject.play_movie;
 import com.example.movieandroidproject.trang_chu;
 
 import java.util.List;
@@ -76,10 +77,26 @@ public class Fragment_NguoiDung extends Fragment {
                 FragmentManager manager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
 
                 manager.beginTransaction()
-                        .add(selectedFragment, "back_stack") // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
-                        .addToBackStack(null)
+//                        .add(selectedFragment, "back_stack") // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+//                        .addToBackStack(null)
                         .setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right,
                                 R.anim.enter_right_to_left, R.anim.exit_right_to_left)
+                        .replace(R.id.fragment_container,
+                                selectedFragment).commit();
+            }
+        });
+        Button vechungtoi = view.findViewById(R.id.veungdung);
+        vechungtoi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment selectedFragment = new ve_ung_dung();
+                FragmentManager manager = getActivity().getSupportFragmentManager();
+
+                manager.beginTransaction()
+                        .add(selectedFragment, "back_stack") // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+                        .addToBackStack(null)
+                        .setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left,
+                                R.anim.enter_left_to_right, R.anim.exit_left_to_right)
                         .replace(R.id.fragment_container,
                                 selectedFragment).commit();
             }

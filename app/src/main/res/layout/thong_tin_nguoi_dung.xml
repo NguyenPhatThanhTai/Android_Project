@@ -188,6 +188,15 @@
                     android:text="Đăng xuất"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
+                <Button
+                    android:id="@+id/veungdung"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/custom_backgroud_organce"
+                    android:text="Về ứng dụng"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
             </LinearLayout>
 
             <TextView
