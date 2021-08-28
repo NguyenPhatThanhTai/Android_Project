@@ -19,6 +19,7 @@ import java.util.List;
 
 import Category.Category;
 import Dangnhap_Dangki.NguoiDung;
+import comment.comment;
 import danh_sach_tap_phim.Film_List;
 import luu_phim.luu_phim;
 import okhttp3.Call;
@@ -543,6 +544,89 @@ public class APIControllers {
                 urlUpdate = jsonObject.getJSONObject("Verapp").getString("URLVer");
             }
             return urlUpdate;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public boolean addComment(String movieId, String Name, String Comment){
+        System.out.println("BAT DAU TEST API...");
+        JSONObject json = null;
+        String url = "";
+        try {
+            String querry_json = "http://trongeddy48-001-site1.etempurl.com/api/AddComment?MovieId="+ movieId +"&GuestName="+ Name +"&Comment=" + Comment;
+            json = readJsonFromUrl(querry_json);
+            JSONObject jsonObject = new JSONObject(json.toString());
+            String check = jsonObject.getString("message");
+
+            System.out.println("Check tra ve la +++++++++++++++++" + check);
+
+            if(check.equals("ok"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    public List<comment> getListComment(String id){
+        System.out.println("BAT DAU TEST API...");
+        JSONObject json = null;
+        String url = "";
+        List<comment> list = new ArrayList<>();
+        try {
+            json = readJsonFromUrl("http://trongeddy48-001-site1.etempurl.com/api/Comment?id=" + id);
+
+            JSONArray jsonArray = json.getJSONArray("CommentList");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                list.add(new comment(
+                        jsonArray.getJSONObject(i).getString("CommentId"),
+                        jsonArray.getJSONObject(i).getString("GuestName"),
+                        jsonArray.getJSONObject(i).getString("Comment1"),
+                        jsonArray.getJSONObject(i).getString("Created"),
+                        id
+                ));
+            }
+
+            System.out.println(jsonArray);
+            return list;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public NguoiDung getNguoidung(String id){
+        System.out.println("BAT DAU TEST API...");
+        JSONObject json = null;
+        String url = "";
+        try {
+            String querry_json = "http://trongeddy48-001-site1.etempurl.com/api/User?id=" + id;
+            json = readJsonFromUrl(querry_json);
+            JSONObject jsonObject = new JSONObject(json.toString());
+            NguoiDung nguoiDung = new NguoiDung(
+                    jsonObject.getJSONObject("User").getString("UserId"),
+                    jsonObject.getJSONObject("User").getString("Username"),
+                    jsonObject.getJSONObject("User").getString("Password"),
+                    jsonObject.getJSONObject("User").getString("FullName"),
+                    jsonObject.getJSONObject("User").getString("Birthday"),
+                    jsonObject.getJSONObject("User").getString("Address"),
+                    jsonObject.getJSONObject("User").getString("Phone"),
+                    jsonObject.getJSONObject("User").getString("Email"),
+                    jsonObject.getJSONObject("User").getString("Avatar"),
+                    jsonObject.getJSONObject("User").getString("Wallet"));
+
+            return nguoiDung;
 
         } catch (Exception ex) {
             ex.printStackTrace();

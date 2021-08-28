@@ -9,14 +9,17 @@
         <entry key="..\:/Android_Project/app/src/main/res/drawable/custom_backgroud_white.xml" value="0.2101851851851852" />
         <entry key="..\:/Android_Project/app/src/main/res/drawable/custom_button_blue.xml" value="0.290625" />
         <entry key="..\:/Android_Project/app/src/main/res/drawable/custom_button_red.xml" value="0.20833333333333334" />
+        <entry key="..\:/Android_Project/app/src/main/res/drawable/ic_baseline_send_24.xml" value="0.20833333333333334" />
         <entry key="..\:/Android_Project/app/src/main/res/layout/activity_main.xml" value="0.152" />
         <entry key="..\:/Android_Project/app/src/main/res/layout/cate_film.xml" value="0.23867753623188406" />
+        <entry key="..\:/Android_Project/app/src/main/res/layout/comment.xml" value="0.22010869565217392" />
         <entry key="..\:/Android_Project/app/src/main/res/layout/custom_controller.xml" value="0.23867753623188406" />
         <entry key="..\:/Android_Project/app/src/main/res/layout/dangnhap_dangki.xml" value="0.23867753623188406" />
         <entry key="..\:/Android_Project/app/src/main/res/layout/detail_movie.xml" value="0.21739130434782608" />
         <entry key="..\:/Android_Project/app/src/main/res/layout/fragment__dang_ki.xml" value="0.23867753623188406" />
         <entry key="..\:/Android_Project/app/src/main/res/layout/fragment__dang_nhap.xml" value="0.23867753623188406" />
         <entry key="..\:/Android_Project/app/src/main/res/layout/items_category2.xml" value="0.21195652173913043" />
+        <entry key="..\:/Android_Project/app/src/main/res/layout/items_comment.xml" value="0.4" />
         <entry key="..\:/Android_Project/app/src/main/res/layout/items_highrate.xml" value="0.4" />
         <entry key="..\:/Android_Project/app/src/main/res/layout/items_list_episode.xml" value="0.4" />
         <entry key="..\:/Android_Project/app/src/main/res/layout/items_photo.xml" value="0.22010869565217392" />

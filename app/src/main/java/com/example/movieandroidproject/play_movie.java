@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.PictureInPictureParams;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -21,8 +22,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,10 +70,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import API.APIControllers;
+import Dangnhap_Dangki.Dangnhap_Dangki;
+import comment.comment;
+import comment.comment_adapter;
 import danh_sach_tap_phim.Film_list_Adapter;
 import trang_chu.*;
+
+import Dangnhap_Dangki.*;
 
 public class play_movie extends Fragment {
     PlayerView movie_play;
@@ -86,7 +98,9 @@ public class play_movie extends Fragment {
     private boolean stopView;
     private PictureInPictureParams.Builder pictureInPictureParams;
     private String Ep = "1";
-    private RecyclerView rcv;
+    private RecyclerView rcv, rcv_comment;
+    private String userId;
+    private EditText txt_put_feed_back;
 
     public play_movie(HighRate highRate, String url) {
         this.highRate = highRate;
@@ -126,6 +140,48 @@ public class play_movie extends Fragment {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
+        SharedPreferences sp1 = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+        userId = sp1.getString("Unm", null);
+
+        LinearLayout ln_notLogin = view.findViewById(R.id.ln_notLogin);
+        LinearLayout ln_loginEd = view.findViewById(R.id.ln_logined);
+        Button btn_goLogin = view.findViewById(R.id.btn_goLogin);
+        ImageButton btn_gui = view.findViewById(R.id.btn_gui);
+
+        if(userId != null){
+            ln_loginEd.setVisibility(View.VISIBLE);
+            thread = new Thread(this::setComment);
+            thread.start();
+            txt_put_feed_back = view.findViewById(R.id.txt_put_feed_back);
+            btn_gui.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!txt_put_feed_back.getText().toString().equals("")){
+                        sendComment();
+                    }
+                    else {
+                        return;
+                    }
+                }
+            });
+        }
+        else {
+            ln_notLogin.setVisibility(View.VISIBLE);
+            btn_goLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Fragment selectedFragment = new Dangnhap_Dangki();
+                    FragmentManager manager = getActivity().getSupportFragmentManager();
+
+                    manager.beginTransaction()
+                            .add(selectedFragment, "back_stack") // Add this transaction to the back stack (name is an optional name for this back stack state, or null).
+                            .addToBackStack(null)
+                            .replace(R.id.fragment_container,
+                                    selectedFragment).commit();
+                }
+            });
+        }
+
         this.getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         movie_play = view.findViewById(R.id.movie_play);
@@ -149,10 +205,13 @@ public class play_movie extends Fragment {
         TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
         simpleExoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector, loadControl);
 
-        RecyclerView rcv_ep = view.findViewById(R.id.rcv_ep);
+        rcv = view.findViewById(R.id.rcv_ep);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 4);
-        rcv_ep.setLayoutManager(gridLayoutManager);
-        rcv = rcv_ep;
+        rcv.setLayoutManager(gridLayoutManager);
+
+        rcv_comment = view.findViewById(R.id.rcv_comment);
+        GridLayoutManager gridLayoutManager2 = new GridLayoutManager(this.getActivity(), 1);
+        rcv_comment.setLayoutManager(gridLayoutManager2);
 
         thread = new Thread(this::setListEp);
         thread.start();
@@ -383,6 +442,44 @@ public class play_movie extends Fragment {
         });
     }
 
+    private void setComment(){
+        comment_adapter comment_adapter = new comment_adapter(new APIControllers().getListComment(highRate.getMovieId()), this.getActivity());
+
+        this.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                rcv_comment.setAdapter(comment_adapter);
+            }
+        });
+    }
+
+    private void sendComment(){
+        Thread thread = new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                NguoiDung nguoiDung = new APIControllers().getNguoidung(userId);
+                if(new APIControllers().addComment(highRate.getMovieId(), nguoiDung.getFullName(), txt_put_feed_back.getText().toString())){
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setComment();
+                        }
+                    });
+                }
+                else {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getContext(), "Gửi bình luận thất bại!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        };
+        thread.start();
+    }
+
     public void test(String data){
         Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
     }
@@ -412,6 +509,8 @@ public class play_movie extends Fragment {
             thread.start();
         }
     }
+
+
 
     @Override
     public void onResume() {
