@@ -65,7 +65,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="15dp"
+                        android:layout_margin="5dp"
                         android:orientation="vertical">
 
                         <LinearLayout
@@ -213,9 +213,7 @@
                             android:layout_marginTop="15dp"
                             android:layout_marginBottom="15dp"
                             android:background="@android:color/transparent"
-                            android:clipToPadding="false"
-                            android:paddingStart="10dp"
-                            android:paddingEnd="35dp">
+                            android:clipToPadding="false">
 
                         </androidx.recyclerview.widget.RecyclerView>
 
