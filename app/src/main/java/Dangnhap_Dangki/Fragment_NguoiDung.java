@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.movieandroidproject.MainActivity;
 import com.example.movieandroidproject.R;
 import com.example.movieandroidproject.trang_chu;
 
@@ -36,6 +37,7 @@ public class Fragment_NguoiDung extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.thong_tin_nguoi_dung, container, false);
+        ((MainActivity)getActivity()).setBottomNav(5);
 
         Thread thread = new Thread(){
             @Override

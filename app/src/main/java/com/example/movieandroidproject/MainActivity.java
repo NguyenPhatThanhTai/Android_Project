@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        bottomNavigation.setCount(5,"10");
+//        bottomNavigation.setCount(5,"10"); // set thong bao
         bottomNavigation.show(3, true);
 
         bottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {

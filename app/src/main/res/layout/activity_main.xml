@@ -20,14 +20,14 @@
         android:id="@+id/meow_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:background="@android:color/transparent"
-        app:mbn_backgroundBottomColor="#F4B36E"
+        app:mbn_backgroundBottomColor="#1C1C27"
         app:mbn_circleColor="@color/white"
-        app:mbn_countBackgroundColor="#ff6f00"
+        app:mbn_countBackgroundColor="#E14E4E"
         app:mbn_countTextColor="@color/white"
-        app:mbn_defaultIconColor="@color/white"
-        app:mbn_selectedIconColor="#3c415e"
-        android:layout_alignParentBottom="true"/>
+        app:mbn_defaultIconColor="#F1B337"
+        app:mbn_selectedIconColor="#3c415e" />
 
 
     <!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->

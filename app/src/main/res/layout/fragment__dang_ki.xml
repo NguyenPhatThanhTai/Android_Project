@@ -180,8 +180,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/custom_button_green"
-                    android:text="Đăng kí" />
+                    android:background="@drawable/custom_backgroud_organce"
+                    android:padding="20dp"
+                    android:text="Đăng kí"
+                    android:textColor="#1C1C27"
+                    android:textSize="20sp" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

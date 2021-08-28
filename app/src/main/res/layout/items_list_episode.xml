@@ -12,8 +12,9 @@
         android:id="@+id/ep_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/custom_backgroud_organce"
         android:text="Button"
-        android:textSize="10sp"
-        android:background="@drawable/custom_button_blue"/>
+        android:textColor="#1C1C27"
+        android:textSize="10sp" />
 
 </RelativeLayout>

@@ -22,6 +22,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.movieandroidproject.MainActivity;
 import com.example.movieandroidproject.R;
 import com.example.movieandroidproject.trang_chu;
 
@@ -39,6 +40,8 @@ public class Fragment_DangKi extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment__dang_ki, container, false);
+        ((MainActivity)getActivity()).setBottomNav(5);
+
         EditText username = view.findViewById(R.id.username);
         EditText password = view.findViewById(R.id.password);
         EditText fullname = view.findViewById(R.id.fullname);

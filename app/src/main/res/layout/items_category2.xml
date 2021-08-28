@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="#1C1C27"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -27,7 +27,7 @@
                 android:id="@+id/txtUserName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nguyễn Phát Thành Tài"
+                android:text="Paimon Xin Chào"
                 android:textColor="#2196F3"
                 android:textSize="22sp" />
 
@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Mã người dùng: 1111111111"
+                android:text="Chúc một ngày tốt lành"
                 android:textColor="#E37474" />
         </LinearLayout>
 

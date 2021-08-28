@@ -175,11 +175,11 @@ public class trang_chu extends Fragment {
 
     private List<Photo> getListNewestFilm(){
         List<Photo> list = new ArrayList<>();
-        list.add(new Photo(R.drawable.s5cms));
-        list.add(new Photo(R.drawable.your_name));
+        list.add(new Photo(R.drawable.fate));
+        list.add(new Photo(R.drawable.overlord));
         list.add(new Photo(R.drawable.silentvoice));
         list.add(new Photo(R.drawable.wwy));
-        list.add(new Photo(R.drawable.demon_slayer));
+        list.add(new Photo(R.drawable.haikyu));
         list.add(new Photo(R.drawable.poster1));
 
         return list;
