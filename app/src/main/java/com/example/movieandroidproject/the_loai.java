@@ -1,6 +1,8 @@
 package com.example.movieandroidproject;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -61,20 +63,26 @@ public class the_loai extends Fragment{
                     nd = null;
                 }
 
-
                 categoryData = new APIControllers().getAllCate();
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
+                        PackageInfo pInfo = null;
+                        try {
+                            pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
+                        } catch (PackageManager.NameNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        String version = pInfo.versionName;
                         if (nd != null)
                         {
+
                             txtUserName.setText(nd.getFullName());
-                            txtUserId.setText(nd.getUserId());
+                            txtUserId.setText(nd.getUserId() + " - Phiên bản: " + version);
                         }
                         else {
                             txtUserName.setText("Xin chào!");
-                            txtUserId.setText("Chúc một ngày tốt lành!");
+                            txtUserId.setText("Chúc một ngày tốt lành!" + " - Phiên bản: " + version);
                         }
                         CategoryAdapter categoryAdapter = new CategoryAdapter(categoryData, (MainActivity) getActivity());
                         recyclerView.setAdapter(categoryAdapter);
