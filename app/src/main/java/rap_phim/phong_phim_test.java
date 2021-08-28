@@ -44,7 +44,7 @@ public class phong_phim_test extends Fragment {
         wv_view = view.findViewById(R.id.wv_view);
         goUrl("http://trongeddy48-001-site1.etempurl.com/RoomMovie/Index?id=" + userId);
         MeowBottomNavigation bottomNAV = this.getActivity().findViewById(R.id.meow_bottom);
-//        bottomNAV.setVisibility(View.GONE);
+        bottomNAV.setVisibility(View.GONE);
 
         return view;
     }
@@ -144,6 +144,6 @@ public class phong_phim_test extends Fragment {
         super.onPause();
         destroyWebView();
         MeowBottomNavigation bottomNAV = this.getActivity().findViewById(R.id.meow_bottom);
-//        bottomNAV.setVisibility(View.VISIBLE);
+        bottomNAV.setVisibility(View.VISIBLE);
     }
 }
