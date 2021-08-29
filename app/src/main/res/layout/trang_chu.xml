@@ -206,6 +206,13 @@
                             android:textSize="20dp"
                             android:textStyle="bold" />
 
+                        <ProgressBar
+                            android:id="@+id/pg_loadHR"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone" />
+
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rcv_HighRate"
                             android:layout_width="match_parent"
@@ -213,7 +220,8 @@
                             android:layout_marginTop="15dp"
                             android:layout_marginBottom="15dp"
                             android:background="@android:color/transparent"
-                            android:clipToPadding="false">
+                            android:clipToPadding="false"
+                            android:visibility="gone">
 
                         </androidx.recyclerview.widget.RecyclerView>
 
@@ -255,12 +263,22 @@
 
                         </LinearLayout>
 
+                        <ProgressBar
+                            android:id="@+id/pg_loadRC"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone" />
+
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rcv_Recomment"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginBottom="10dp"
-                            android:background="@android:color/transparent" />
+                            android:background="@android:color/transparent"
+                            android:visibility="gone">
+
+                        </androidx.recyclerview.widget.RecyclerView>
                     </LinearLayout>
                 </FrameLayout>
 

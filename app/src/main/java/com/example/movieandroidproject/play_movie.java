@@ -92,7 +92,7 @@ public class play_movie extends Fragment {
     private String url = "";
     private Thread thread;
     private Context context;
-    private TextView on_playing;
+    private TextView on_playing, txt_comment_count;
     private boolean outPIP = false;
     private boolean outMoviePlay = false;
     private boolean stopView;
@@ -147,6 +147,7 @@ public class play_movie extends Fragment {
         LinearLayout ln_loginEd = view.findViewById(R.id.ln_logined);
         Button btn_goLogin = view.findViewById(R.id.btn_goLogin);
         ImageButton btn_gui = view.findViewById(R.id.btn_gui);
+        txt_comment_count = view.findViewById(R.id.txt_comment_count);
 
         if(userId != null){
             ln_loginEd.setVisibility(View.VISIBLE);
@@ -443,7 +444,15 @@ public class play_movie extends Fragment {
     }
 
     private void setComment(){
-        comment_adapter comment_adapter = new comment_adapter(new APIControllers().getListComment(highRate.getMovieId()), this.getActivity());
+        List<comment> list = new APIControllers().getListComment(highRate.getMovieId());
+        comment_adapter comment_adapter = new comment_adapter(list, this.getActivity());
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                txt_comment_count.setText("Bình luận(" + list.size()+")");
+            }
+        });
 
         this.getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -464,6 +473,7 @@ public class play_movie extends Fragment {
                         @Override
                         public void run() {
                             setComment();
+                            txt_put_feed_back.setText("");
                         }
                     });
                 }

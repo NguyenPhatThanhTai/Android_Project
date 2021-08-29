@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,9 +37,12 @@ public class tim_kiem extends Fragment{
         recyclerView.setLayoutManager(gridLayoutManager);
         ImageButton timkiem = view.findViewById(R.id.btn_timkiem);
         TextView tim = view.findViewById(R.id.txt_timkiem);
+
+        ProgressBar pg_load_search = view.findViewById(R.id.pg_search);
         timkiem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                pg_load_search.setVisibility(View.VISIBLE);
                 Thread thread = new Thread(){
                     @Override
                     public void run() {
@@ -50,6 +54,8 @@ public class tim_kiem extends Fragment{
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    pg_load_search.setVisibility(View.GONE);
+                                    recyclerView.setVisibility(View.VISIBLE);
                                     recyclerView.setAdapter(adapter);
                                 }
                             });
@@ -58,7 +64,7 @@ public class tim_kiem extends Fragment{
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(getContext(),"Không tìm thấy phim !",Toast.LENGTH_SHORT );
+                                    Toast.makeText(getContext(),"Không tìm thấy phim !",Toast.LENGTH_SHORT ).show();
                                 }
                             });
                         }

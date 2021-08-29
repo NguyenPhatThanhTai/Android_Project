@@ -10,7 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -66,6 +68,12 @@ public class trang_chu extends Fragment {
         View view = inflater.inflate(R.layout.trang_chu, container, false);
         ((MainActivity)getActivity()).setBottomNav(3);
 
+        ProgressBar pg_loadHR = view.findViewById(R.id.pg_loadHR);
+        pg_loadHR.setVisibility(View.VISIBLE);
+
+        ProgressBar pg_loadRC = view.findViewById(R.id.pg_loadRC);
+        pg_loadRC.setVisibility(View.VISIBLE);
+
         viewPager = view.findViewById(R.id.viewpager);
         RecyclerView recyclerViewHighRate = view.findViewById(R.id.rcv_HighRate);
         RCHR = recyclerViewHighRate;
@@ -99,6 +107,22 @@ public class trang_chu extends Fragment {
         snapHelper =  new LinearSnapHelper();
         snapHelper.attachToRecyclerView(RCHR);
         recyclerViewHighRate.smoothScrollBy(5, 0);
+
+        RCHR.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                pg_loadHR.setVisibility(View.GONE);
+                RCHR.setVisibility(View.VISIBLE);
+            }
+        });
+
+        RCRC.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                pg_loadRC.setVisibility(View.GONE);
+                RCRC.setVisibility(View.VISIBLE);
+            }
+        });
 
         RCHR.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
