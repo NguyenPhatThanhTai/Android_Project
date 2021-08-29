@@ -176,9 +176,9 @@
             <LinearLayout
                 android:id="@+id/ln_logined"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -190,7 +190,6 @@
                         android:id="@+id/txt_comment_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:paddingEnd="5dp"
                         android:text="Bình luận(13)"
                         android:textAllCaps="true"
@@ -200,7 +199,6 @@
                         android:id="@+id/txt_put_feed_back"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:ems="10"
                         android:hint="Nhập bình luận"
                         android:inputType="textPersonName" />
@@ -209,19 +207,23 @@
                         android:id="@+id/btn_gui"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:background="@android:color/transparent"
                         app:srcCompat="@drawable/ic_baseline_send_24" />
 
                 </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rcv_comment"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="10dp"
-                    android:layout_weight="1"
-                    android:paddingBottom="70dp" />
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rcv_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:paddingBottom="70dp" />
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>

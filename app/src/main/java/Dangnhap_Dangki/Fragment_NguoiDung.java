@@ -211,6 +211,7 @@ public class Fragment_NguoiDung extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 2);
         recyclerView = (RecyclerView) view.findViewById(R.id.rcv_luuphim);
         recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setNestedScrollingEnabled(false);
 
         setLuuphimAdapter();
 

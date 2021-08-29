@@ -2,6 +2,7 @@ package com.example.movieandroidproject;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -31,6 +32,21 @@ import API.APIControllers;
 import tim_kiem.*;
 
 public class tim_kiem extends Fragment{
+    private RecyclerView recyclerView;
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Kiểm tra quay màn hình ngang
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 3);
+            recyclerView.setLayoutManager(gridLayoutManager);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 2);
+            recyclerView.setLayoutManager(gridLayoutManager);
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,7 +71,7 @@ public class tim_kiem extends Fragment{
             tim.setTextColor(Color.WHITE);
         }
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rcv_timkiem);
+        recyclerView = (RecyclerView) view.findViewById(R.id.rcv_timkiem);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 

@@ -2,6 +2,7 @@ package com.example.movieandroidproject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -65,6 +67,20 @@ public class trang_chu extends Fragment {
 
     public trang_chu(Activity activity){
         this.activity = activity;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Kiểm tra quay màn hình ngang
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 3);
+            RCRC.setLayoutManager(gridLayoutManager);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 2);
+            RCRC.setLayoutManager(gridLayoutManager);
+        }
     }
 
     @Nullable
@@ -166,7 +182,7 @@ public class trang_chu extends Fragment {
 
         //Chỉnh 1 hàng 2 phim, cuộn xuống
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 2);
-        recyclerViewRecomment.setLayoutManager(gridLayoutManager);
+        RCRC.setLayoutManager(gridLayoutManager);
 
         //phần banner hình ảnh tự động chuyển
         mListPhoto = getListNewestFilm();
