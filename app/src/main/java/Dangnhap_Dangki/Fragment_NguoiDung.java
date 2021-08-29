@@ -35,6 +35,7 @@ import luu_phim.*;
 public class Fragment_NguoiDung extends Fragment {
     String id;
     RecyclerView recyclerView;
+    TextView txt_tenLuuphim;
     public Fragment_NguoiDung(String id){
         this.id = id;
     }
@@ -46,7 +47,7 @@ public class Fragment_NguoiDung extends Fragment {
 
         Switch sw_darkMode = view.findViewById(R.id.sw_darkMode);
         LinearLayout user_backgroud = view.findViewById(R.id.user_backgroud);
-        TextView textView7, textView8, textView9, textView10, textView11, textView12, textView13, txt_tenLuuphim;
+        TextView textView7, textView8, textView9, textView10, textView11, textView12, textView13;
         textView7 = view.findViewById(R.id.checkVerApp);
         textView8 = view.findViewById(R.id.textView8);
         textView9 = view.findViewById(R.id.textView9);
@@ -211,7 +212,6 @@ public class Fragment_NguoiDung extends Fragment {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 2);
         recyclerView = (RecyclerView) view.findViewById(R.id.rcv_luuphim);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setNestedScrollingEnabled(false);
 
         setLuuphimAdapter();
 
@@ -233,6 +233,7 @@ public class Fragment_NguoiDung extends Fragment {
                         @Override
                         public void run() {
                             recyclerView.setAdapter(adapter);
+                            txt_tenLuuphim.setText("Phim Đã Lưu(" + list.size() + ")");
                         }
                     });
                 }
