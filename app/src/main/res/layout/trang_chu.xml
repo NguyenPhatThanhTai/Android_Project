@@ -50,6 +50,7 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/theme_cardview_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="200dp"
@@ -251,7 +252,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
                                 android:layout_weight="1"
-                                android:backgroundTint="#FFFFFF" />
+                                android:backgroundTint="#F1B337" />
 
                             <Spinner
                                 android:id="@+id/Studio"
@@ -259,7 +260,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
                                 android:layout_weight="1"
-                                android:backgroundTint="#FFFFFF" />
+                                android:backgroundTint="#F1B337" />
 
                         </LinearLayout>
 

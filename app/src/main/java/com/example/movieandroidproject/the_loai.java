@@ -3,11 +3,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -42,6 +44,17 @@ public class the_loai extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.items_category2, container, false);
         ((MainActivity)getActivity()).setBottomNav(1);
+
+        LinearLayout category_background = view.findViewById(R.id.category_background);
+
+        SharedPreferences sp1 = getActivity().getSharedPreferences("Setting", Context.MODE_PRIVATE);
+        String theme = sp1.getString("Theme", null);
+
+        if(theme != null && theme.equals("Light")){
+            category_background.setBackgroundColor(Color.WHITE);
+        }else if (theme != null && theme.equals("Dark")){
+            category_background.setBackgroundColor(Color.parseColor("#1C1C27"));
+        }
 
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rcv_category);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 2);

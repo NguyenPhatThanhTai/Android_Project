@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -92,7 +94,21 @@ public class detail_movie extends Fragment {
         time_detail.setText(highRate.getEpisodes());
         TextView descrip_detail = view.findViewById(R.id.descrip_detail);
         descrip_detail.setText(highRate.getDescription());
+        LinearLayout detail_backgroud = view.findViewById(R.id.detail_backgroud);
         Button playnow_detail = view.findViewById(R.id.playnow_detail);
+
+        SharedPreferences sp2 = getActivity().getSharedPreferences("Setting", Context.MODE_PRIVATE);
+        String theme = sp2.getString("Theme", null);
+
+        if(theme != null && theme.equals("Light")){
+            detail_backgroud.setBackgroundColor(Color.WHITE);
+            name_detail.setTextColor(Color.BLACK);
+            descrip_detail.setTextColor(Color.BLACK);
+        }else if (theme != null && theme.equals("Dark")){
+            detail_backgroud.setBackgroundColor(Color.parseColor("#1C1C27"));
+            name_detail.setTextColor(Color.WHITE);
+            descrip_detail.setTextColor(Color.WHITE);
+        }
 
         playnow_detail.setOnClickListener(new View.OnClickListener() {
             @Override

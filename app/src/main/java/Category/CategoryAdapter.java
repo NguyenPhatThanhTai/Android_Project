@@ -1,10 +1,13 @@
 package Category;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,6 +85,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView categoryImage;
         TextView categoryText;
+        LinearLayout cate_items_backgroud;
 
         public void setImage(String url){
             categoryImage = itemView.findViewById(R.id.category_img);
@@ -91,6 +95,17 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             categoryText = itemView.findViewById(R.id.category_id);
+            cate_items_backgroud = itemView.findViewById(R.id.cate_items_backgroud);
+
+            SharedPreferences sp1 = context.getSharedPreferences("Setting", Context.MODE_PRIVATE);
+            String theme = sp1.getString("Theme", null);
+            if(theme != null && theme.equals("Light")){
+                cate_items_backgroud.setBackgroundColor(Color.WHITE);
+                categoryText.setTextColor(Color.BLACK);
+            }else if (theme != null && theme.equals("Dark")){
+                cate_items_backgroud.setBackgroundColor(Color.parseColor("#1C1C27"));
+                categoryText.setTextColor(Color.WHITE);
+            }
         }
     }
 

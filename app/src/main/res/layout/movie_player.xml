@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/movie_play_backgroud"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1C1C27"
@@ -64,64 +65,64 @@
             android:textStyle="bold|italic" />
     </LinearLayout>
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:orientation="vertical">-->
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:orientation="vertical">-->
 
-<!--        <TextView-->
-<!--            android:id="@+id/txt_sever"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginLeft="10dp"-->
-<!--            android:layout_weight="1"-->
-<!--            android:text="Sever: "-->
-<!--            android:textStyle="bold" />-->
+    <!--        <TextView-->
+    <!--            android:id="@+id/txt_sever"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginLeft="10dp"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:text="Sever: "-->
+    <!--            android:textStyle="bold" />-->
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:padding="10dp">-->
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:orientation="horizontal"-->
+    <!--            android:padding="10dp">-->
 
-<!--            <Button-->
-<!--                android:id="@+id/button"-->
-<!--                android:layout_width="50dp"-->
-<!--                android:layout_height="30dp"-->
-<!--                android:layout_margin="5dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:background="@drawable/custom_button_gray"-->
-<!--                android:text="EU" />-->
+    <!--            <Button-->
+    <!--                android:id="@+id/button"-->
+    <!--                android:layout_width="50dp"-->
+    <!--                android:layout_height="30dp"-->
+    <!--                android:layout_margin="5dp"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:background="@drawable/custom_button_gray"-->
+    <!--                android:text="EU" />-->
 
-<!--            <Button-->
-<!--                android:id="@+id/button2"-->
-<!--                android:layout_width="50dp"-->
-<!--                android:layout_height="30dp"-->
-<!--                android:layout_margin="5dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:background="@drawable/custom_button_gray"-->
-<!--                android:text="RU" />-->
+    <!--            <Button-->
+    <!--                android:id="@+id/button2"-->
+    <!--                android:layout_width="50dp"-->
+    <!--                android:layout_height="30dp"-->
+    <!--                android:layout_margin="5dp"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:background="@drawable/custom_button_gray"-->
+    <!--                android:text="RU" />-->
 
-<!--            <Button-->
-<!--                android:id="@+id/button3"-->
-<!--                android:layout_width="50dp"-->
-<!--                android:layout_height="30dp"-->
-<!--                android:layout_margin="5dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:background="@drawable/custom_button_gray"-->
-<!--                android:text="VN" />-->
+    <!--            <Button-->
+    <!--                android:id="@+id/button3"-->
+    <!--                android:layout_width="50dp"-->
+    <!--                android:layout_height="30dp"-->
+    <!--                android:layout_margin="5dp"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:background="@drawable/custom_button_gray"-->
+    <!--                android:text="VN" />-->
 
-<!--            <Button-->
-<!--                android:id="@+id/button4"-->
-<!--                android:layout_width="50dp"-->
-<!--                android:layout_height="30dp"-->
-<!--                android:layout_margin="5dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:background="@drawable/custom_button_gray"-->
-<!--                android:text="JP" />-->
-<!--        </LinearLayout>-->
-<!--    </LinearLayout>-->
+    <!--            <Button-->
+    <!--                android:id="@+id/button4"-->
+    <!--                android:layout_width="50dp"-->
+    <!--                android:layout_height="30dp"-->
+    <!--                android:layout_margin="5dp"-->
+    <!--                android:layout_weight="1"-->
+    <!--                android:background="@drawable/custom_button_gray"-->
+    <!--                android:text="JP" />-->
+    <!--        </LinearLayout>-->
+    <!--    </LinearLayout>-->
 
     <ScrollView
         android:layout_width="match_parent"
@@ -190,7 +191,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Bình luận"
+                        android:paddingEnd="5dp"
+                        android:text="Bình luận(13)"
                         android:textAllCaps="true"
                         android:textStyle="bold" />
 

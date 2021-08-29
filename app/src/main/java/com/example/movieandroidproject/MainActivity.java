@@ -46,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SharedPreferences sp = getSharedPreferences("Setting", Context.MODE_PRIVATE);
+        SharedPreferences.Editor Ed = sp.edit();
+        Ed.putString("Theme", "Dark");
+
         bottomNavigation = findViewById(R.id.meow_bottom);
         bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.menu));
         bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.loupe));

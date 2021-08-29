@@ -1,8 +1,10 @@
 package trang_chu;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.Image;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -108,6 +111,14 @@ public class HighRate_Adapter extends RecyclerView.Adapter<HighRate_Adapter.High
             Highrate_View = itemView.findViewById(R.id.Highrate_View);
             HighRate_Tittle = itemView.findViewById(R.id.HighRate_Tittle);
             HighRate_ep_num = itemView.findViewById(R.id.ep_num);
+
+            SharedPreferences sp1 = context.getSharedPreferences("Setting", Context.MODE_PRIVATE);
+            String theme = sp1.getString("Theme", null);
+            if(theme != null && theme.equals("Light")){
+                HighRate_Tittle.setTextColor(Color.BLACK);
+            }else if (theme != null && theme.equals("Dark")){
+                HighRate_Tittle.setTextColor(Color.WHITE);
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
 package luu_phim;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,6 +102,14 @@ public class luuphimAdapter extends RecyclerView.Adapter<luuphimAdapter.luuphim_
             Highrate_View = itemView.findViewById(R.id.Highrate_View);
             HighRate_Tittle = itemView.findViewById(R.id.HighRate_Tittle);
             HighRate_ep_num = itemView.findViewById(R.id.ep_num);
+
+            SharedPreferences sp1 = context.getSharedPreferences("Setting", Context.MODE_PRIVATE);
+            String theme = sp1.getString("Theme", null);
+            if(theme != null && theme.equals("Light")){
+                HighRate_Tittle.setTextColor(Color.BLACK);
+            }else if (theme != null && theme.equals("Dark")){
+                HighRate_Tittle.setTextColor(Color.WHITE);
+            }
         }
     }
 }

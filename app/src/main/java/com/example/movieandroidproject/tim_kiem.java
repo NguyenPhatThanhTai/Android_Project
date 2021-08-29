@@ -1,11 +1,16 @@
 package com.example.movieandroidproject;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,11 +37,27 @@ public class tim_kiem extends Fragment{
         View view = inflater.inflate(R.layout.tim_kiem, container, false);
         ((MainActivity)getActivity()).setBottomNav(2);
 
+        LinearLayout search_backgroud = view.findViewById(R.id.search_backgroud);
+        ImageButton timkiem = view.findViewById(R.id.btn_timkiem);
+        TextView tim = view.findViewById(R.id.txt_timkiem);
+
+        SharedPreferences sp1 = getActivity().getSharedPreferences("Setting", Context.MODE_PRIVATE);
+        String theme = sp1.getString("Theme", null);
+        if(theme != null && theme.equals("Light")){
+            search_backgroud.setBackgroundColor(Color.WHITE);
+            tim.getBackground().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+            tim.setHintTextColor(Color.BLACK);
+            tim.setTextColor(Color.BLACK);
+        }else if (theme != null && theme.equals("Dark")){
+            search_backgroud.setBackgroundColor(Color.parseColor("#1C1C27"));
+            tim.getBackground().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+            tim.setHintTextColor(Color.WHITE);
+            tim.setTextColor(Color.WHITE);
+        }
+
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rcv_timkiem);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
-        ImageButton timkiem = view.findViewById(R.id.btn_timkiem);
-        TextView tim = view.findViewById(R.id.txt_timkiem);
 
         ProgressBar pg_load_search = view.findViewById(R.id.pg_search);
         timkiem.setOnClickListener(new View.OnClickListener() {

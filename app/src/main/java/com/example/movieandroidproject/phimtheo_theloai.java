@@ -1,9 +1,13 @@
 package com.example.movieandroidproject;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,10 +41,25 @@ public class phimtheo_theloai extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.cate_film, container, false);
+        ((MainActivity)getActivity()).setBottomNav(1);
+
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.rcv_cateFilm);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getActivity(), 2);
         TextView textView = view.findViewById(R.id.txt_tenCate);
         textView.setText(tentheloai);
+        LinearLayout cate_backgroud = view.findViewById(R.id.cate_backgroud);
+
+        SharedPreferences sp1 = getActivity().getSharedPreferences("Setting", Context.MODE_PRIVATE);
+        String theme = sp1.getString("Theme", null);
+
+        if(theme != null && theme.equals("Light")){
+            cate_backgroud.setBackgroundColor(Color.WHITE);
+            textView.setTextColor(Color.BLACK);
+        }else if (theme != null && theme.equals("Dark")){
+            cate_backgroud.setBackgroundColor(Color.parseColor("#1C1C27"));
+            textView.setTextColor(Color.WHITE);
+        }
+
         recyclerView.setLayoutManager(gridLayoutManager);
         Thread thread = new Thread()
         {

@@ -1,6 +1,9 @@
 package com.example.movieandroidproject;
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,9 +17,11 @@ import android.view.ViewTreeObserver;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -68,6 +73,30 @@ public class trang_chu extends Fragment {
         View view = inflater.inflate(R.layout.trang_chu, container, false);
         ((MainActivity)getActivity()).setBottomNav(3);
 
+        SharedPreferences sp1 = getActivity().getSharedPreferences("Setting", Context.MODE_PRIVATE);
+        String theme = sp1.getString("Theme", null);
+        CardView theme_cardview_main = view.findViewById(R.id.theme_cardview_main);
+        TextView txt_top_week, txt_watch_together, txt_top_month, txt_studio;
+        txt_top_week = view.findViewById(R.id.txt_top_week);
+        txt_watch_together = view.findViewById(R.id.txt_watch_together);
+        txt_top_month = view.findViewById(R.id.txt_top_month);
+        txt_studio = view.findViewById(R.id.txt_studio);
+        TheLoai = view.findViewById(R.id.Theloai);
+        Studio = view.findViewById(R.id.Studio);
+        if(theme != null && theme.equals("Light")){
+            theme_cardview_main.setCardBackgroundColor(Color.WHITE);
+            txt_top_week.setTextColor(Color.BLACK);
+            txt_watch_together.setTextColor(Color.BLACK);
+            txt_top_month.setTextColor(Color.BLACK);
+            txt_studio.setTextColor(Color.BLACK);
+        }else if (theme != null && theme.equals("Dark")){
+            theme_cardview_main.setCardBackgroundColor(Color.parseColor("#1C1C27"));
+            txt_top_week.setTextColor(Color.WHITE);
+            txt_watch_together.setTextColor(Color.WHITE);
+            txt_top_month.setTextColor(Color.WHITE);
+            txt_studio.setTextColor(Color.WHITE);
+        }
+
         ProgressBar pg_loadHR = view.findViewById(R.id.pg_loadHR);
         pg_loadHR.setVisibility(View.VISIBLE);
 
@@ -79,9 +108,6 @@ public class trang_chu extends Fragment {
         RCHR = recyclerViewHighRate;
         RecyclerView recyclerViewRecomment = view.findViewById(R.id.rcv_Recomment);
         RCRC = recyclerViewRecomment;
-
-        TheLoai = view.findViewById(R.id.Theloai);
-        Studio = view.findViewById(R.id.Studio);
 
         //Add dropdown list
         thread = new Thread(this::setDanhSachCombobox);

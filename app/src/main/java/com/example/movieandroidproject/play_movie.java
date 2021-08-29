@@ -12,6 +12,8 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -65,6 +67,8 @@ import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -136,24 +140,47 @@ public class play_movie extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.movie_player, container, false);
+        ((MainActivity)getActivity()).setBottomNav(3);
+
+        LinearLayout movie_play_backgroud = view.findViewById(R.id.movie_play_backgroud);
+        TextView txt_dangphat = view.findViewById(R.id.txt_dangPhat);
+        txt_comment_count = view.findViewById(R.id.txt_comment_count);
+        txt_put_feed_back = view.findViewById(R.id.txt_put_feed_back);
+
+        SharedPreferences sp1 = getActivity().getSharedPreferences("Setting", Context.MODE_PRIVATE);
+        String theme = sp1.getString("Theme", null);
+
+        if(theme != null && theme.equals("Light")){
+            movie_play_backgroud.setBackgroundColor(Color.WHITE);
+            txt_dangphat.setTextColor(Color.BLACK);
+            txt_comment_count.setTextColor(Color.BLACK);
+            txt_put_feed_back.getBackground().setColorFilter(getResources().getColor(R.color.black), PorterDuff.Mode.SRC_ATOP);
+            txt_put_feed_back.setHintTextColor(Color.BLACK);
+            txt_put_feed_back.setTextColor(Color.BLACK);
+        }else if (theme != null && theme.equals("Dark")){
+            movie_play_backgroud.setBackgroundColor(Color.parseColor("#1C1C27"));
+            txt_dangphat.setTextColor(Color.WHITE);
+            txt_comment_count.setTextColor(Color.WHITE);
+            txt_put_feed_back.getBackground().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.SRC_ATOP);
+            txt_put_feed_back.setHintTextColor(Color.WHITE);
+            txt_put_feed_back.setTextColor(Color.WHITE);
+        }
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        SharedPreferences sp1 = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
-        userId = sp1.getString("Unm", null);
+        SharedPreferences sp2 = getActivity().getSharedPreferences("Login", Context.MODE_PRIVATE);
+        userId = sp2.getString("Unm", null);
 
         LinearLayout ln_notLogin = view.findViewById(R.id.ln_notLogin);
         LinearLayout ln_loginEd = view.findViewById(R.id.ln_logined);
         Button btn_goLogin = view.findViewById(R.id.btn_goLogin);
         ImageButton btn_gui = view.findViewById(R.id.btn_gui);
-        txt_comment_count = view.findViewById(R.id.txt_comment_count);
 
         if(userId != null){
             ln_loginEd.setVisibility(View.VISIBLE);
             thread = new Thread(this::setComment);
             thread.start();
-            txt_put_feed_back = view.findViewById(R.id.txt_put_feed_back);
             btn_gui.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
